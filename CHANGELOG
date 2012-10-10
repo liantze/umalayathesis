@@ -1,0 +1,16 @@
+BRIEF CHANGELOG
+===============
+
+v1.02 September 20 2012
+    - Used Arial Narrow lookalike for the Cover page
+    - Removed extra spacing between acronym entry groups (i.e.
+      extra spacing when the next group of acronyms start with a new
+      alphabet
+    - Removed spurious redundant \vspace*{-4pt} when new appendices
+      chapters are added
+
+v1.01 May 31 2012
+    - Fixed the Glossary name 
+
+v1.0 June 6 2012
+    - First online release

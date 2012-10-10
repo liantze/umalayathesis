@@ -1,0 +1,49 @@
+%!TEX ROOT=thesis.tex
+\documentclass{umalayathesis}
+
+%\includeonly{sample-chap-dummy}
+
+\usepackage{lipsum}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+
+\author{Lim Lian Tze}
+\title{The \texttt{umalayathesis} \LaTeX{} Document Class}
+\submissionyear{2010}
+\degree{Doctor of Philosophy}
+
+% load acronym definitions from separate file
+\loadglsentries{myacronyms}
+%\setlength{\glsdescwidth}{.7\textwidth}
+\begin{document}
+\frontmatter
+
+\makecoverandtitlepage
+\declarationpage
+\abstractfromfile{sample-abstract}
+\acknowledgements{Thanks guys. I owe you many.}
+
+{\clearpage\SingleSpacing
+\tableofcontents\clearpage
+\listoffigures\clearpage
+\listoftables\clearpage
+\listofacronyms\clearpage
+\listofappendices\clearpage}
+
+\mainmatter
+
+\include{sample-chap-intro}
+\include{sample-chap-dummy}
+
+\begin{appendices}
+\startapps
+\include{sample-appen-manual}
+\include{sample-appen-try}
+\finishapps
+\end{appendices}
+
+\backmatter
+\bibliography{myrefs}
+
+\end{document}
