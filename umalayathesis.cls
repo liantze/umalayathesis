@@ -228,10 +228,12 @@ Witness's Signature \hfill Date \hspace{6em}
 \renewcommand\abstracttextfont{\normalsize}
 \setlength\absleftindent{0pt}
 \setlength\absrightindent{0pt}
-\newcommand{\abstractfromfile}[1]{\begin{abstract}\input{#1}\end{abstract}}
+\newcommand{\abstractfromfile}[1]{
+  \clearpage\begin{abstract}\input{#1}\end{abstract}
+}
 \newcommand{\msabstractfromfile}[1]{%
   \renewcommand*\abstractname{\texorpdfstring{ABSTRAK}{Abstrak}}
-  \begin{abstract}\otherlanguage{bahasam}\input{#1}\end{abstract}
+  \clearpage\begin{abstract}\otherlanguage{bahasam}\input{#1}\end{abstract}
 }
 
 %%%%%%%%%%%%
