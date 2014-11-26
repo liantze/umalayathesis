@@ -1,5 +1,5 @@
 %%
-%% umalayathesis.cls 2012/09/20 version V1.02
+%% umalayathesis.cls 2014/11/26 version V1.06
 %%
 %% This is the unofficial UM thesis LaTeX class for postgraduate research
 %% students of Universiti Malaya, Malaysia, formatted
@@ -13,7 +13,7 @@
 %% I'll always try.
 %%
 %%
-%% Copyright (c) 2011-2012 by Lim Lian Tze
+%% Copyright (c) 2011-2014 by Lim Lian Tze
 %%
 %% Current maintainer: Lim Lian Tze (liantze@gmail.com)
 %
@@ -32,6 +32,9 @@
 %       alphabet
 %     - Removed spurious redundant \vspace*{-4pt} when new appendices
 %       chapters are added
+%
+% v1.03 November 26 2014
+%     - Added \msabstractfromfile to incorporate Malay abstract
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{umalayathesis}
@@ -40,7 +43,7 @@
 \RequirePackage{textcomp}
 \RequirePackage{etoolbox}
 \RequirePackage{paralist}
-\RequirePackage[english]{babel}
+\RequirePackage[bahasam,english]{babel}
 
 \def\theauthor{\textbf{!INSERT AUTHOR!}}
 \def\thetitle{\textbf{!INSERT TITLE!}}
@@ -226,6 +229,10 @@ Witness's Signature \hfill Date \hspace{6em}
 \setlength\absleftindent{0pt}
 \setlength\absrightindent{0pt}
 \newcommand{\abstractfromfile}[1]{\begin{abstract}\input{#1}\end{abstract}}
+\newcommand{\msabstractfromfile}[1]{%
+  \renewcommand*\abstractname{\texorpdfstring{ABSTRAK}{Abstrak}}
+  \begin{abstract}\otherlanguage{bahasam}\input{#1}\end{abstract}
+}
 
 %%%%%%%%%%%%
 % The Preface
