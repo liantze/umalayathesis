@@ -1,5 +1,5 @@
 %%
-%% umalayathesis.cls 2014/11/26 version V1.06
+%% umalayathesis.cls 2015/09/08 version V1.05
 %%
 %% This is the unofficial UM thesis LaTeX class for postgraduate research
 %% students of Universiti Malaya, Malaysia, formatted
@@ -35,6 +35,13 @@
 %
 % v1.03 November 26 2014
 %     - Added \msabstractfromfile to incorporate Malay abstract
+%
+% v1.04 December 29 2014
+%     - Made page numbers to be 10pt.
+%
+% v1.05 September 08 2015
+%     - Proper handling of both acronyms and glossaries if required.
+
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{umalayathesis}
@@ -68,8 +75,8 @@
 \setulmarginsandblock{20mm}{20mm}{*}
 \setheadfoot{\baselineskip}{10mm}
 \addtolength\footskip{-6pt}
-\makeoddfoot{plain}{}{}{\thepage}
-\makeevenfoot{plain}{}{}{\thepage}
+\makeoddfoot{plain}{}{}{\footnotesize\thepage}
+\makeevenfoot{plain}{}{}{\footnotesize\thepage}
 \pagestyle{plain}
 \checkandfixthelayout
 
@@ -346,14 +353,14 @@ Witness's Signature \hfill Date \hspace{6em}
 %%%%%%%%%%%%
 \setsecnumdepth{subsubsection}
 \setsecheadstyle{\SingleSpacing\normalsize\bfseries}
-\setbeforesecskip{2.5ex plus 1ex minus .2ex}
+\setbeforesecskip{-2.5ex plus 1ex minus .2ex}
 \setaftersecskip{0.1ex plus .2ex}
 \setsubsecheadstyle{\SingleSpacing\normalsize\bfseries}
-\setbeforesubsecskip{2.5ex plus 1ex minus .2ex}
+\setbeforesubsecskip{-2.5ex plus 1ex minus .2ex}
 \setaftersubsecskip{0.1ex plus .2ex}
 \renewcommand\thesubsubsection{\thesubsection\space(\alph{subsubsection})}
 \setsubsubsecheadstyle{\SingleSpacing\normalsize\itshape}
-\setbeforesubsubsecskip{2.5ex plus .2ex minus .2ex}
+\setbeforesubsubsecskip{-2.5ex plus .2ex minus .2ex}
 \setaftersubsubsecskip{0.1ex plus .2ex}
 
 
@@ -415,21 +422,23 @@ Witness's Signature \hfill Date \hspace{6em}
 %\addtoiargdef{\bibliographyown}{}{\renewcommand*\refname{\texorpdfstring{PUBLICATION LIST}{Publication List}}}
 
 \RequirePackage{relsize}
-\RequirePackage[toc,nonumberlist,shortcuts,translate=false,style=long]{glossaries}
+%% Sept 08, 2015: added "acronym" option
+\RequirePackage[toc,nonumberlist,shortcuts,translate=false,style=long,acronym]{glossaries}
 \RequirePackage{glossaries-babel}
 %\renewcommand*{\acrnameformat}[2]{#2 (\acronymfont{#1})}
 \renewcommand*{\glsgroupskip}{}
-\renewcommand{\glossarypreamble}{\footnotesize}
+\renewcommand{\glossarypreamble}{\renewcommand*{\arraystretch}{1.2}\SingleSpacing\footnotesize}
 \renewcommand{\glossarypostamble}{\normalsize}
 \makeglossaries
-\newcommand\listacrname{List of Symbols and Acronyms}
-\newcommand\listofacronyms{{\renewcommand*{\arraystretch}{1.2}\printglossary[type=\acronymtype]}}
+%\newcommand\listacrname{List of Symbols and Acronyms}
+\newcommand\listofacronyms{\printglossary[type=\acronymtype]}
 \addto\captionsenglish{%
 \renewcommand*\abstractname{\texorpdfstring{ABSTRACT}{Abstract}}
 \renewcommand*\contentsname{\texorpdfstring{TABLE OF CONTENTS}{Table of Contents}}
 \renewcommand*\listtablename{\texorpdfstring{LIST OF TABLES}{List of Tables}}
 \renewcommand*\listfigurename{\texorpdfstring{LIST OF FIGURES}{List of Figures}}
 \renewcommand*\indexname{\texorpdfstring{INDEX}{Index}}
-\renewcommand*\glossaryname{\texorpdfstring{LIST OF SYMBOLS AND ACRONYMS}{List of Symbols and Acronyms}}
+%% September 08, 2015: Changed \glossaryname to \acronymname
+\renewcommand*\acronymname{\texorpdfstring{LIST OF SYMBOLS AND ACRONYMS}{List of Symbols and Acronyms}}
 }
 

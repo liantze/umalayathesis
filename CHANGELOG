@@ -1,6 +1,15 @@
 BRIEF CHANGELOG
 ===============
 
+v1.05 September 08 2015
+    - Proper handling of both acronyms and glossaries.
+
+v1.04 December 29 2014
+    - Made page numbers to be 10pt.
+
+v1.03 November 26 2014
+    - Added \msabstractfromfile to incorporate Malay abstract
+
 v1.02 September 20 2012
     - Used Arial Narrow lookalike for the Cover page
     - Removed extra spacing between acronym entry groups (i.e.
@@ -10,7 +19,7 @@ v1.02 September 20 2012
       chapters are added
 
 v1.01 May 31 2012
-    - Fixed the Glossary name 
+    - Fixed the Glossary name
 
 v1.0 June 6 2012
     - First online release
