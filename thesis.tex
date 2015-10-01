@@ -34,18 +34,22 @@
 
 \mainmatter
 
-\include{sample-chap-intro}
-\include{sample-chap-dummy}
+\input{sample-chap-intro}
+\input{sample-chap-dummy}
 
 \begin{appendices}
 \startapps
-\include{sample-appen-manual}
-\include{sample-appen-try}
+\input{sample-appen-manual}
+\input{sample-appen-try}
 \finishapps
 \end{appendices}
 
 \backmatter
 \bibliography{myrefs}
+
+% Make sure you have defined your own papers in the .bib file!
+\nociteown{Lim:2009}
+\bibliographyown{myrefs}
 
 %% Comment out this line if you do not have a separate glossary.
 \printglossary

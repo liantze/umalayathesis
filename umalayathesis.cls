@@ -168,7 +168,9 @@ KUALA LUMPUR}\\[1em]%
 % The Declaration page
 %%%%%%%%%%%%
 \newcommand{\declarationpage}{%
-\chapter[Original Literary Work Declaration]{{\large Universiti Malaya}\vskip1em Original Literary Work Declaration}
+% 1 Oct: declaration page no longer included in ToC
+\chapter*{{\large Universiti Malaya}\vskip1em Original Literary Work Declaration}
+%\chapter[Original Literary Work Declaration]{{\large Universiti Malaya}\vskip1em Original Literary Work Declaration}
 
 \noindent Name of Candidate: \hfill (I.C./Passport No.:\hspace{10em})\par
 \noindent Registration/Matrix No.:\par
@@ -219,7 +221,7 @@ Witness's Signature \hfill Date \hspace{6em}
 \newcommand{\dedication}[1]{\newpage\hspace{1em}%
 \phantomsection%
 \currentpdfbookmark{Dedication}{dedication}%
-\cftaddtitleline{toc}{chapter}{DEDICATION}{\thepage}%
+\cftaddtitleline{toc}{chapter}{Dedication}{\thepage}%
 \begin{vplace}[.5]\centering#1\end{vplace}%
 \clearpage}
 
@@ -228,7 +230,8 @@ Witness's Signature \hfill Date \hspace{6em}
 % The Abstract
 %%%%%%%%%%%%
 \abstractintoc
-\renewcommand*\abstractname{\texorpdfstring{ABSTRACT}{Abstract}}
+%% October 01, 2015: don't capitalise front matter titles
+\renewcommand*\abstractname{Abstract}
 \renewcommand*\absnamepos{center}
 \setlength\abstitleskip{0pt}
 \renewcommand\abstractnamefont{\normalsize\bfseries}
@@ -238,8 +241,9 @@ Witness's Signature \hfill Date \hspace{6em}
 \newcommand{\abstractfromfile}[1]{
   \clearpage\begin{abstract}\input{#1}\end{abstract}
 }
+%% October 01, 2015: no longer need to capitalise in ToC
 \newcommand{\msabstractfromfile}[1]{%
-  \renewcommand*\abstractname{\texorpdfstring{ABSTRAK}{Abstrak}}
+  \renewcommand*\abstractname{Abstrak}
   \clearpage\begin{abstract}\otherlanguage{bahasam}\input{#1}\end{abstract}
 }
 
@@ -268,8 +272,9 @@ Witness's Signature \hfill Date \hspace{6em}
 % The Appendices
 %%%%%%%%%%%%
 \renewcommand*\appendixname{Appendix}
-\renewcommand\appendixtocname{\texorpdfstring{APPENDICES}{Appendices}}
-\newlistof{listofappendices}{apx}{\texorpdfstring{LIST OF APPENDICES}{List of Appendices}} 
+%% October 01, 2015: no need to capitalise front and back matter chapter titles
+\renewcommand\appendixtocname{Appendices}
+\newlistof{listofappendices}{apx}{List of Appendices}
 \addtodef\appendix{}{\renewcommand\chaptername{\appendixname}}
 \def\app@chapter[#1]#2{%
   \m@mpn@new@chaptrue%
@@ -330,6 +335,7 @@ Witness's Signature \hfill Date \hspace{6em}
   \ifheadnameref\M@gettitle{\f@rhdr}\else\M@gettitle{\f@rtoc}\fi}
 
 \newcommand*{\startapps}{% 
+  \cftinserthook{toc}{PlainChapTocLines}
   \cftinserthook{apx}{AppendixToCLines}
   \appendix\appendixpage%
   \let\@chapter\app@chapter % use \app@chapter instead of \@chapter 
@@ -338,14 +344,15 @@ Witness's Signature \hfill Date \hspace{6em}
   \renewcommand{\insertchapterspace}{\oldinsertchapterspace}
 } 
 \newcommand*{\finishapps}{% 
-  \renewcommand\mychap[1]{\orichapter[\texorpdfstring{\MakeUppercase{##1}}{##1}]{##1}}
+%% October 01, 2015: no need to capitalise back matter chapter titles
+%  \renewcommand\mychap[1]{\orichapter[\texorpdfstring{\MakeUppercase{##1}}{##1}]{##1}}
   \settocdepth{section}% sections back in ToC 
 } 
 \cftinsertcode{AppendixToCLines}{%
-\renewcommand*\cftchapteraftersnum{}%
-\setlength\cftchapternumwidth{2em}%
-\renewcommand*\cftchapterfont{\normalfont\mdseries\upshape}%
-\renewcommand*\cftchapterpagefont{\normalfont\mdseries\upshape}%
+  \renewcommand*\cftchapteraftersnum{:\space}%
+  \setlength\cftchapternumwidth{2em}%
+  \renewcommand*\cftchapterfont{\normalfont\mdseries\upshape}%
+  \renewcommand*\cftchapterpagefont{\normalfont\mdseries\upshape}%
 }
 
 %%%%%%%%%%%%
@@ -368,31 +375,61 @@ Witness's Signature \hfill Date \hspace{6em}
 % ToC etc
 %%%%%%%%%%%
 \settocdepth{subsection}
-\renewcommand\cftdotsep{\cftnodots}
+%% October 01, 2015: we want dot leaders now!
+% \renewcommand\cftdotsep{\cftnodots}
+\renewcommand\cftdotsep{0}
+\renewcommand{\cftchapterleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftfigureleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cfttableleader}{\cftdotfill{\cftdotsep}}
+% \renewcommand{\cftapxleader}{\cftdotfill{\cftdotsep}}
 \setrmarg{3.55em plus 1fil}
 \renewcommand*{\cftchaptername}{\MakeUppercase{\chaptername}\space}
 \renewcommand*{\cftchapteraftersnum}{:\space}
-\renewcommand*{\cftchapterafterpnum}{\vspace*{4pt}}
+%\renewcommand*{\cftchapterafterpnum}{\vspace*{4pt}}
 \renewcommand*{\cftappendixname}{\appendixname\space}
 \setlength\cftsectionindent{0pt}
 \let\orichapter\chapter
-\renewcommand\chapter{\@ifstar{\mystarchap}{\mychap}}
-%\newcommand\mychap[2][]{\orichapter[\texorpdfstring{\MakeUppercase{#1}}{#1}]{#2}}
+%% October 01, 2015: delay until \mainmatter
+%\renewcommand\chapter{\@ifstar{\mystarchap}{\mychap}}
 \newcommand\mychap[2][]{\orichapter%
 [\ifstrempty{#1}{\texorpdfstring{\MakeUppercase{#2}}{#2}}%
 {\texorpdfstring{\MakeUppercase{#1}}{#1}}]%
 {#2}}
 \newcommand\mystarchap[1]{\orichapter*{#1}}
-\renewcommand*\cftsectionafterpnum{\vskip 3pt}
+%\renewcommand*\cftsectionafterpnum{\vskip 3pt}
 \setlength\cftsubsectionindent{\cftsectionnumwidth}
+\setlength\cftbeforesectionskip{1em}
+\setlength\cftbeforesubsectionskip{1em}
+
+% October 01, 2015: need a : after the number; no more extra space
 \renewcommand*\cftfigurename{\figurename\space}
 \renewcommand*\cfttablename{\tablename\space}
-\renewcommand*\cftfigureafterpnum{\vskip 3pt}
-\renewcommand*\cfttableafterpnum{\vskip 3pt}
+\renewcommand*\cftfigureaftersnum{:\space}
+\renewcommand*\cfttableaftersnum{:\space}
+%\renewcommand*\cftfigureafterpnum{\vskip 3pt}
+%\renewcommand*\cfttableafterpnum{\vskip 3pt}
+\setlength\cftbeforefigureskip{1em}
+\setlength\cftbeforetableskip{1em}
 
 \let\oldinsertchapterspace\insertchapterspace
-\addtodef{\insertchapterspace}{}%
-{\addtocontents{toc}{\protect\vspace*{-4pt}}}
+\cftinsertcode{MainChapTocLines}{%
+  \renewcommand*\cftchapterfont{\normalfont\bfseries\upshape}%
+  \renewcommand*\cftchapterpagefont{\normalfont\bfseries\upshape}%
+}
+\cftinsertcode{PlainChapTocLines}{%
+  \renewcommand*\cftchapterfont{\normalfont\mdseries\upshape}%
+  \renewcommand*\cftchapterpagefont{\normalfont\mdseries\upshape}%
+}
+
+\apptocmd{\frontmatter}{%
+  \cftinserthook{toc}{PlainChapTocLines}%
+}{}{}
+\apptocmd{\mainmatter}{
+  \addtodef{\insertchapterspace}{}%
+{\addtocontents{toc}{\protect\vspace*{\baselineskip}}}%
+  \cftinserthook{toc}{MainChapTocLines}%
+  \renewcommand\chapter{\@ifstar{\mystarchap}{\mychap}}%
+}{}{}
 
 %%%%%%%%%%%
 % Indexing
@@ -414,12 +451,14 @@ Witness's Signature \hfill Date \hspace{6em}
 \setlength\bibindent{-2em}
 
 \patchcommand{\bibitem}{\SingleSpacing}{}
-\AtBeginDocument{\renewcommand*\bibname{\texorpdfstring{REFERENCES}{References}}}
+%% October 01, 2015: Don't capitalise backmatter chapter titles
+\AtBeginDocument{\renewcommand*\bibname{References}}
 
-%\RequirePackage{multibib}
-%\newcites{own}{Publication List}
-%\bibliographystyleown{apacite}
-%\addtoiargdef{\bibliographyown}{}{\renewcommand*\refname{\texorpdfstring{PUBLICATION LIST}{Publication List}}}
+%% October 01: Added list of own publications
+\RequirePackage{multibib}
+\newcites{own}{List of Publications and Papers Presented}
+\bibliographystyleown{apacite}
+%\addtoiargdef{\bibliographyown}{}{\renewcommand*\refname{List of Publications and Papers Presented}}
 
 \RequirePackage{relsize}
 %% Sept 08, 2015: added "acronym" option
@@ -427,18 +466,20 @@ Witness's Signature \hfill Date \hspace{6em}
 \RequirePackage{glossaries-babel}
 %\renewcommand*{\acrnameformat}[2]{#2 (\acronymfont{#1})}
 \renewcommand*{\glsgroupskip}{}
-\renewcommand{\glossarypreamble}{\renewcommand*{\arraystretch}{1.2}\SingleSpacing\footnotesize}
-\renewcommand{\glossarypostamble}{\normalsize}
+\setglossarypreamble[acronym]{\renewcommand*{\arraystretch}{1.2}\SingleSpacing}
+\setglossarypreamble{\renewcommand*{\arraystretch}{1.2}\SingleSpacing\small}
 \makeglossaries
 %\newcommand\listacrname{List of Symbols and Acronyms}
 \newcommand\listofacronyms{\printglossary[type=\acronymtype]}
+% October 01, 2015: No longer need to capitalise front-matter chapter titles
 \addto\captionsenglish{%
-\renewcommand*\abstractname{\texorpdfstring{ABSTRACT}{Abstract}}
-\renewcommand*\contentsname{\texorpdfstring{TABLE OF CONTENTS}{Table of Contents}}
-\renewcommand*\listtablename{\texorpdfstring{LIST OF TABLES}{List of Tables}}
-\renewcommand*\listfigurename{\texorpdfstring{LIST OF FIGURES}{List of Figures}}
-\renewcommand*\indexname{\texorpdfstring{INDEX}{Index}}
-%% September 08, 2015: Changed \glossaryname to \acronymname
-\renewcommand*\acronymname{\texorpdfstring{LIST OF SYMBOLS AND ACRONYMS}{List of Symbols and Acronyms}}
+  \renewcommand*\abstractname{Abstract}
+  \renewcommand*\contentsname{Table of Contents}
+  \renewcommand*\listtablename{List of Tables}
+  \renewcommand*\listfigurename{List of Figures}
+  \renewcommand*\indexname{Index}
+  %% September 08, 2015: Changed \glossaryname to \acronymname
+  %% October 01, 2015: "Abbreviations" instead
+  \renewcommand*\acronymname{List of Symbols and Abbreviations}
 }
 
