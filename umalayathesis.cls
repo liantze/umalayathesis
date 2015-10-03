@@ -1,5 +1,5 @@
 %%
-%% umalayathesis.cls 2015/09/08 version V1.05
+%% umalayathesis.cls 2015/10/01 version V1.1
 %%
 %% This is the unofficial UM thesis LaTeX class for postgraduate research
 %% students of Universiti Malaya, Malaysia, formatted
@@ -13,7 +13,7 @@
 %% I'll always try.
 %%
 %%
-%% Copyright (c) 2011-2014 by Lim Lian Tze
+%% Copyright (c) 2011-2015 by Lim Lian Tze
 %%
 %% Current maintainer: Lim Lian Tze (liantze@gmail.com)
 %
@@ -41,6 +41,11 @@
 %
 % v1.05 September 08 2015
 %     - Proper handling of both acronyms and glossaries if required.
+%
+% v1.1  October 01 2015
+%     - Updated ToC and list of symbols/abbrevs formattings (and a
+%     - few other minor details) based on latest sample sent by Norsiah.
+%     - Now incorporating list of own publications & papers presented.
 
 
 \NeedsTeXFormat{LaTeX2e}
@@ -470,7 +475,12 @@ Witness's Signature \hfill Date \hspace{6em}
 \setglossarypreamble{\renewcommand*{\arraystretch}{1.2}\SingleSpacing\small}
 \makeglossaries
 %\newcommand\listacrname{List of Symbols and Acronyms}
-\newcommand\listofacronyms{\printglossary[type=\acronymtype]}
+\newcommand\listofacronyms{%
+  %% Oct 02: List of acronyms is normalsized and with a colon
+  \renewcommand{\glsnamefont}[1]{##1\hfill\space:}%
+  \printglossary[type=\acronymtype]%
+  \renewcommand{\glsnamefont}[1]{##1}%
+}
 % October 01, 2015: No longer need to capitalise front-matter chapter titles
 \addto\captionsenglish{%
   \renewcommand*\abstractname{Abstract}

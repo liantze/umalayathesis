@@ -1,6 +1,11 @@
 BRIEF CHANGELOG
 ===============
 
+v1.1  October 01 2015
+    - Updated ToC and list of symbols/abbrevs formattings (and a
+    - few other minor details) based on latest sample sent by Norsiah.
+    - Now incorporating list of own publications & papers presented.
+
 v1.05 September 08 2015
     - Proper handling of both acronyms and glossaries.
 
