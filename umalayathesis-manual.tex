@@ -114,26 +114,24 @@ On Linux and Mac systems, these are equivalent to the command lines
 
 \hspace{1em}\texttt{makeindex -s \textlangle base\textrangle.ist -t \textlangle base\textrangle.glg -o \textlangle base\textrangle.gls \textlangle base\textrangle.glo}
 
-\hspace{1em}\texttt{makeindex -s \textlangle base\textrangle.ist -t \textlangle base\textrangle.alg -o \textlangle base\textrangle.acr \textlangle base\textrangle.acn}
+\subsubsection{Tool Configuration for Generating the List of Publications}
+Now add a new processing tool called ``\textsf{Create Own Publication List}'' (or some other name). Configure it as shown below:
+
+\includegraphics[width=.9\textwidth]{texworks-win_ownpub}
+
+
+On Linux and Mac systems, these are equivalent to the command lines
 
 \medskip
 
-
-And if perl is installed on your system, then you can say simply 
-\medskip
-
-\hspace{1em}\texttt{makeglossaries \textlangle base\textrangle}
-
-\medskip
-
-\noindent(where \texttt{\textlangle base\textrangle} is the name of your main driver file without the extension (\texttt{thesis} in this example). This takes care of both the glossary and acronym list.
+\hspace{1em}\texttt{bibtex own}
 
 
 \subsubsection{Compiling \texttt{thesis.tex}}
 The processing tools should be run on \texttt{thesis.tex} in the following sequence:
 \begin{compactenum}
 \item pdflatex + bibtex + makeindex
-\item MakeGlossaries + MakeAcronyms
+\item MakeGlossaries + MakeAcronyms + Create Own Publication List
 \item pdflatex + bibtex + makeindex (twice)
 \end{compactenum}
 
@@ -303,6 +301,25 @@ In \texttt{thesis.tex}, these lines will print the bibliography list:
 \backmatter            % signal start of back matter
 \bibliography{bibfile} % bibliography file name without .bib extension
 \end{lstlisting}
+
+
+\subsection{List of Publications}
+
+First, make sure that you enter details about your own publications in your \verb|.bib| file.  Then in \verb|thesis.tex|, search for the following line:
+
+\lstset{escapechar={}}
+\begin{lstlisting}
+\nociteown{Lim:2009}
+\end{lstlisting}
+
+Replace the BibTeX key between the curly braces with that of your own publication.  If you have more than one publications, simply separate them with commas inside the curly braces, like this:
+
+\begin{lstlisting}
+\nociteown{lim:tang:2004,Lim:2009}
+\end{lstlisting}
+
+If you add more publications to \verb|\nociteown| later, you will need to run \textsf{pdflatex} and the \textsf{Create Own Publication List} tool that you configured earlier, then 2 more runs of \textsf{pdflatex} for the list to appear properly.
+
 
 
 \subsection{Glossary}\label{sec:glossary}
