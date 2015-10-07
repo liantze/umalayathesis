@@ -248,9 +248,9 @@ Researchers first attempted to...
 In \texttt{thesis.tex}, these chapter files are included with the following lines:
 \begin{lstlisting}[keepspaces=true,moretexcs=mainmatter]
 \mainmatter               % signal start of main chapters
-\include{chap-intro}      % no .tex extension!
-\include{chap-litreview}
-\include{...}
+\input{chap-intro}      % no .tex extension!
+\input{chap-litreview}
+\input{...}
 \end{lstlisting}
 
 \bigskip
@@ -271,8 +271,8 @@ Again, I recommend keeping each appendix chapter in its own file e.g.~\texttt{ap
 And in \texttt{thesis.tex}:
 \begin{lstlisting}[keepspaces=true,moretexcs={appendix}]
 \appendix   % signal start of appendices
-\include{app-umldiagram}
-\include{...}
+\input{app-umldiagram}
+\input{...}
 \end{lstlisting}
 
 
