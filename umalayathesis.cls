@@ -1,5 +1,5 @@
 %%
-%% umalayathesis.cls 2015/10/01 version V1.1
+%% umalayathesis.cls 2015/10/09 version V1.11
 %%
 %% This is the unofficial UM thesis LaTeX class for postgraduate research
 %% students of Universiti Malaya, Malaysia, formatted
@@ -46,6 +46,16 @@
 %     - Updated ToC and list of symbols/abbrevs formattings (and a
 %     - few other minor details) based on latest sample sent by Norsiah.
 %     - Now incorporating list of own publications & papers presented.
+%
+% v1.11  October 09 2015
+%     - Some fine-tuning requested by IPS when Norsiah tried to submit.
+%     - Abstract/Abstract should be CAPITALISED as chapter title but
+%       needs to be Title Case in ToC.
+%     - Dedication page must not be numbered.
+%     - Glossaries, List of Abbreviations, References... are now 12pt
+%       (so there's no more need of \backmatter)
+%     - Remove the "Appendices" separator page.
+%     - Subsubsection should be numbered 1.1.1.1.
 
 
 \NeedsTeXFormat{LaTeX2e}
@@ -98,7 +108,7 @@
 %\RequirePackage{courier}
 \renewcommand\ttdefault{lmvtt}
 
-\RequirePackage[breaklinks,pdfborder={0 0 0}]{hyperref}
+\RequirePackage[breaklinks,pdfborder={0 0 0},bookmarksdepth=3]{hyperref}
 
 %%%%%%%%%%%%
 % Line and paragraph spacing
@@ -175,6 +185,7 @@ KUALA LUMPUR}\\[1em]%
 \newcommand{\declarationpage}{%
 % 1 Oct: declaration page no longer included in ToC
 \chapter*{{\large Universiti Malaya}\vskip1em Original Literary Work Declaration}
+\thispagestyle{empty}
 %\chapter[Original Literary Work Declaration]{{\large Universiti Malaya}\vskip1em Original Literary Work Declaration}
 
 \noindent Name of Candidate: \hfill (I.C./Passport No.:\hspace{10em})\par
@@ -234,9 +245,8 @@ Witness's Signature \hfill Date \hspace{6em}
 %%%%%%%%%%%%
 % The Abstract
 %%%%%%%%%%%%
-\abstractintoc
+%% \abstractintoc
 %% October 01, 2015: don't capitalise front matter titles
-\renewcommand*\abstractname{Abstract}
 \renewcommand*\absnamepos{center}
 \setlength\abstitleskip{0pt}
 \renewcommand\abstractnamefont{\normalsize\bfseries}
@@ -244,12 +254,17 @@ Witness's Signature \hfill Date \hspace{6em}
 \setlength\absleftindent{0pt}
 \setlength\absrightindent{0pt}
 \newcommand{\abstractfromfile}[1]{
-  \clearpage\begin{abstract}\input{#1}\end{abstract}
+  \clearpage%
+  \renewcommand*\abstractname{ABSTRACT}
+  \phantomsection\addcontentsline{toc}{chapter}{Abstract}
+  \begin{abstract}\input{#1}\end{abstract}
 }
 %% October 01, 2015: no longer need to capitalise in ToC
 \newcommand{\msabstractfromfile}[1]{%
-  \renewcommand*\abstractname{Abstrak}
-  \clearpage\begin{abstract}\otherlanguage{bahasam}\input{#1}\end{abstract}
+  \clearpage%
+  \renewcommand*\abstractname{ABSTRAK}
+  \phantomsection\addcontentsline{toc}{chapter}{Abstrak}
+  \begin{abstract}\otherlanguage{bahasam}\input{#1}\end{abstract}
 }
 
 %%%%%%%%%%%%
@@ -342,7 +357,8 @@ Witness's Signature \hfill Date \hspace{6em}
 \newcommand*{\startapps}{% 
   \cftinserthook{toc}{PlainChapTocLines}
   \cftinserthook{apx}{AppendixToCLines}
-  \appendix\appendixpage%
+  \clearpage\appendix%\appendixpage%
+  \phantomsection\addcontentsline{toc}{chapter}{Appendices}
   \let\@chapter\app@chapter % use \app@chapter instead of \@chapter 
   \renewcommand\mychap[1]{\orichapter{##1}}
   \settocdepth{chapter}% stop sections being in the ToC 
@@ -370,7 +386,7 @@ Witness's Signature \hfill Date \hspace{6em}
 \setsubsecheadstyle{\SingleSpacing\normalsize\bfseries}
 \setbeforesubsecskip{-2.5ex plus 1ex minus .2ex}
 \setaftersubsecskip{0.1ex plus .2ex}
-\renewcommand\thesubsubsection{\thesubsection\space(\alph{subsubsection})}
+%\renewcommand\thesubsubsection{\thesubsection\space(\alph{subsubsection})}
 \setsubsubsecheadstyle{\SingleSpacing\normalsize\itshape}
 \setbeforesubsubsecskip{-2.5ex plus .2ex minus .2ex}
 \setaftersubsubsecskip{0.1ex plus .2ex}
@@ -450,7 +466,7 @@ Witness's Signature \hfill Date \hspace{6em}
 \RequirePackage[nosectionbib]{apacite}
 \newcounter{lbibcount}
 \bibliographystyle{apacite}
-\renewcommand\bibliographytypesize{\footnotesize}
+%\renewcommand\bibliographytypesize{\footnotesize}
 %\setlength\bibitemsep{\onelineskip}
 \setlength\bibleftmargin{2em}
 \setlength\bibindent{-2em}
@@ -472,7 +488,7 @@ Witness's Signature \hfill Date \hspace{6em}
 %\renewcommand*{\acrnameformat}[2]{#2 (\acronymfont{#1})}
 \renewcommand*{\glsgroupskip}{}
 \setglossarypreamble[acronym]{\renewcommand*{\arraystretch}{1.2}\SingleSpacing}
-\setglossarypreamble{\renewcommand*{\arraystretch}{1.2}\SingleSpacing\small}
+\setglossarypreamble{\renewcommand*{\arraystretch}{1.2}\SingleSpacing}
 \makeglossaries
 %\newcommand\listacrname{List of Symbols and Acronyms}
 \newcommand\listofacronyms{%

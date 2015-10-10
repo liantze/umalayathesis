@@ -1,6 +1,16 @@
 BRIEF CHANGELOG
 ===============
 
+v1.11  October 09 2015
+    - Some fine-tuning requested by IPS when Norsiah tried to submit.
+    - Abstract/Abstract should be CAPITALISED as chapter title but
+      needs to be Title Case in ToC.
+    - Dedication page must not be numbered.
+    - Glossaries, List of Abbreviations, References... are now 12pt
+      (so there's no more need of \backmatter)
+    - Remove the "Appendices" separator page.
+    - Subsubsection should be numbered 1.1.1.1.
+
 v1.1  October 01 2015
     - Updated ToC and list of symbols/abbrevs formattings (and a
     - few other minor details) based on latest sample sent by Norsiah.
