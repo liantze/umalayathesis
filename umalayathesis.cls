@@ -1,11 +1,11 @@
 %%
-%% umalayathesis.cls 2015/10/09 version V1.11
+%% umalayathesis.cls 2016/04/30 version V1.1.2
 %%
 %% This is the unofficial UM thesis LaTeX class for postgraduate research
 %% students of Universiti Malaya, Malaysia, formatted
 %% according to the Guide to the Preparation, Submission and Examination
 %% of Theses, published by IPS UM.
-%% 
+%%
 %% The latest version and documentation of umalayathesis can be obtained at
 %% http://liantze.penguinattack.org/latextypesetting.html#umalayathesis.
 %% Contact liantze AT gmail DOT com if you have any questions or
@@ -13,7 +13,7 @@
 %% I'll always try.
 %%
 %%
-%% Copyright (c) 2011-2015 by Lim Lian Tze
+%% Copyright (c) 2011-2016 by Lim Lian Tze
 %%
 %% Current maintainer: Lim Lian Tze (liantze@gmail.com)
 %
@@ -23,7 +23,7 @@
 %     - First online release
 %
 % v1.01 May 31 2012
-%     - Fixed the Glossary name 
+%     - Fixed the Glossary name
 %
 % v1.02 September 20 2012
 %     - Used Arial Narrow lookalike for the Cover page
@@ -47,7 +47,7 @@
 %     - few other minor details) based on latest sample sent by Norsiah.
 %     - Now incorporating list of own publications & papers presented.
 %
-% v1.11  October 09 2015
+% v1.1.1  October 09 2015
 %     - Some fine-tuning requested by IPS when Norsiah tried to submit.
 %     - Abstract/Abstract should be CAPITALISED as chapter title but
 %       needs to be Title Case in ToC.
@@ -56,8 +56,10 @@
 %       (so there's no more need of \backmatter)
 %     - Remove the "Appendices" separator page.
 %     - Subsubsection should be numbered 1.1.1.1.
-
-
+%
+% v1.1.2  April 30 2016
+%     - Float captions are now bold.
+%
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{umalayathesis}
 
@@ -509,3 +511,6 @@ Witness's Signature \hfill Date \hspace{6em}
   \renewcommand*\acronymname{List of Symbols and Abbreviations}
 }
 
+%% April 30, 2016: Bold captions
+\captionnamefont{\bfseries}
+\captiontitlefont{\bfseries}

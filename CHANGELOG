@@ -1,7 +1,10 @@
 BRIEF CHANGELOG
 ===============
 
-v1.11  October 09 2015
+v1.1.2  April 30 2016
+    - Float captions are now bold
+
+v1.1.1  October 09 2015
     - Some fine-tuning requested by IPS when Norsiah tried to submit.
     - Abstract/Abstract should be CAPITALISED as chapter title but
       needs to be Title Case in ToC.
