@@ -33,9 +33,9 @@ breaklines=true,breakatwhitespace=true}
 
 
 \title{Guide on Using umalayathesis}
-\subtitle{version 1.1.2}
+\subtitle{version 1.2}
 \author{Lim Lian Tze\\\texttt{\smaller liantze\string@gmail.com}}
-\date{\smaller April 30, 2016}
+\date{\smaller May 16, 2016}
 \begin{document}
 \maketitle
 
@@ -54,7 +54,7 @@ breaklines=true,breakatwhitespace=true}
 %
 %\bigskip
 
-\textsf{umalayathesis} is a \LaTeX\ class for authoring theses that fulfil formatting specifications required by \gls{UM}, Malaysia. The thesis preparation guide can be accessed at \url{http://goo.gl/28VWj}. 
+\textsf{umalayathesis} is a \LaTeX\ class for authoring theses that fulfil formatting specifications required by \gls{UM}, Malaysia. The thesis preparation guide can be accessed at \url{http://bit.ly/1WzW7kS}. 
 %http://cmsad.um.edu.my/index1.php?pfct=ips&modul=Current_Students&pilihan=Rules_and_Regulations
 
 A sample \texttt{thesis.tex} is included in the package, which I recommend you modify for your own thesis write-up. (You can rename it, but I'll stick with the file name `\texttt{thesis.tex}' throughout this guide.)
@@ -169,6 +169,7 @@ You need to provide some author information in the preamble. Example lines from 
 \author{Lim Lian Tze}
 \title{My Ground-breaking Research}
 \submissionyear{2012}
+\faculty{Faculty of Amazing Research}
 \degree{Doctor of Philosophy)}
 \end{lstlisting}
 
@@ -184,9 +185,17 @@ Once in the main document body, \lstinline[moretexcs={frontmatter}]|\frontmatter
 \medskip
 
 \begin{lstlisting}[moretexcs={makecoverandtitlepage,copyrightpage,declarationpage}]
-\makecoverandtitlepage
+% \makecoverandtitlepage{\mastercoursework}
+% \makecoverandtitlepage{\mastermixedmode}
+% \makecoverandtitlepage{\masterresearch}
+\makecoverandtitlepage{\doctoralresearch}
+% \makecoverandtitlepage{\doctoralmixedmode}
 \declarationpage
 \end{lstlisting}
+
+Please \emph{uncomment the correct \verb|\makecoverandtitle| line} to generate the correct statement on the title page.
+
+Please choose the 
 
 \subsection{Acknowledgements}\label{sec:acknowledge}
 \lstset{moretexcs={acknowledgements}}
