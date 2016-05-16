@@ -1,6 +1,19 @@
 BRIEF CHANGELOG
 ===============
 
+v1.2  May 16 2016
+    Well I guess I FINALLY found the updated formatting guide from
+    the Engineering Faculty's webpage, instead of on IPS' webpage!!
+    http://bit.ly/23U6JJV
+    - Added \faculty field
+    - \makecoverandtitlepage now takes an option to output the
+      relevant statement on the title page
+    - Chapter headings are now single line, with less spacing after
+      the chapter title.
+    - Bibliography entries are now explicitly 0.5 inch indented and
+      with really wide double spacing between entries.
+    - Re-ordered elements in thesis.tex to match the updated guide.
+
 v1.1.2  April 30 2016
     - Float captions are now bold
 
@@ -10,7 +23,7 @@ v1.1.1  October 09 2015
       needs to be Title Case in ToC.
     - Dedication page must not be numbered.
     - Glossaries, List of Abbreviations, References... are now 12pt
-      (so there's no more need of \backmatter)
+      (so there's no more need of \backmatter actually)
     - Remove the "Appendices" separator page.
     - Subsubsection should be numbered 1.1.1.1.
 

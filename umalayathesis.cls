@@ -1,10 +1,10 @@
 %%
-%% umalayathesis.cls 2016/04/30 version V1.1.2
+%% umalayathesis.cls 2016/05/16 version V1.2
 %%
 %% This is the unofficial UM thesis LaTeX class for postgraduate research
-%% students of Universiti Malaya, Malaysia, formatted
-%% according to the Guide to the Preparation, Submission and Examination
-%% of Theses, published by IPS UM.
+%% students of Universiti Malaya, Malaysia, formatted according to the
+%% Guide to the Preparation, Submission and Examination of Theses (2015),
+%% published by IPS UM.
 %%
 %% The latest version and documentation of umalayathesis can be obtained at
 %% http://liantze.penguinattack.org/latextypesetting.html#umalayathesis.
@@ -63,19 +63,34 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{umalayathesis}
 
+%% May 16, 2016: Silence the warnings as they're getting on my nerves
+\RequirePackage{silence}
+\WarningFilter{babel}{No hyphenation patterns}
+\WarningFilter{glossaries}{Overriding}
+\WarningFilter{glossaries}{No language module}
+
+
 \LoadClass[12pt,a4paper,oneside]{memoir}
-\RequirePackage{textcomp}
 \RequirePackage{etoolbox}
+\RequirePackage{calc}
 \RequirePackage{paralist}
 \RequirePackage[bahasam,english]{babel}
 
 \def\theauthor{\textbf{!INSERT AUTHOR!}}
 \def\thetitle{\textbf{!INSERT TITLE!}}
+\def\@mtfaculty{\textbf{!INSERT FACULTY!}}
 \def\@mtsubmissionyear{\textbf{!INSERT YEAR!}}
 \def\@mtdegree{\textbf{!INSERT DEGREE!}}
 
+\newcommand{\faculty}[1]{\def\@mtfaculty{#1}}
 \newcommand{\submissionyear}[1]{\def\@mtsubmissionyear{#1}}
 \newcommand{\degree}[1]{\def\@mtdegree{#1}}
+
+\def\mastercoursework{1}
+\def\mastermixedmode{2}
+\def\masterresearch{3}
+\def\doctoralresearch{4}
+\def\doctoralmixedmode{5}
 
 
 %%%%%%%%%%%%
@@ -89,9 +104,9 @@
 %%%%%%%%%%%%
 \settrimmedsize{297mm}{210mm}{*}
 \setlrmarginsandblock{40mm}{20mm}{*}
-\setulmarginsandblock{20mm}{20mm}{*}
+\setulmarginsandblock{20mm}{20mm+1.25ex}{*}
 \setheadfoot{\baselineskip}{10mm}
-\addtolength\footskip{-6pt}
+\addtolength\footskip{1.25ex}
 \makeoddfoot{plain}{}{}{\footnotesize\thepage}
 \makeevenfoot{plain}{}{}{\footnotesize\thepage}
 \pagestyle{plain}
@@ -106,7 +121,8 @@
 %%%%%%%%%%%%
 \RequirePackage[T1]{fontenc}
 \RequirePackage[scaled]{helvet}
-\RequirePackage{mathptmx}
+\RequirePackage{newtxtext,newtxmath}
+%\RequirePackage{mathptmx}
 %\RequirePackage{courier}
 \renewcommand\ttdefault{lmvtt}
 
@@ -141,91 +157,132 @@
 %%%%%%%%%%%%
 % The Cover and Title page
 %%%%%%%%%%%%
-\newcommand{\makecoverandtitlepage}{%
-\ignorespaces
-\changepage{-40mm}{-15mm}{15mm}{0em}{0em}{20mm}{0em}{0em}{0em}
-\begin{titlingpage}
-\SingleSpacing%
-\centering%
-\renewcommand\ttdefault{lmtt}%
-\fontfamily{phv}\fontseries{mc}\fontsize{15pt}{17pt}\selectfont%
-\MakeUppercase{\thetitle}\par%
-\vfill%
-\MakeUppercase{\theauthor}\par%
-\vfill%
-INSTITUTE OF POSTGRADUATE STUDIES\\%
-UNIVERSITY OF MALAYA\\%
-KUALA LUMPUR\par%
-\bigskip%
-\@mtsubmissionyear\par%
-\end{titlingpage}%
-{\SingleSpacing\centering\thispagestyle{empty}\setcounter{page}{1}%
-\fontsize{15pt}{17pt}\selectfont%
-\renewcommand\ttdefault{lmtt}%
-\MakeUppercase{\thetitle}\par%
-\vfill%
-{\MakeUppercase{\theauthor}\par}%
-\vfill%
-{THESIS SUBMITTED IN FULFILMENT\\%
-OF THE REQUIREMENTS\\%
-FOR THE DEGREE OF \MakeUppercase{\@mtdegree}\par}%
-\vfill%
-{INSTITUTE OF POSTGRADUATE STUDIES\\%
-UNIVERSITY OF MALAYA\\%
-KUALA LUMPUR}\\[1em]%
-\@mtsubmissionyear%\\[3em]%
-\par\clearpage}%
-\changepage{40mm}{15mm}{-15mm}{0em}{0em}{-20mm}{0em}{0em}{0em}%
-\renewcommand\ttdefault{lmvtt}%
+% May 16, 2016: Overhauled re the 2015 guidelines
+\newcommand{\makecoverandtitlepage}[1]{%
+  \let\thesis@type=#1
+  \ignorespaces
+  \changepage{-60mm+1.25ex}{-20mm}{20mm}{0pt}{0pt}{30mm}{0pt}{0pt}{0pt}
+  \begin{titlingpage}%
+    \setSingleSpace{1.15}\SingleSpacing%
+    \centering%
+    \renewcommand\ttdefault{lmtt}%
+    \fontfamily{phv}\fontseries{mc}\fontsize{16pt}{18pt}\selectfont%
+    \MakeUppercase{\thetitle}\par%
+    \vfill%
+    \MakeUppercase{\theauthor}\par%
+    \vfill%
+    \MakeUppercase{\@mtfaculty}\\%
+    UNIVERSITY OF MALAYA\\%
+    KUALA LUMPUR\par%
+    \bigskip%
+    \@mtsubmissionyear\par%
+  \end{titlingpage}%
+  { \setSingleSpace{1.15}\SingleSpacing%
+    \centering\thispagestyle{empty}\setcounter{page}{1}%
+    \fontsize{16pt}{18pt}\selectfont%
+    \renewcommand\ttdefault{lmtt}%
+    \MakeUppercase{\thetitle}\par%
+    \vfill%
+    {\MakeUppercase{\theauthor}\par}%
+    \vfill%
+    \ifcase\thesis@type
+      \or % 1 -- mastercoursework
+        \statement@mastercoursework%
+      \or % 2 -- mastermixedmode
+        \statement@mastermixedmode%
+      \or % 3 -- masterresearch
+        \statement@masterresearch%
+      \or % 4 -- doctoralresearch
+        \statement@doctoralresearch
+      \or % 5 -- doctoralmixedmode
+        \statement@doctoralmixedmode
+    \fi
+    \vfill%
+    \@mtsubmissionyear%\\[3em]%
+    \par\clearpage%
+  }
+  \changepage{60mm-1.25ex}{20mm}{-20mm}{0pt}{0pt}{-30mm}{0pt}{0pt}{0pt}
+  \renewcommand\ttdefault{lmvtt}%
 }
 
+\newcommand\statement@mastercoursework{%
+  SUBMITTED TO THE\\\MakeUppercase{\@mtfaculty}\\
+  UNIVERSITY OF MALAYA, IN PARTIAL FULFILMENT OF THE REQUIREMENTS FOR THE DEGREE OF \MakeUppercase{\@mtdegree}%
+}
 
+\newcommand\statement@mastermixedmode{%
+  DISSERTATION SUBMITTED IN PARTIAL FULFILMENT OF THE REQUIREMENTS FOR THE DEGREE OF \MakeUppercase{\@mtdegree}%
+  \vfill\faculty@block%
+}
+
+\newcommand\statement@masterresearch{%
+  DISSERTATION SUBMITTED IN FULFILMENT OF THE REQUIREMENTS FOR THE DEGREE OF \MakeUppercase{\@mtdegree}%
+  \vfill\faculty@block%
+}
+
+\newcommand\statement@doctoralresearch{%
+  THESIS SUBMITTED IN FULFILMENT OF THE REQUIREMENTS FOR THE DEGREE OF \MakeUppercase{\@mtdegree}%
+  \vfill\faculty@block%
+}
+
+\newcommand\statement@doctoralmixedmode{%
+  THESIS SUBMITTED IN PARTIAL FULFILMENT OF THE REQUIREMENTS FOR THE DEGREE OF \MakeUppercase{\@mtdegree}%
+  \vfill\faculty@block%
+}
+
+\newcommand\faculty@block{%
+  \MakeUppercase{\@mtfaculty}\\
+  UNIVERSITY OF MALAYA\\
+  KUALA LUMPUR%
+}
 
 %%%%%%%%%%%%
 % The Declaration page
 %%%%%%%%%%%%
 \newcommand{\declarationpage}{%
-% 1 Oct: declaration page no longer included in ToC
-\chapter*{{\large Universiti Malaya}\vskip1em Original Literary Work Declaration}
-\thispagestyle{empty}
-%\chapter[Original Literary Work Declaration]{{\large Universiti Malaya}\vskip1em Original Literary Work Declaration}
+  % 1 Oct: declaration page no longer included in ToC
+  \chapter*{{\large Universiti Malaya}\vskip1em Original Literary Work Declaration}
+  \thispagestyle{empty}
+  %\chapter[Original Literary Work Declaration]{{\large Universiti Malaya}\vskip1em Original Literary Work Declaration}
+  {%\large%
+    \noindent Name of Candidate: \hfill (I.C./Passport No.:\hspace{10em})\par
+    \noindent Registration/Matrix No.:\par
+    \noindent Name of Degree:\par
+    \noindent Title of Project Paper/Research Report/Dissertation/Thesis (``this Work''):\vskip 3em\par
+    \noindent Field of Study:\par
 
-\noindent Name of Candidate: \hfill (I.C./Passport No.:\hspace{10em})\par
-\noindent Registration/Matrix No.:\par
-\noindent Name of Degree:\par
-\noindent Title of Project Paper/Research Report/Dissertation/Thesis (``this Work''):\vskip 3em\par
-\noindent Field of Study:\par
+    {\SingleSpacing\setSingleSpace{1.15}
+    I do solemnly and sincerely declare that:
 
-{\SingleSpacing
-I do solemnly and sincerely declare that:
+    \setlength\pltopsep{1em}
+    \begin{compactenum}[(1)]
+    \item I am the sole author/writer of this Work;
+    \item This work is original;
+    \item Any use of any work in which copyright exists was done by way of fair dealing and for permitted purposes and any excerpt or extract from, or reference to or reproduction of any copyright work has been disclosed expressly and sufficiently and the title of the Work and its authorship have been acknowledged in this Work;
+    \item I do not have any actual knowledge nor do I ought reasonably to know that the making of this work constitutes an infringement of any copyright work; 
+    \item I hereby assign all and every rights in the copyright to this Work to the University of 
+    Malaya (``UM''), who henceforth shall be owner of the copyright in this Work and that any 
+    reproduction or use in any form or by any means whatsoever is prohibited without the 
+    written consent of UM having been first had and obtained; 
+    \item I am fully aware that if in the course of making this Work I have infringed any copyright 
+    whether intentionally or otherwise, I may be subject to legal action or any other action 
+    as may be determined by UM. 
+    \end{compactenum}
+    }
 
-\setlength\pltopsep{1em}
-\begin{compactenum}[(1)]
-\item I am the sole author/writer of this Work;
-\item This work is original;
-\item Any use of any work in which copyright exists was done by way of fair dealing and for permitted purposes and any excerpt or extract from, or reference to or reproduction of any copyright work has been disclosed expressly and sufficiently and the title of the Work and its authorship have been acknowledged in this Work;
-\item I do not have any actual knowledge nor do I ought reasonably to know that the making of this work constitutes an infringement of any copyright work; 
-\item I hereby assign all and every rights in the copyright to this Work to the University of 
-Malaya (``UM''), who henceforth shall be owner of the copyright in this Work and that any 
-reproduction or use in any form or by any means whatsoever is prohibited without the 
-written consent of UM having been first had and obtained; 
-\item I am fully aware that if in the course of making this Work I have infringed any copyright 
-whether intentionally or otherwise, I may be subject to legal action or any other action 
-as may be determined by UM. 
-\end{compactenum}
-}
+    \vfill
 
-\vfill
+    Candidate's Signature \hfill Date \hspace{6em}
+    \vskip 3em
 
-Candidate's Signature \hfill Date \hspace{6em}
-\vskip 3em
+    \noindent Subscribed and solemnly declared before,\vskip 3em
 
-\noindent Subscribed and solemnly declared before,\vskip 3em
+    Witness's Signature \hfill Date \hspace{6em}
 
-Witness's Signature \hfill Date \hspace{6em}
-
-{\SingleSpacing\noindent{\small Name:}\par
-\noindent{\small Designation:}\par}
+    {\SingleSpacing\small
+    \noindent Name:\par
+    \noindent Designation:\par}
+  }
 \clearpage}
 
 %%%%%%%%%%%%
@@ -278,15 +335,17 @@ Witness's Signature \hfill Date \hspace{6em}
 %%%%%%%%%%%%
 % Chapter headings
 %%%%%%%%%%%%
-\renewcommand\chapterheadstart{\normalsize\vskip\beforechapskip}
+%% 3 May 2016: One-line chapter title
+\renewcommand\chapterheadstart{\bgroup\SingleSpacing\normalsize\vskip\beforechapskip}
+\appto{\afterchaptertitle}{\egroup}
 \setlength\beforechapskip{0pt}
 \setlength\midchapskip{2\onelineskip}
-\setlength\afterchapskip{2\onelineskip}
+\setlength\afterchapskip{\onelineskip}
 \renewcommand*\chapnamefont{\normalsize\bfseries}
 \renewcommand*\chapnumfont{\normalsize\bfseries\centering}
-\renewcommand*\chaptitlefont{\SingleSpacing\normalsize\bfseries\centering}
+\renewcommand*\chaptitlefont{\normalsize\bfseries\centering}
+\renewcommand*{\afterchapternum}{: }
 \renewcommand{\printchaptername}{{\chapnamefont\MakeUppercase{\chaptername}}}
-\renewcommand*{\afterchapternum}{\vskip\midchapskip}
 \renewcommand*{\printchaptertitle}[1]{{\chaptitlefont\MakeUppercase{#1}\par}}
 
 
@@ -469,9 +528,10 @@ Witness's Signature \hfill Date \hspace{6em}
 \newcounter{lbibcount}
 \bibliographystyle{apacite}
 %\renewcommand\bibliographytypesize{\footnotesize}
-%\setlength\bibitemsep{\onelineskip}
-\setlength\bibleftmargin{2em}
-\setlength\bibindent{-2em}
+\setlength\bibitemsep{2\onelineskip}
+% May 16, 2016: explicitly set to 0.5in hang
+\setlength\bibleftmargin{0.5in}
+\setlength\bibindent{-0.5in}
 
 \patchcommand{\bibitem}{\SingleSpacing}{}
 %% October 01, 2015: Don't capitalise backmatter chapter titles

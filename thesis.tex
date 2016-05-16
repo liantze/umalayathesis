@@ -1,7 +1,6 @@
-%!TEX ROOT=thesis.tex
+%% thesis.tex 
+%% Distributed with umalayathesis v1.2 (16 May 2016)
 \documentclass{umalayathesis}
-
-%\includeonly{sample-chap-dummy}
 
 \usepackage{lipsum}
 \usepackage[utf8]{inputenc}
@@ -10,7 +9,8 @@
 
 \author{Lim Lian Tze}
 \title{The \texttt{umalayathesis} \LaTeX{} Document Class}
-\submissionyear{2015}
+\faculty{Institute of Postgraduate Studies}
+\submissionyear{2016}
 \degree{Doctor of Philosophy}
 
 % load acronym definitions from separate file
@@ -19,7 +19,14 @@
 \begin{document}
 \frontmatter
 
-\makecoverandtitlepage
+%% Choose only ONE from the following to get the
+%% correct statement on the title page
+% \makecoverandtitlepage{\mastercoursework}
+% \makecoverandtitlepage{\mastermixedmode}
+% \makecoverandtitlepage{\masterresearch}
+\makecoverandtitlepage{\doctoralresearch}
+% \makecoverandtitlepage{\doctoralmixedmode}
+
 \declarationpage
 \abstractfromfile{sample-abstract}
 \msabstractfromfile{sample-msabstract}
@@ -37,6 +44,12 @@
 \input{sample-chap-intro}
 \input{sample-chap-dummy}
 
+\bibliography{myrefs}
+
+% Make sure you have defined your own papers in the .bib file!
+\nociteown{Lim:2009}
+\bibliographyown{myrefs}
+
 \begin{appendices}
 \startapps
 \input{sample-appen-manual}
@@ -44,13 +57,7 @@
 \finishapps
 \end{appendices}
 
-\bibliography{myrefs}
-
-% Make sure you have defined your own papers in the .bib file!
-\nociteown{Lim:2009}
-\bibliographyown{myrefs}
-
 %% Comment out this line if you do not have a separate glossary.
-\printglossary
+% \printglossary
 
 \end{document}
