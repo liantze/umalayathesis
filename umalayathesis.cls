@@ -60,6 +60,20 @@
 % v1.1.2  April 30 2016
 %     - Float captions are now bold.
 %
+% v1.2  May 16 2016
+%     Well I guess I FINALLY found the updated formatting guide from
+%     the Engineering Faculty's webpage, instead of on IPS' webpage!!
+%     http://bit.ly/23U6JJV
+%     - Added \faculty field
+%     - \makecoverandtitlepage now takes an option to output the
+%       relevant statement on the title page
+%     - Chapter headings are now single line, with less spacing after
+%       the chapter title.
+%     - Bibliography entries are now explicitly 0.5 inch indented and
+%       with really wide double spacing between entries.
+%     - \subsubsection heading is now upright and bold.
+%     - Re-ordered elements in thesis.tex to match the updated guide.
+
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{umalayathesis}
 
@@ -447,8 +461,7 @@
 \setsubsecheadstyle{\SingleSpacing\normalsize\bfseries}
 \setbeforesubsecskip{-2.5ex plus 1ex minus .2ex}
 \setaftersubsecskip{0.1ex plus .2ex}
-%\renewcommand\thesubsubsection{\thesubsection\space(\alph{subsubsection})}
-\setsubsubsecheadstyle{\SingleSpacing\normalsize\itshape}
+\setsubsubsecheadstyle{\SingleSpacing\normalsize\bfseries}
 \setbeforesubsubsecskip{-2.5ex plus .2ex minus .2ex}
 \setaftersubsubsecskip{0.1ex plus .2ex}
 
