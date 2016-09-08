@@ -1,7 +1,7 @@
 BRIEF CHANGELOG
 ===============
 
-v1.2  May 16 2016
+v1.2  May 16 2016 (Sep 8 2016 small update)
     Well I guess I FINALLY found the updated formatting guide from
     the Engineering Faculty's webpage, instead of on IPS' webpage!!
     http://bit.ly/23U6JJV
@@ -14,6 +14,8 @@ v1.2  May 16 2016
       with really wide double spacing between entries.
     - \subsubsection heading is now upright and bold.
     - Re-ordered elements in thesis.tex to match the updated guide.
+    - (Sep 8 2016, small update) Declaration page gets numbered.
+
 
 v1.1.2  April 30 2016
     - Float captions are now bold

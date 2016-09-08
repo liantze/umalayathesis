@@ -1,5 +1,5 @@
 %%
-%% umalayathesis.cls 2016/05/16 version V1.2
+%% umalayathesis.cls 2016/09/08 version V1.2
 %%
 %% This is the unofficial UM thesis LaTeX class for postgraduate research
 %% students of Universiti Malaya, Malaysia, formatted according to the
@@ -60,7 +60,7 @@
 % v1.1.2  April 30 2016
 %     - Float captions are now bold.
 %
-% v1.2  September 11 2016
+% v1.2  September 8 2016
 %     Well I guess I FINALLY found the updated formatting guide from
 %     the Engineering Faculty's webpage, instead of on IPS' webpage!!
 %     http://bit.ly/23U6JJV
