@@ -60,7 +60,7 @@
 % v1.1.2  April 30 2016
 %     - Float captions are now bold.
 %
-% v1.2  May 16 2016
+% v1.2  September 11 2016
 %     Well I guess I FINALLY found the updated formatting guide from
 %     the Engineering Faculty's webpage, instead of on IPS' webpage!!
 %     http://bit.ly/23U6JJV
@@ -73,6 +73,7 @@
 %       with really wide double spacing between entries.
 %     - \subsubsection heading is now upright and bold.
 %     - Re-ordered elements in thesis.tex to match the updated guide.
+%     - (Sept 11 2016, small update) Declaration page gets numbered.
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{umalayathesis}
@@ -256,7 +257,6 @@
 \newcommand{\declarationpage}{%
   % 1 Oct: declaration page no longer included in ToC
   \chapter*{{\large Universiti Malaya}\vskip1em Original Literary Work Declaration}
-  \thispagestyle{empty}
   %\chapter[Original Literary Work Declaration]{{\large Universiti Malaya}\vskip1em Original Literary Work Declaration}
   {%\large%
     \noindent Name of Candidate: \hfill (I.C./Passport No.:\hspace{10em})\par
