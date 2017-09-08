@@ -33,9 +33,9 @@ breaklines=true,breakatwhitespace=true}
 
 
 \title{Guide on Using umalayathesis}
-\subtitle{version 1.2}
+\subtitle{version 1.3}
 \author{Lim Lian Tze\\\texttt{\smaller liantze\string@gmail.com}}
-\date{\smaller May 16, 2016}
+\date{\smaller 8 September, 2017}
 \begin{document}
 \maketitle
 
@@ -54,8 +54,8 @@ breaklines=true,breakatwhitespace=true}
 %
 %\bigskip
 
-\textsf{umalayathesis} is a \LaTeX\ class for authoring theses that fulfil formatting specifications required by \gls{UM}, Malaysia. The thesis preparation guide can be accessed at \url{http://bit.ly/1WzW7kS}. 
-%http://cmsad.um.edu.my/index1.php?pfct=ips&modul=Current_Students&pilihan=Rules_and_Regulations
+\textsf{umalayathesis} is a \LaTeX\ class for authoring theses that fulfil formatting specifications required by \gls{UM}, Malaysia. The thesis preparation guide can be accessed at \url{http://bit.ly/2xaYpzN}.
+%https://www.um.edu.my/docs/librariesprovider80/students-current-students-thesis/10-8-2017---guidelines-for-preparation-of-research-project-dissertation-and-thesis-2017.pdf?sfvrsn=2
 
 A sample \texttt{thesis.tex} is included in the package, which I recommend you modify for your own thesis write-up. (You can rename it, but I'll stick with the file name `\texttt{thesis.tex}' throughout this guide.)
 
@@ -74,10 +74,11 @@ To streamline things, install the following packages first before using \textsf{
 \item \textsf{glossaries}
 \item \textsf{babel}
 \item \textsf{longtable}
+\item \textsf{supertabular}
 \item \textsf{hyperref}
 \item \textsf{xfor}
 \item \textsf{etoolbox}
-\item \textsf{paralist}
+\item \textsf{enumitem}
 \item \textsf{lipsum} (for \texttt{thesis.tex} only)\raggedright
 \end{compactitem}
 \end{multicols}
@@ -99,7 +100,7 @@ Here's a quick list of the files required when writing your thesis with the \tex
 \subsection{TeXworks Configuration}\label{sec:texworks}
 Assuming \textsf{TeXworks} is your \LaTeX\ editor of choice on Windows, you will probably want to configure it so that you can process your glossary and list of own publications from within \textsf{TeXworks}.
 
-(You can always, of course, opt to run the relevant commands from the command line prompt, or adapt these configurations for other editors and operating systems: I have tested on Windows XP, Ubuntu and Mac OS X.)
+(You can always, of course, opt to run the relevant commands from the command line prompt, or adapt these configurations for other editors and operating systems: I have tested on Windows XP/7, Ubuntu and Mac OS X.)
 
 \subsubsection{Tool Configuration for Generating the Glossary}\label{sec:texworks:makeglossaries}
 Access the \textsf{TeXworks} menu \textsf{Edit $\triangleright$ Preferences\ldots\ $\triangleright$ Typesetting}. Add a new processing tool called ``\textsf{MakeGlossaries}''. Configure it as shown below:
@@ -113,6 +114,18 @@ On Linux and Mac systems, these are equivalent to the command lines
 \medskip
 
 \hspace{1em}\texttt{makeindex -s \textlangle base\textrangle.ist -t \textlangle base\textrangle.glg -o \textlangle base\textrangle.gls \textlangle base\textrangle.glo}
+
+\bigskip
+
+\textbf{If you have Perl installed} (likely if you're using Linux or Mac), you can just run
+
+\medskip
+
+\hspace{1em}\texttt{makeglossaries \textlangle base\textrangle}
+
+\medskip
+
+\noindent and it'll process both the acronyms and the glossaries.
 
 \subsubsection{Tool Configuration for Generating the List of Publications}
 Now add a new processing tool called ``\textsf{Create Own Publication List}'' (or some other name). Configure it as shown below:
@@ -135,7 +148,7 @@ The processing tools should be run on \texttt{thesis.tex} in the following seque
 \item pdflatex + bibtex + makeindex (twice)
 \end{compactenum}
 
-You will need to run `\textsf{MakeGlossaries}' and/or `\textsf{MakeAcronyms}' again if you add and use a \emph{new glossary entry}.
+You will need to run `\textsf{MakeGlossaries}' and/or `\textsf{MakeAcronyms}' again if you add and use a \emph{new glossary or acronym entry}.
 
 %\subsection{Why is there a blank page before the title page and at the end?!}
 %The thesis preparation guidelines say there needs to be a blank page between the cover and the title page, and another at the very end, so \textsf{umalayathesis} forces one just in case you forgot to insert one. \texttt{;-)}
@@ -158,7 +171,9 @@ To `activate' the class, make sure your main document file (e.g.\ \texttt{thesis
 
 \medskip
 
-This will set up the page margins, paragraph spacing, indents, page numbers, font face and size, citation and bibliography format, amongst other things. 
+This will set up the page margins, paragraph spacing, indents, page numbers, font face and size, citation and bibliography format, amongst other things.
+
+(There is an experimental \texttt{bahasam} document class option that sets up everything for Bahasa Malaysia; but at present \texttt{apacite} has not yet been localised to Bahasa Malaysia yet.)
 
 \subsection{Author Information}\label{sec:author:info}
 You need to provide some author information in the preamble. Example lines from \texttt{thesis.tex}:
@@ -293,6 +308,7 @@ Here are some useful variants of the \lstinline|\cite| command; see the \textsf{
 {\lstset{moretexcs={citeNP,citeauthor,citeyear}}
 \begin{tabular}{>{\textbullet\hspace{6pt}}l @{\hspace{6pt}$\rightarrow$\hspace{6pt}} l}
 \lstinline|\cite{Lim:2009}| & (Lim, 2009)\\
+\lstinline|\citeA{Lim:2009}| & Lim (2009)\\
 \lstinline|\citeNP{Lim:2009}| & Lim, 2009 (no parenthesis)\\
 \lstinline|\cite<see>[p.~7]{Lim:2009}| & (see Lim, 2009, p.~7)\\
 \lstinline|\citeauthor{Lim:2009}| & Lim\\
@@ -399,8 +415,8 @@ Notice how the acronyms are expanded on first use, as well as the use of \lstinl
 
 \fboxsep=12pt
 \noindent\fbox{\begin{minipage}{.95\textwidth}
-Let's talk about lexical items (LIs) and parts of speech (POS) in Natural 
-Language Processing (NLP). I mention again LIs. We will also talk about lexicons. 
+Let's talk about lexical items (LIs) and parts of speech (POS) in Natural
+Language Processing (NLP). I mention again LIs. We will also talk about lexicons.
 \end{minipage}}
 
 \bigskip

@@ -1,16 +1,38 @@
-%% thesis.tex 
-%% Distributed with umalayathesis v1.2 (16 May 2016)
-\documentclass{umalayathesis}
+%% thesis.tex
+%% Distributed with umalayathesis v1.3 (16 September 2017)
+\documentclass[english]{umalayathesis}
 
 \usepackage{lipsum}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{microtype}
 \usepackage{graphicx}
+\usepackage{xcolor}
+
+% Useful for including code listings
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily\SingleSpacing,
+        columns=fullflexible,
+        breaklines,breakatwhitespace}
+
+% Useful for multi-page pages. Either longtable or supertabular is fine; choose any one that you're comfortable with
+\usepackage{longtable}
+\usepackage{supertabular}
+
+
+% If your faculty requires captions to be 11pt, and only the Figure X: and Table Y: to be bold:
+% \captionnamefont{\small\bfseries}
+% \captiontitlefont{\small}
+
+% If your faculty requires a ``header row'' at the top of the List of Figures/Tables:
+% \addtocontents{lof}{\noindent\figurename\hfill Description\hfill Page\par}
+% \addtocontents{lot}{\noindent\tablename\hfill Description\hfill Page\par}
+
 
 \author{Lim Lian Tze}
-\title{The \texttt{umalayathesis} \LaTeX{} Document Class}
+\title{The umalayathesis \LaTeX{} Document Class}
 \faculty{Institute of Postgraduate Studies}
-\submissionyear{2016}
+\submissionyear{2017}
 \degree{Doctor of Philosophy}
 
 % load acronym definitions from separate file
@@ -24,6 +46,7 @@
 % \makecoverandtitlepage{\mastercoursework}
 % \makecoverandtitlepage{\mastermixedmode}
 % \makecoverandtitlepage{\masterresearch}
+% \makecoverandtitlepage{\doctoralcoursework}
 \makecoverandtitlepage{\doctoralresearch}
 % \makecoverandtitlepage{\doctoralmixedmode}
 

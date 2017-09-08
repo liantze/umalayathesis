@@ -1,31 +1,16 @@
 %!TEX ROOT = thesis.tex
 \chapter{Introduction}
-\section{First Test and I need a really long title, please do oblige me won't you? Just a few more words and yes we're there}
-\lipsum[1-2]
+\section{First Level Heading}
+
+You can use the usual \LaTeX{} commands and environments: footnotes\footnote{See here, how weird, how to fill out an entire line. See here, how weird, how to fill out an entire line. See here, how weird, how to fill out an entire line. See here, how weird, how to fill out an entire line. See here, how weird, how to fill out an entire line. } too\footnote{don't you agree?}, certainly with figures and tables as well.
 
 \begin{figure}[hbt!]\centering
 \includegraphics[width=.3\textwidth]{green}
 \caption{First figure. OK?}
 \end{figure}
 
-\subsection{Second Test}
-Their \cite{audibert:2004} requirements\footnote{See here, how weird, how to fill out an entire line. See here, how weird, how to fill out an entire line. See here, how weird, how to fill out an entire line. See here, how weird, how to fill out an entire line. See here, how weird, how to fill out an entire line. } are really amazing\footnote{don't you agree?} \cite{budanitsky:hirst:2006}.
-
-\begin{figure}[hbt!]\centering
-\includegraphics[width=.3\textwidth]{school}
-\caption{Second figure. Now I need a long caption to test out how things look in the List of Figures. Is this long enough yet? Is it? Is it?}
-\end{figure}
-
-How how?
-
-\subsubsection{This works?}
-Does it?\index{test} Great. Let's talk about \glspl{LI} and \glspl{POS} in \gls{NLP}. I mention again \glspl{LI}. Oh I have a symbol too, it's \gls{theta}. And I talk a lot about \glspl{lexicon}.
-
-\section{Yeah}
-\lipsum[5]
-
 \begin{table}[hbt!]
-\caption{This is a table}
+\caption{This is a table.}
 \centering
 \begin{tabular}{ l c r }
 \hline
@@ -36,4 +21,394 @@ Fine! & Just great. & See ya!\\
 \end{tabular}
 \end{table}
 
-\lipsum[7-12]
+This is a quotation:
+
+\begin{quote}
+Nam dui ligula, fringilla a, euismod sodales, sollicitudin vel, wisi. Morbi auctor lorem non justo. Nam lacus libero, pretium at, lobortis vitae, ultricies et, tellus. Donec aliquet, tortor sed accumsan bibendum, erat ligula aliquet magna, vitae ornare odio metus a mi. Morbi ac orci et nisl hendrerit mollis. Suspendisse ut massa. Cras nec ante. Pellentesque a nulla.
+\end{quote}
+
+You can create subfigures (and similarly subtables.)
+
+\begin{figure}[hbt!]
+\begin{minipage}{0.48\textwidth}
+  \centering
+  \includegraphics[width=4cm]{school}
+  \subcaption{This is a subfigure}
+\end{minipage}
+%
+\hfill
+%
+\begin{minipage}{0.48\textwidth}
+  \centering
+  \includegraphics[width=4cm]{school}
+  \subcaption{This is another subfigure}
+\end{minipage}
+
+\caption[Second figure (caption without citation)]{Second figure.  If you have a citation in the caption, you might want to provide an optional caption that doesn't contain the citation so that it won't appear in the List of Tables or Captions. \cite{audibert:2004}}
+\end{figure}
+
+
+
+\begin{table}[hbt!]
+\caption{A trivial subtable example}
+
+\begin{minipage}{.49\textwidth}
+\centering
+\subcaption{One Subtable}
+
+\begin{tabular}{l l}
+  \hline
+  One & Two \\
+  \hline
+  Three & Four\\
+  Five & Six\\
+  \hline
+\end{tabular}
+\end{minipage}
+%
+\hfill
+%
+\begin{minipage}{0.49\textwidth}
+\centering
+\subcaption{Two Subtables}
+
+\begin{tabular}{l l}
+  \hline
+  $\alpha$ & $\beta$ \\
+  \hline
+  $\gamma$ & $\delta$\\
+  $\epsilon$ & $\zeta$\\
+  \hline
+\end{tabular}
+\end{minipage}
+
+\end{table}
+
+\subsection{Suggestions about Tables}
+
+\LaTeX{} tables can be notoriously\ldots \emph{interesting} to do. But whatever you do, \textbf{please don't nest tabulars} i.e.~put tabulars within tabulars. They are hard to read and debug, and prone to errors.
+
+\url{http://www.tablesgenerator.com} is a handy tool, where you can design your tables and then export the \LaTeX{} code. You can even paste in some data you copied from Excel via the `File > Paste table data' function.
+
+For tables/columns that are too wide to fit nicely on the page, see this blog post for some suggestions:
+\url{http://tex.my/how-to-deal-with-wide-tables/}
+
+For tables that are too long and must be broken up into multiple pages, use the \texttt{longtable} or \texttt{supertabular} packages: these have mechanisms for automatically breaking the tables, and repeating the table header/footer rows on each page. Click \href{https://www.overleaf.com/latex/examples/a-longtable-example/xxwzfxkxxjmc}{here} for a \texttt{longtable} example, which is reproduced in Table~\ref{tab:longtable:example}. Table~\ref{tab:supertabular:example} shows a \texttt{supertabular} example.
+
+\subsection{Suggestion about Itemize and Enumerate Lists}
+
+\texttt{umalayathesis} v1.3 loads the \texttt{enumitem} package, which provides some mechanisms for customising lists.
+
+If the space above the \texttt{itemize} and \texttt{enumerate} lists are too big for your liking:
+%
+\begin{itemize}
+  \item This is the first point and
+  \item This is the second point
+\end{itemize}
+
+You can use the \texttt{nosep} option:
+
+\begin{itemize}[nosep]
+  \item This is the first point and
+  \item This is the second point
+\end{itemize}
+
+To use a different bullet:
+
+\begin{itemize}[label=$\star$]
+  \item This is the first point and
+  \item This is the second point
+\end{itemize}
+
+And even different numbering scheme:
+
+\begin{enumerate}[label=(\roman*)]
+  \item This is the first point and
+  \item This is the second point
+\end{enumerate}
+
+Other possible commands for changing the counter format are:
+
+\begin{itemize}
+\item \verb|\arabic|: 1, 2, 3, \ldots
+\item \verb|\roman|: i, ii, iii, \ldots
+\item \verb|\Roman|: I, II, III, \ldots
+\item \verb|\alph|: a, b, c, \ldots
+\item \verb|\Alph|: A, B, C, \ldots
+\end{itemize}
+
+\section{Citations}
+
+\texttt{umalayathesis} uses the \texttt{apacite} package and bibliography style. Use \verb|\cite| for parenthetical citaions, such as this one \cite{audibert:2004}. \cite{budanitsky:hirst:2006}. To get text citations, use the \verb|\citeA| command and you'll get \cite{audibert:2004}.
+
+\subsection{\textcolor{red}{$\star\star$} A Note about the APA Citation Format \textcolor{red}{$\star\star$}}
+
+\texttt{umalayathesis} uses the \texttt{apacite} package and bibliography style, which fully implements the APA6 guidelines. The APA6 guidelines can be rather complex with lots of subtleties, so some questions about this style comes up every once in a while. Therefore this is important: \textbf{Please read this blog post first. \emph{Now.}}
+
+\url{http://tex.my/why-is-latex-doing-all-the-apa-citations-wrong/}
+
+Back? Have you really read it? Not really? Please go read it first. \texttt{:-)}
+
+Now this is the first citation of a source with $3 \leq \text{authors} \leq 5$; per APA6 requirements, all authors will be listed. \cite{azarova:etal:2002}. Great! Let's cite it again, and this time per APA6 requirements, only the first author folowed by et al.~will be displayed: \cite{azarova:etal:2002}
+
+So now -- bearing in mind the actual APA guidelines -- if you're absolutely still being forced by your supervisor or Graduate Office staff to \emph{always} abbreviate citations with $3 \leq \text{authors} \leq 5$, always use the \verb|\shortcite| command for such citations while using \texttt{umalayathesis}.
+
+\subsection{Alternative APA Bibliography Style File}
+
+\textcolor{red}{\textbf{Note: Not recommended; only use this if you absolutely have no other choice e.g.~mandatory requirement by your faculty.}}
+
+The \texttt{apacite} package and bibliography style fully implements the APA6 citation and referencing style, including the author expansion of first citations. If you have been forced to disable these arrangements, you can either always remember to use \verb|\shortcite|, or you may want to use an alternative bibliography style, \texttt{newapa}. It's \emph{not} new at all -- it's quite old (only new when it was first created!), doesn't fully implement APA's guidelines (e.g.~it doesn't expand authors in citations at all). But it might make things a bit more convenient for you. You can activate this by using the \texttt{newapa} document class option:
+\begin{verbatim}
+  \documentclass[newapa]{umalayathesis}
+\end{verbatim}
+
+This will also load the \texttt{natbib} package, so you should use \verb|\citep{...}| for parenthetical citations (Smith, 1990); and \verb|\citet{...}| for text citations i.e.~Smith (1990).
+
+\subsection{Using Another Bibliography Style}
+
+If your faculty allows/requires you to use an entirely different bibliography style, use the \texttt{custombib} document class option. You are then responsible for loading any packages (e.g.~\texttt{natbib}) and setting up the necessary \verb|\bibliographystyle|, etc.
+
+For example, if your faculty requires you to use the \texttt{IEEEtran} bibliography style, you can write
+
+\begin{lstlisting}[language={[LaTeX]TeX},emph={\bibliographystyleown},emphstyle=\bfseries]
+  \documentclass[custombib]{umalayathesis}
+  \bibliographystyle{IEEEtran}
+  \bibliographystyleown{IEEEtran}  %% Style for List of Publications
+\end{lstlisting}
+
+
+
+\subsubsection{Symbols and Abbreviations}
+
+If you're just starting to write your thesis, you may want to maintain a list of symbols and acronyms, and process it using the \texttt{makeglossaries} command, so that acronyms are automatically expanded/abbreviated, and listed in the List of Symbols and Abbreviations. See the \texttt{umalayathesis-manual.pdf} for further information.
+Great. Let's talk about \glspl{LI} and \glspl{POS} in \gls{NLP}. I mention again \glspl{LI}. Oh I have a symbol too, it's \gls{theta}. And I talk a lot about \glspl{lexicon}.
+
+Or if you've actually already nearly finished writing your thesis, it's probably much easier to forget about \texttt{glossaries} and the \texttt{myacronyms.tex} file, and just create a List of Symbols and Abbreviations manually yourself with a tabular:
+
+\begin{lstlisting}[language={[LaTeX]TeX},emph={\chapter},emphstyle=\bfseries]
+\chapter{List of Symbols and Abbreviations}
+\begin{tabular}{l @{ : } l}
+UM & University Malaya\\
+KL & Kuala Lumpur\\
+\end{tabular}
+\end{lstlisting}
+
+\paragraph{A Fifth Level Heading}
+This will not be included in the Table of Contents.
+
+Here's an example \texttt{longtable}. Beware: very large long tables can take a loooooong time to compile!
+
+\begin{longtable}[c]{|l|l|l|}
+\caption{A sample \texttt{longtable}.} \label{tab:longtable:example} \\
+
+%%% These are the header row on the FIRST page
+\hline \multicolumn{1}{|c|}{\textbf{First column}} & \multicolumn{1}{c|}{\textbf{Second column}} & \multicolumn{1}{c|}{\textbf{Third column}} \\ \hline
+\endfirsthead
+
+% These are the header row for SUBSEQUENT pages
+\multicolumn{3}{c}%
+{{\bfseries \tablename\ \thetable{}, continued}} \\
+\hline \multicolumn{1}{|c|}{\textbf{First column}} & \multicolumn{1}{c|}{\textbf{Second column}} & \multicolumn{1}{c|}{\textbf{Third column}} \\ \hline
+\endhead
+
+% These are the footer row for EACH page EXCEPT LAST
+\hline \multicolumn{3}{r}{{Continued on next page}} \\
+\endfoot
+
+% These are the footer for the FINAL page
+\hline
+\endlastfoot
+
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+\end{longtable}
+
+\clearpage
+Here's a \texttt{supertabular} example too.
+
+\begin{center}
+\topcaption{A sample \texttt{supertabular}.} \label{tab:supertabular:example}
+
+%%% These are the header row on the FIRST page
+\tablefirsthead{%
+  \hline \multicolumn{1}{|c|}{\textbf{First column}} & \multicolumn{1}{c|}{\textbf{Second column}} & \multicolumn{1}{c|}{\textbf{Third column}} \\ \hline
+}
+
+% These are the header row for SUBSEQUENT pages
+\tablehead{%
+  \multicolumn{3}{c}%
+  {{\bfseries \tablename\ \thetable{}, continued}} \\
+  \hline \multicolumn{1}{|c|}{\textbf{First column}} & \multicolumn{1}{c|}{\textbf{Second column}} & \multicolumn{1}{c|}{\textbf{Third column}} \\ \hline
+}
+
+% These are the footer row for EACH page EXCEPT LAST
+\tabletail{%
+  \hline \multicolumn{3}{r}{{Continued on next page}} \\
+}
+
+% These are the footer for the FINAL page
+\tablelasttail{\hline}
+
+\begin{supertabular}[c]{|l|l|l|}
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+One & abcdef ghjijklmn & 123.456778 \\
+\end{supertabular}
+\end{center}
+
+% \texttt{umalayathesis} is English by default. If you need to writeyour thesis in Malay, start with \verb|\documentclass[bahasam]{umalayathesis}| instead. This is currently experimental: You may need to customise some other things on your own; e.g.~checking through if \texttt{apacite} is fully localised to Malay. If you'd like to contribute your translations, take a look at section 6.2 of the \href{http://texdoc.net/pkg/apacite}{apacite documentation}.

@@ -74,6 +74,9 @@
 %     - \subsubsection heading is now upright and bold.
 %     - Re-ordered elements in thesis.tex to match the updated guide.
 %     - (Sept 11 2016, small update) Declaration page gets numbered.
+%
+% v1.3  September 2017
+%     - Updated to follow the 2017 IPS Thesis Guidelines at https://www.um.edu.my/docs/librariesprovider80/students-current-students-thesis/10-8-2017---guidelines-for-preparation-of-research-project-dissertation-and-thesis-2017.pdf?sfvrsn=2 and http://um-staging.cloudapp.net:8034/docs/librariesprovider80/students-current-students-thesis/5-ips-160416-v4--thesis-or-dissertation-template.dotx?sfvrsn=2
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{umalayathesis}
@@ -83,13 +86,33 @@
 \WarningFilter{babel}{No hyphenation patterns}
 \WarningFilter{glossaries}{Overriding}
 \WarningFilter{glossaries}{No language module}
+\WarningFilter{hyperref}{Token not allowed}
 
+\newif\if@englishthesis\@englishthesisfalse
+\DeclareOption{english}{\@englishthesistrue}
+\DeclareOption{malay}{\@englishthesisfalse}
+\DeclareOption{bahasam}{\@englishthesisfalse}
 
+\newif\if@apacitethesis\@apacitethesisfalse
+\newif\if@newapathesis\@newapathesisfalse
+\DeclareOption{apacite}{\@apacitethesistrue\@newapathesisfalse}
+\DeclareOption{newapa}{\@apacitethesisfalse\@newapathesistrue}
+\DeclareOption{custombib}{\@apacitethesisfalse\@newapathesisfalse}
+
+\ExecuteOptions{english,apacite}
+\ProcessOptions\relax
+
+\p@=1bp
 \LoadClass[12pt,a4paper,oneside]{memoir}
 \RequirePackage{etoolbox}
 \RequirePackage{calc}
-\RequirePackage{paralist}
-\RequirePackage[bahasam,english]{babel}
+\RequirePackage{enumitem}
+\RequirePackage{quoting}
+\if@englishthesis
+  \RequirePackage[bahasam,main=english]{babel}
+\else
+  \RequirePackage[main=bahasam,english]{babel}
+\fi
 
 \def\theauthor{\textbf{!INSERT AUTHOR!}}
 \def\thetitle{\textbf{!INSERT TITLE!}}
@@ -106,6 +129,7 @@
 \def\masterresearch{3}
 \def\doctoralresearch{4}
 \def\doctoralmixedmode{5}
+\def\doctoralcoursework{6}
 
 
 %%%%%%%%%%%%
@@ -131,15 +155,14 @@
 % Simulate MS Windows fonts
 % Invoking Helvetica and Times
 % NOT Courier because, well, I hate it.
-%
-% TODO: TeX Gyre fonts + Math Times Pro with "altfonts" option
 %%%%%%%%%%%%
 \RequirePackage[T1]{fontenc}
 \RequirePackage[scaled]{helvet}
 \RequirePackage{newtxtext,newtxmath}
 %\RequirePackage{mathptmx}
 %\RequirePackage{courier}
-\renewcommand\ttdefault{lmvtt}
+% \renewcommand\ttdefault{lmvtt}
+\RequirePackage{inconsolata}
 
 \RequirePackage[breaklinks,pdfborder={0 0 0},bookmarksdepth=3]{hyperref}
 
@@ -152,16 +175,19 @@
 \RequirePackage{setspace}
 \setstretch{2.0}
 %\abnormalparskip{.5\onelineskip}
-\setlength\parindent{2em}
+\setlength\parindent{0.5cm}
 
 %%%%%%%%%%%%
 % Footnotes
 % - Font size = 8pt = \tiny for 12pt body font in memoir
 % - Double spacing between footnotes
+% - v1.3 Flush left
 %%%%%%%%%%%%
 \renewcommand{\foottextfont}{\tiny}
 \setlength\footnotesep{\onelineskip}
-
+\setlength\footmarkwidth{0pt}
+\setlength{\footmarksep}{0pt}
+\footmarkstyle{\makebox[1em][l]{\textsuperscript{#1}}}
 
 %%%%%%%%%%%%
 % 10pt = \footnotesize for backmatter
@@ -177,11 +203,12 @@
   \let\thesis@type=#1
   \ignorespaces
   \changepage{-60mm+1.25ex}{-20mm}{20mm}{0pt}{0pt}{30mm}{0pt}{0pt}{0pt}
+  \hypersetup{pageanchor=false}
   \begin{titlingpage}%
     \setSingleSpace{1.15}\SingleSpacing%
     \centering%
-    \renewcommand\ttdefault{lmtt}%
-    \fontfamily{phv}\fontseries{mc}\fontsize{16pt}{18pt}\selectfont%
+    % \renewcommand\ttdefault{lmtt}%
+    \fontfamily{qhvc}\fontseries{b}\fontsize{16\p@}{18\p@}\selectfont%
     \MakeUppercase{\thetitle}\par%
     \vfill%
     \MakeUppercase{\theauthor}\par%
@@ -192,10 +219,11 @@
     \bigskip%
     \@mtsubmissionyear\par%
   \end{titlingpage}%
+  \hypersetup{pageanchor=true}
   { \setSingleSpace{1.15}\SingleSpacing%
     \centering\thispagestyle{empty}\setcounter{page}{1}%
-    \fontsize{16pt}{18pt}\selectfont%
-    \renewcommand\ttdefault{lmtt}%
+    \fontsize{14\p@}{16\p@}\selectfont\bfseries%
+    % \renewcommand\ttdefault{lmtt}%
     \MakeUppercase{\thetitle}\par%
     \vfill%
     {\MakeUppercase{\theauthor}\par}%
@@ -211,17 +239,19 @@
         \statement@doctoralresearch
       \or % 5 -- doctoralmixedmode
         \statement@doctoralmixedmode
-    \fi
+      \or % 6 -- doctoralcoursework
+        \statement@doctoralcoursework
+    \fi%
     \vfill%
     \@mtsubmissionyear%\\[3em]%
     \par\clearpage%
   }
   \changepage{60mm-1.25ex}{20mm}{-20mm}{0pt}{0pt}{-30mm}{0pt}{0pt}{0pt}
-  \renewcommand\ttdefault{lmvtt}%
+  % \renewcommand\ttdefault{lmvtt}%
 }
 
 \newcommand\statement@mastercoursework{%
-  SUBMITTED TO THE\\\MakeUppercase{\@mtfaculty}\\
+  RESEARCH PROJECT SUBMITTED TO THE\\\MakeUppercase{\@mtfaculty}\\%
   UNIVERSITY OF MALAYA, IN PARTIAL FULFILMENT OF THE REQUIREMENTS FOR THE DEGREE OF \MakeUppercase{\@mtdegree}%
 }
 
@@ -245,6 +275,11 @@
   \vfill\faculty@block%
 }
 
+\newcommand\statement@doctoralcoursework{%
+  DISSERTATION SUBMITTED IN PARTIAL FULFILMENT OF THE REQUIREMENTS FOR THE DEGREE OF \MakeUppercase{\@mtdegree}%
+  \vfill\faculty@block%
+}
+
 \newcommand\faculty@block{%
   \MakeUppercase{\@mtfaculty}\\
   UNIVERSITY OF MALAYA\\
@@ -256,7 +291,16 @@
 %%%%%%%%%%%%
 \newcommand{\declarationpage}{%
   % 1 Oct: declaration page no longer included in ToC
-  \chapter*{{\large Universiti Malaya}\vskip1em Original Literary Work Declaration}
+  % v1.3: Alternates between English/Malay
+  \if@englishthesis
+    \english@declaration@page
+  \else
+    \malay@declaration@page
+  \fi
+}
+
+\newcommand{\english@declaration@page}{%
+  \chapter*{Universiti Malaya\vskip1em Original Literary Work Declaration}
   %\chapter[Original Literary Work Declaration]{{\large Universiti Malaya}\vskip1em Original Literary Work Declaration}
   {%\large%
     \noindent Name of Candidate: \hfill (I.C./Passport No.:\hspace{10em})\par
@@ -268,30 +312,30 @@
     {\SingleSpacing\setSingleSpace{1.15}
     I do solemnly and sincerely declare that:
 
-    \setlength\pltopsep{1em}
-    \begin{compactenum}[(1)]
+    % \setlength\pltopsep{1em}
+    \begin{enumerate}[noitemsep,label=(\arabic*)]
     \item I am the sole author/writer of this Work;
     \item This work is original;
     \item Any use of any work in which copyright exists was done by way of fair dealing and for permitted purposes and any excerpt or extract from, or reference to or reproduction of any copyright work has been disclosed expressly and sufficiently and the title of the Work and its authorship have been acknowledged in this Work;
-    \item I do not have any actual knowledge nor do I ought reasonably to know that the making of this work constitutes an infringement of any copyright work; 
-    \item I hereby assign all and every rights in the copyright to this Work to the University of 
-    Malaya (``UM''), who henceforth shall be owner of the copyright in this Work and that any 
-    reproduction or use in any form or by any means whatsoever is prohibited without the 
-    written consent of UM having been first had and obtained; 
-    \item I am fully aware that if in the course of making this Work I have infringed any copyright 
-    whether intentionally or otherwise, I may be subject to legal action or any other action 
-    as may be determined by UM. 
-    \end{compactenum}
+    \item I do not have any actual knowledge nor do I ought reasonably to know that the making of this work constitutes an infringement of any copyright work;
+    \item I hereby assign all and every rights in the copyright to this Work to the University of
+    Malaya (``UM''), who henceforth shall be owner of the copyright in this Work and that any
+    reproduction or use in any form or by any means whatsoever is prohibited without the
+    written consent of UM having been first had and obtained;
+    \item I am fully aware that if in the course of making this Work I have infringed any copyright
+    whether intentionally or otherwise, I may be subject to legal action or any other action
+    as may be determined by UM.
+    \end{enumerate}
     }
 
     \vfill
 
-    Candidate's Signature \hfill Date \hspace{6em}
+    Candidate's Signature \hfill Date:\hspace{6em}
     \vskip 3em
 
     \noindent Subscribed and solemnly declared before,\vskip 3em
 
-    Witness's Signature \hfill Date \hspace{6em}
+    Witness's Signature \hfill Date:\hspace{6em}
 
     {\SingleSpacing\small
     \noindent Name:\par
@@ -299,10 +343,53 @@
   }
 \clearpage}
 
+
+\newcommand{\malay@declaration@page}{%
+  \chapter*{Universiti Malaya\vskip1em Perakuan Keaslian Penulisan}
+  %\chapter[Original Literary Work Declaration]{{\large Universiti Malaya}\vskip1em Original Literary Work Declaration}
+  {%\large%
+    \otherlanguage{bahasam}
+    \noindent Nama: \hfill (No.~K.P./Pasport:\hspace{10em})\par
+    \noindent No.~Matrik:\par
+    \noindent Nama Ijazah:\par
+    \noindent Tajuk Kertas Projek/Laporan Penyelidikan/Disertasi/Tesis (``Hasil Kerja ini''):\vskip 1em\par
+    \noindent Bidang Penyelidikan:\par
+
+    {\SingleSpacing\setSingleSpace{1.15}
+    Saya dengan sesungguhnya dan sebenarnya mengaku bahawa:
+
+    % \setlength\pltopsep{1em}
+    \begin{enumerate}[noitemsep,label=(\arabic*),leftmargin=3em]
+    \item Saya adalah satu-satunya pengarang/penulis Hasil Kerja ini;
+    \item Hasil Kerja ini adalah asli;
+    \item Apa-apa penggunaan mana-mana hasil kerja yang mengandungi hakcipta telah dilakukan secara urusan yang wajar dan bagi maksud yang dibenarkan dan apa-apa petikan, ekstrak, rujukan atau pengeluaran semula daripada atau kepada mana-mana hasil kerja yang mengandungi hakcipta telah dinyatakan dengan sejelasnya dan secukupnya dan satu pengiktirafan tajuk hasil kerja tersebut dan pengarang/penulisnya telah dilakukan di dalam Hasil Kerja ini;
+    \item Saya tidak mempunyai apa-apa pengetahuan sebenar atau patut semunasabahnya tahu bahawa penghasilan Hasil Kerja ini melanggar suatu hakcipta hasil kerja yang lain;
+    \item Saya dengan ini menyerahkan kesemua dan tiap-tiap hak yang terkandung di dalam hakcipta Hasil Kerja ini kepada Universiti Malaya (``UM'') yang seterusnya mula dari sekarang adalah tuan punya kepada hakcipta di dalam Hasil Kerja ini dan apa-apa pengeluaran semula atau penggunaan dalam apa jua bentuk atau dengan apa juga cara sekalipun adalah dilarang tanpa terlebih dahulu mendapat kebenaran bertulis dari UM;
+    \item Saya dengan ini menyerahkan kesemua dan tiap-tiap hak yang terkandung di dalam hakcipta Hasil Kerja ini kepada Universiti Malaya (``UM'') yang seterusnya mula dari sekarang adalah tuan punya kepada hakcipta di dalam Hasil Kerja ini dan apa-apa pengeluaran semula atau penggunaan dalam apa jua bentuk atau dengan apa juga cara sekalipun adalah dilarang tanpa terlebih dahulu mendapat kebenaran bertulis dari UM.
+    \end{enumerate}
+    }
+
+    Tandatangan Calon \hfill Tarikh:\hspace{6em}
+
+    \noindent Diperbuat dan sesungguhnya diakui di hadapan,
+
+    Tandatangan Saksi \hfill Tarikh:\hspace{6em}
+
+    {\SingleSpacing\small
+    \noindent Nama:\par
+    \noindent Jawatan:\par}
+  }
+\clearpage}
+
 %%%%%%%%%%%%
 % The Acknowledgements (typeset like chapter?)
 %%%%%%%%%%%%
-\newcommand{\acknowledgements}[1]{\chapter{Acknowledgements}#1}
+\if@englishthesis
+  \newcommand{\acknowlname}{Acknowledgements}
+\else
+  \newcommand{\acknowlname}{Pengakuan}
+\fi
+\newcommand{\acknowledgements}[1]{\chapter{\acknowlname}#1}
 
 %%%%%%%%%%%%
 % The dedication (??? formatting???)
@@ -328,16 +415,24 @@
 \setlength\absrightindent{0pt}
 \newcommand{\abstractfromfile}[1]{
   \clearpage%
-  \renewcommand*\abstractname{ABSTRACT}
+  \if@englishthesis
+    \renewcommand*\abstractname{\MakeUppercase{\thetitle}\par ABSTRACT}
+  \else
+    \renewcommand*\abstractname{ABSTRACT}
+  \fi
   \phantomsection\addcontentsline{toc}{chapter}{Abstract}
-  \begin{abstract}\input{#1}\end{abstract}
+  \begin{abstract}\setlength{\parindent}{0pt}\noindent\input{#1}\end{abstract}
 }
 %% October 01, 2015: no longer need to capitalise in ToC
 \newcommand{\msabstractfromfile}[1]{%
   \clearpage%
-  \renewcommand*\abstractname{ABSTRAK}
+  \if@englishthesis
+    \renewcommand*\abstractname{ABSTRAK}
+  \else
+    \renewcommand*\abstractname{\MakeUppercase{\thetitle}\par ABSTRAK}
+  \fi
   \phantomsection\addcontentsline{toc}{chapter}{Abstrak}
-  \begin{abstract}\otherlanguage{bahasam}\input{#1}\end{abstract}
+  \begin{abstract}\otherlanguage{bahasam}\setlength{\parindent}{0pt}\noindent\input{#1}\end{abstract}
 }
 
 %%%%%%%%%%%%
@@ -366,10 +461,18 @@
 %%%%%%%%%%%%
 % The Appendices
 %%%%%%%%%%%%
-\renewcommand*\appendixname{Appendix}
 %% October 01, 2015: no need to capitalise front and back matter chapter titles
-\renewcommand\appendixtocname{Appendices}
-\newlistof{listofappendices}{apx}{List of Appendices}
+% \renewcommand\appendixtocname{Appendices}
+\if@englishthesis
+  % \renewcommand*\appendixname{Appendix}
+  % \renewcommand\appendixtocname{Appendices}
+  \newcommand{\listappname}{List of Appendices}
+\else
+  % \renewcommand*\appendixname{Apendiks}
+  % \renewcommand\appendixtocname{Apendiks}
+  \newcommand{\listappname}{Senarai Lampiran}
+\fi
+\newlistof{listofappendices}{apx}{\listappname}
 \addtodef\appendix{}{\renewcommand\chaptername{\appendixname}}
 \def\app@chapter[#1]#2{%
   \m@mpn@new@chaptrue%
@@ -429,21 +532,21 @@
   \fi
   \ifheadnameref\M@gettitle{\f@rhdr}\else\M@gettitle{\f@rtoc}\fi}
 
-\newcommand*{\startapps}{% 
+\newcommand*{\startapps}{%
   \cftinserthook{toc}{PlainChapTocLines}
   \cftinserthook{apx}{AppendixToCLines}
   \clearpage\appendix%\appendixpage%
-  \phantomsection\addcontentsline{toc}{chapter}{Appendices}
-  \let\@chapter\app@chapter % use \app@chapter instead of \@chapter 
+  \phantomsection\addcontentsline{toc}{chapter}{\appendixtocname}
+  \let\@chapter\app@chapter % use \app@chapter instead of \@chapter
   \renewcommand\mychap[1]{\orichapter{##1}}
-  \settocdepth{chapter}% stop sections being in the ToC 
+  \settocdepth{chapter}% stop sections being in the ToC
   \renewcommand{\insertchapterspace}{\oldinsertchapterspace}
-} 
-\newcommand*{\finishapps}{% 
+}
+\newcommand*{\finishapps}{%
 %% October 01, 2015: no need to capitalise back matter chapter titles
 %  \renewcommand\mychap[1]{\orichapter[\texorpdfstring{\MakeUppercase{##1}}{##1}]{##1}}
-  \settocdepth{section}% sections back in ToC 
-} 
+  \settocdepth{subsubsection}% sections back in ToC
+}
 \cftinsertcode{AppendixToCLines}{%
   \renewcommand*\cftchapteraftersnum{:\space}%
   \setlength\cftchapternumwidth{2em}%
@@ -454,22 +557,47 @@
 %%%%%%%%%%%%
 % Sectional headings
 %%%%%%%%%%%%
-\setsecnumdepth{subsubsection}
-\setsecheadstyle{\SingleSpacing\normalsize\bfseries}
-\setbeforesecskip{-2.5ex plus 1ex minus .2ex}
-\setaftersecskip{0.1ex plus .2ex}
-\setsubsecheadstyle{\SingleSpacing\normalsize\bfseries}
-\setbeforesubsecskip{-2.5ex plus 1ex minus .2ex}
-\setaftersubsecskip{0.1ex plus .2ex}
-\setsubsubsecheadstyle{\SingleSpacing\normalsize\bfseries}
-\setbeforesubsubsecskip{-2.5ex plus .2ex minus .2ex}
-\setaftersubsubsecskip{0.1ex plus .2ex}
+% v1.3: indents first line of paragraph immediately after headings
+\RequirePackage{titlesec}
+\indentafterchapter
+\setsecnumdepth{paragraph}
+\renewcommand{\theparagraph}{(\alph{paragraph})}
+\titleformat{\section}[hang]{\SingleSpacing\normalsize\bfseries}
+    {\makebox[4em][l]{\thesection}}{0pt}{}
+\titlespacing{\section}{0pt}{2.5ex plus 1ex minus .2ex}{0.1ex plus .2ex}
+\titleformat{\subsection}[hang]{\SingleSpacing\normalsize\bfseries}
+    {\makebox[4em][l]{\thesubsection}}{0pt}{}
+\titlespacing{\subsection}{0pt}{2.5ex plus 1ex minus .2ex}{0.1ex plus .2ex}
+\titleformat{\subsubsection}[hang]{\SingleSpacing\normalsize\bfseries}
+    {\makebox[4em][l]{\thesubsubsection}}{0pt}{}
+\titlespacing{\subsubsection}{0pt}{2.5ex plus 1ex minus .2ex}{0.1ex plus .2ex}
+\titleformat{\paragraph}[hang]{\SingleSpacing\normalsize\mdseries}
+    {\theparagraph}{1em}{\itshape\bfseries}
+\titlespacing{\paragraph}{0pt}{2.5ex plus 1ex minus .2ex}{0.1ex plus .2ex}
+% \setsecheadstyle{\SingleSpacing\normalsize\bfseries}
+% \setbeforesecskip{2.5ex plus 1ex minus .2ex}
+% \setaftersecskip{0.1ex plus .2ex}
+% \setsubsecheadstyle{\SingleSpacing\normalsize\bfseries}
+% \setbeforesubsecskip{2.5ex plus 1ex minus .2ex}
+% \setaftersubsecskip{0.1ex plus .2ex}
+% \setsubsubsecheadstyle{\SingleSpacing\normalsize\bfseries}
+% \setbeforesubsubsecskip{2.5ex plus .2ex minus .2ex}
+% \setaftersubsubsecskip{0.1ex plus .2ex}
+% \setbeforeparaskip{2.5ex plus .2ex minus .2ex}
+% \setafterparaskip{0.1ex plus .2ex}
 
+%%%%%%%%%%%
+% Enable Subfloats
+%%%%%%%%%%%
+\newsubfloat{figure}
+\newsubfloat{table}
+\setcounter{lofdepth}{2}
+\setcounter{lotdepth}{2}
 
 %%%%%%%%%%%
 % ToC etc
 %%%%%%%%%%%
-\settocdepth{subsection}
+\settocdepth{subsubsection}
 %% October 01, 2015: we want dot leaders now!
 % \renewcommand\cftdotsep{\cftnodots}
 \renewcommand\cftdotsep{0}
@@ -495,6 +623,10 @@
 \setlength\cftsubsectionindent{\cftsectionnumwidth}
 \setlength\cftbeforesectionskip{1em}
 \setlength\cftbeforesubsectionskip{1em}
+% v1.3 (Sep 2017): subsubsections in ToC
+\setlength\cftsubsubsectionindent{\cftsubsectionnumwidth}
+\addtolength{\cftsubsubsectionindent}{\cftsubsectionindent}
+\setlength\cftbeforesubsubsectionskip{1em}
 
 % October 01, 2015: need a : after the number; no more extra space
 \renewcommand*\cftfigurename{\figurename\space}
@@ -504,7 +636,18 @@
 %\renewcommand*\cftfigureafterpnum{\vskip 3pt}
 %\renewcommand*\cfttableafterpnum{\vskip 3pt}
 \setlength\cftbeforefigureskip{1em}
+\setlength\cftbeforesubfigureskip{1em}
+\renewcommand*\cftsubfigureaftersnum{\space}
+\newlength{\tmplength}
+\settowidth{\tmplength}{\normalfont\cftfigurename}
+\addtolength{\tmplength}{\cftfigurenumwidth}
+\cftsetindents{subfigure}{\tmplength}{1.5em}
 \setlength\cftbeforetableskip{1em}
+\setlength\cftbeforesubtableskip{1em}
+\renewcommand*\cftsubtableaftersnum{\space}
+\settowidth{\tmplength}{\normalfont\cfttablename}
+\addtolength{\tmplength}{\cfttablenumwidth}
+\cftsetindents{subtable}{\tmplength}{1.5em}
 
 \let\oldinsertchapterspace\insertchapterspace
 \cftinsertcode{MainChapTocLines}{%
@@ -532,28 +675,74 @@
 %\RequirePackage{makeidx}
 %\makeindex
 
+%%%%%%%%%%%
+% Quotes
+%%%%%%%%%%%
+\quotingsetup{leftmargin=0.5in,indentfirst=false}
+\let\quote\quoting
+\let\endquote\endquoting
+\let\quotation\quoting
+\let\endquotation\endquotation
+
+%%%%%%%%%%%
+% List Indent
+%%%%%%%%%%%
+\setlist{noitemsep}
+\setlist[1]{labelindent=1cm,leftmargin=*,labelwidth=*}
+
 %%%%%%%%%%%%
 % Bibliograpy
 % - Font size = 10pt = \footnotesize
 % - Double spacing between entries
 %%%%%%%%%%%%
-\RequirePackage[nosectionbib]{apacite}
-\newcounter{lbibcount}
-\bibliographystyle{apacite}
-%\renewcommand\bibliographytypesize{\footnotesize}
-\setlength\bibitemsep{2\onelineskip}
-% May 16, 2016: explicitly set to 0.5in hang
-\setlength\bibleftmargin{0.5in}
-\setlength\bibindent{-0.5in}
+% v1.3: Refactor this to make it easier to switch bibliography styles
+\if@apacitethesis
+  \RequirePackage[nosectionbib]{apacite}
+  \bibliographystyle{apacite}
+  %\renewcommand\bibliographytypesize{\footnotesize}
+  \setlength\bibitemsep{2\onelineskip}
+  % May 16, 2016: explicitly set to 0.5in hang
+  \setlength\bibleftmargin{0.5in}
+  \setlength\bibindent{-0.5in}
+\fi
 
-\patchcommand{\bibitem}{\SingleSpacing}{}
-%% October 01, 2015: Don't capitalise backmatter chapter titles
-\AtBeginDocument{\renewcommand*\bibname{References}}
+\if@newapathesis
+  \RequirePackage{natbib}
+  \bibliographystyle{newapa}
+\fi
+
+\AtBeginDocument{%
+  \@ifpackageloaded{natbib}{%
+    \setlength\bibsep{2\onelineskip}
+    \setlength\bibhang{0.5in}
+  }{}
+  \pretocmd{\bibliography}{%
+  \addtocontents{toc}{%
+    \protect\renewcommand*\protect\cftchapterfont{\normalfont\mdseries\upshape}%
+    \protect\renewcommand*\protect\cftchapterpagefont{\normalfont\mdseries\upshape}%
+    }%
+  }{}{}
+  %% October 01, 2015: Don't capitalise backmatter chapter titles
+  \renewcommand*\bibname{References}
+}
+
+\patchcommand{\bibitem}{\SingleSpacing}{}{}
+
 
 %% October 01: Added list of own publications
-\RequirePackage{multibib}
-\newcites{own}{List of Publications and Papers Presented}
-\bibliographystyleown{apacite}
+\RequirePackage[resetlabels]{multibib}
+\if@englishthesis
+  \newcommand{\listpubname}{List of Publications and Papers Presented}
+\else
+  \newcommand{\listpubname}{Senarai Terbitan dan Kertas Kerja Dibentang}
+\fi
+\newcites{own}{\listpubname}
+\if@apacitethesis
+  \bibliographystyleown{apacite}
+\fi
+\if@newapathesis
+  \bibliographystyleown{newapa}
+\fi
 %\addtoiargdef{\bibliographyown}{}{\renewcommand*\refname{List of Publications and Papers Presented}}
 
 \RequirePackage{relsize}
@@ -578,12 +767,21 @@
   \renewcommand*\contentsname{Table of Contents}
   \renewcommand*\listtablename{List of Tables}
   \renewcommand*\listfigurename{List of Figures}
+  \renewcommand*\appendixname{Appendix}
+  \renewcommand\appendixtocname{Appendices}
   \renewcommand*\indexname{Index}
   %% September 08, 2015: Changed \glossaryname to \acronymname
   %% October 01, 2015: "Abbreviations" instead
   \renewcommand*\acronymname{List of Symbols and Abbreviations}
 }
 
+% v1.3
+\addto\captionsbahasam{%
+  \renewcommand*\acronymname{Senarai Simbol dan Ringkasan}
+  \renewcommand*\appendixname{Lampiran}
+  \renewcommand\appendixtocname{Lampiran}
+}
+
 %% April 30, 2016: Bold captions
-\captionnamefont{\bfseries}
-\captiontitlefont{\bfseries}
+\captionnamefont{\bfseries\normalsize}
+\captiontitlefont{\bfseries\normalsize}
