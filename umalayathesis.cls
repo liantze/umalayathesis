@@ -77,6 +77,9 @@
 %
 % v1.3  September 2017
 %     - Updated to follow the 2017 IPS Thesis Guidelines at https://www.um.edu.my/docs/librariesprovider80/students-current-students-thesis/10-8-2017---guidelines-for-preparation-of-research-project-dissertation-and-thesis-2017.pdf?sfvrsn=2 and http://um-staging.cloudapp.net:8034/docs/librariesprovider80/students-current-students-thesis/5-ips-160416-v4--thesis-or-dissertation-template.dotx?sfvrsn=2
+% v1.4  December 29 2017
+%     - Fixed typo matrix -> matric
+%     - In ToC etc all long titles are now double-spaced
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{umalayathesis}
@@ -304,7 +307,7 @@
   %\chapter[Original Literary Work Declaration]{{\large Universiti Malaya}\vskip1em Original Literary Work Declaration}
   {%\large%
     \noindent Name of Candidate: \hfill (I.C./Passport No.:\hspace{10em})\par
-    \noindent Registration/Matrix No.:\par
+    \noindent Registration/Matric No.:\par
     \noindent Name of Degree:\par
     \noindent Title of Project Paper/Research Report/Dissertation/Thesis (``this Work''):\vskip 3em\par
     \noindent Field of Study:\par
@@ -620,13 +623,14 @@
 {#2}}
 \newcommand\mystarchap[1]{\orichapter*{#1}}
 %\renewcommand*\cftsectionafterpnum{\vskip 3pt}
+\setlength{\cftbeforechapterskip}{0pt}
 \setlength\cftsubsectionindent{\cftsectionnumwidth}
-\setlength\cftbeforesectionskip{1em}
-\setlength\cftbeforesubsectionskip{1em}
+\setlength\cftbeforesectionskip{0pt}
+\setlength\cftbeforesubsectionskip{0pt}
 % v1.3 (Sep 2017): subsubsections in ToC
 \setlength\cftsubsubsectionindent{\cftsubsectionnumwidth}
 \addtolength{\cftsubsubsectionindent}{\cftsubsectionindent}
-\setlength\cftbeforesubsubsectionskip{1em}
+\setlength\cftbeforesubsubsectionskip{0pt}
 
 % October 01, 2015: need a : after the number; no more extra space
 \renewcommand*\cftfigurename{\figurename\space}
@@ -635,15 +639,15 @@
 \renewcommand*\cfttableaftersnum{:\space}
 %\renewcommand*\cftfigureafterpnum{\vskip 3pt}
 %\renewcommand*\cfttableafterpnum{\vskip 3pt}
-\setlength\cftbeforefigureskip{1em}
-\setlength\cftbeforesubfigureskip{1em}
+\setlength\cftbeforefigureskip{0pt}
+\setlength\cftbeforesubfigureskip{0pt}
 \renewcommand*\cftsubfigureaftersnum{\space}
 \newlength{\tmplength}
 \settowidth{\tmplength}{\normalfont\cftfigurename}
 \addtolength{\tmplength}{\cftfigurenumwidth}
 \cftsetindents{subfigure}{\tmplength}{1.5em}
-\setlength\cftbeforetableskip{1em}
-\setlength\cftbeforesubtableskip{1em}
+\setlength\cftbeforetableskip{0pt}
+\setlength\cftbeforesubtableskip{0pt}
 \renewcommand*\cftsubtableaftersnum{\space}
 \settowidth{\tmplength}{\normalfont\cfttablename}
 \addtolength{\tmplength}{\cfttablenumwidth}

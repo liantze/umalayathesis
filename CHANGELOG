@@ -1,6 +1,11 @@
 BRIEF CHANGELOG
 ===============
 
+v1.4 December 29 2017
+    - Finally fixed matrix/matric typo (spotted by Hayyan Daoud)
+    - ToC etc are now fully double-spaced for long titles (spotted
+      by Muhammad Solleh Asmadi)
+
 v1.3 September 9 2017
     Updated for 2017 Thesis Guidelines. http://bit.ly/2xaYpzN
 
