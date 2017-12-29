@@ -1,5 +1,5 @@
 %%
-%% umalayathesis.cls 2016/09/08 version V1.2
+%% umalayathesis.cls 2017/12/27 version V1.4
 %%
 %% This is the unofficial UM thesis LaTeX class for postgraduate research
 %% students of Universiti Malaya, Malaysia, formatted according to the
