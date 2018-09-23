@@ -102,8 +102,7 @@
 \DeclareOption{malay}{\@englishthesisfalse}
 \DeclareOption{bahasam}{\@englishthesisfalse}
 
-% Sept 18, 2018 : Yousoff : Fac science will use apacite
-\newif\if@apacitethesis\@apacitethesistrue
+\newif\if@apacitethesis\@apacitethesisfalse
 \newif\if@newapathesis\@newapathesisfalse
 \DeclareOption{apacite}{\@apacitethesistrue\@newapathesisfalse}
 \DeclareOption{newapa}{\@apacitethesisfalse\@newapathesistrue}
