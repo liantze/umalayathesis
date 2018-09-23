@@ -80,6 +80,12 @@
 % v1.4  December 29 2017
 %     - Fixed typo matrix -> matric
 %     - In ToC etc all long titles are now double-spaced
+% v1.4.1 - September 32 2018
+%    - Fixed department name for front page
+%    - Fixed bahasa melayu title for abstract
+%    - Lowered down page number to approximately 1 cm
+%    - List of symbols/abbr to be 4cm left margin
+%    - List of figure/table to be justified
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{umalayathesis}
@@ -96,7 +102,8 @@
 \DeclareOption{malay}{\@englishthesisfalse}
 \DeclareOption{bahasam}{\@englishthesisfalse}
 
-\newif\if@apacitethesis\@apacitethesisfalse
+% Sept 18, 2018 : Yousoff : Fac science will use apacite
+\newif\if@apacitethesis\@apacitethesistrue
 \newif\if@newapathesis\@newapathesisfalse
 \DeclareOption{apacite}{\@apacitethesistrue\@newapathesisfalse}
 \DeclareOption{newapa}{\@apacitethesisfalse\@newapathesistrue}
@@ -117,15 +124,22 @@
   \RequirePackage[main=bahasam,english]{babel}
 \fi
 
+% Sept 18, 2018 : Yousoff - Added mtitle for title in Bahasa Melayu
 \def\theauthor{\textbf{!INSERT AUTHOR!}}
 \def\thetitle{\textbf{!INSERT TITLE!}}
+\def\@mtmtitle{\textbf{!INSERT TITLE!}}
 \def\@mtfaculty{\textbf{!INSERT FACULTY!}}
 \def\@mtsubmissionyear{\textbf{!INSERT YEAR!}}
 \def\@mtdegree{\textbf{!INSERT DEGREE!}}
 
+% Sept 18, 2018 : Yousoff - Faculty require department name
+\def\@mtdepartment{}
+
 \newcommand{\faculty}[1]{\def\@mtfaculty{#1}}
 \newcommand{\submissionyear}[1]{\def\@mtsubmissionyear{#1}}
 \newcommand{\degree}[1]{\def\@mtdegree{#1}}
+\newcommand{\department}[1]{\def\@mtdepartment{#1}}
+\newcommand{\mtitle}[1]{\def\@mtmtitle{#1}}
 
 \def\mastercoursework{1}
 \def\mastermixedmode{2}
@@ -143,12 +157,14 @@
 % Running footers are 10mm from bottom edge of paper
 % i.e. (20 - 10)mm = 10mm from bottom edge of typeblock.
 % Page number at right hand side of page
+
+% Sept 18, 2018 : Yousoff - Lower down page number a bit
 %%%%%%%%%%%%
 \settrimmedsize{297mm}{210mm}{*}
 \setlrmarginsandblock{40mm}{20mm}{*}
 \setulmarginsandblock{20mm}{20mm+1.25ex}{*}
 \setheadfoot{\baselineskip}{10mm}
-\addtolength\footskip{1.25ex}
+\addtolength\footskip{1.50ex}
 \makeoddfoot{plain}{}{}{\footnotesize\thepage}
 \makeevenfoot{plain}{}{}{\footnotesize\thepage}
 \pagestyle{plain}
@@ -284,6 +300,12 @@
 }
 
 \newcommand\faculty@block{%
+  \ifx \@mtdepartment \empty
+
+  \else
+     \MakeUppercase{\@mtdepartment}\\
+  \fi
+ 
   \MakeUppercase{\@mtfaculty}\\
   UNIVERSITY OF MALAYA\\
   KUALA LUMPUR%
@@ -421,18 +443,19 @@
   \if@englishthesis
     \renewcommand*\abstractname{\MakeUppercase{\thetitle}\par ABSTRACT}
   \else
-    \renewcommand*\abstractname{ABSTRACT}
+    \renewcommand*\abstractname{\MakeUppercase{\thetitle}\par ABSTRACT}
   \fi
   \phantomsection\addcontentsline{toc}{chapter}{Abstract}
   \begin{abstract}\setlength{\parindent}{0pt}\noindent\input{#1}\end{abstract}
 }
 %% October 01, 2015: no longer need to capitalise in ToC
+% Sept 18, 2018 : Yousoff - Added title in Bahasa Melayu in abstract
 \newcommand{\msabstractfromfile}[1]{%
   \clearpage%
   \if@englishthesis
-    \renewcommand*\abstractname{ABSTRAK}
+    \renewcommand*\abstractname{\MakeUppercase{\@mtmtitle}\par ABSTRAK}
   \else
-    \renewcommand*\abstractname{\MakeUppercase{\thetitle}\par ABSTRAK}
+    \renewcommand*\abstractname{\MakeUppercase{\@mtmtitle}\par ABSTRAK}
   \fi
   \phantomsection\addcontentsline{toc}{chapter}{Abstrak}
   \begin{abstract}\otherlanguage{bahasam}\setlength{\parindent}{0pt}\noindent\input{#1}\end{abstract}
@@ -608,7 +631,10 @@
 \renewcommand{\cftfigureleader}{\cftdotfill{\cftdotsep}}
 \renewcommand{\cfttableleader}{\cftdotfill{\cftdotsep}}
 % \renewcommand{\cftapxleader}{\cftdotfill{\cftdotsep}}
-\setrmarg{3.55em plus 1fil}
+
+% Sept 18, 2018 : Yousoff - Faculty want ToC to be justified ~ roughly 7mm from the right
+\setrmarg{7mm}
+%\setrmarg{3.55em plus 1fil}
 \renewcommand*{\cftchaptername}{\MakeUppercase{\chaptername}\space}
 \renewcommand*{\cftchapteraftersnum}{:\space}
 %\renewcommand*{\cftchapterafterpnum}{\vspace*{4pt}}
@@ -751,14 +777,20 @@
 
 \RequirePackage{relsize}
 %% Sept 08, 2015: added "acronym" option
+% Sept 18, 2018 : Yousoff - Acronym to be single space
+% and roughly 4cm for left margin
 \RequirePackage[toc,nonumberlist,shortcuts,translate=false,style=long,acronym]{glossaries}
 \RequirePackage{glossaries-babel}
 %\renewcommand*{\acrnameformat}[2]{#2 (\acronymfont{#1})}
 \renewcommand*{\glsgroupskip}{}
 \setglossarypreamble[acronym]{\renewcommand*{\arraystretch}{1.2}\SingleSpacing}
 \setglossarypreamble{\renewcommand*{\arraystretch}{1.2}\SingleSpacing}
+%\setglossarypreamble{\renewcommand*{\arraystretch}{1.2}\SingleSpacing}
 \makeglossaries
 %\newcommand\listacrname{List of Symbols and Acronyms}
+\setlength\LTleft{-2mm}
+\setlength\LTright{0pt}
+\setlength\glsdescwidth{1\hsize}
 \newcommand\listofacronyms{%
   %% Oct 02: List of acronyms is normalsized and with a colon
   \renewcommand{\glsnamefont}[1]{##1\hfill\space:}%

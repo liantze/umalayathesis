@@ -1,6 +1,16 @@
 BRIEF CHANGELOG
 ===============
 
+v1.4.1 - September 23 2018
+   - Fixed optional department name for front page
+   - Fixed bahasa melayu title for abstract (Refer UM Words 
+     Template https://www.um.edu.my/docs/librariesprovider80/students-current-students-thesis/thesis-amp-dissertation-ms-word-template-2017.docx?sfvrsn=2)
+   - Lowered down page number to approximately 1 cm
+   - List of symbols/abbr to be single spacing with 4cm left 
+     margin (Refer UM Words Template)
+   - List of figure/table to be justified (Refer UM Words
+     Template but justify until before page number only.)
+
 v1.4 December 29 2017
     - Finally fixed matrix/matric typo (spotted by Hayyan Daoud)
     - ToC etc are now fully double-spaced for long titles (spotted
