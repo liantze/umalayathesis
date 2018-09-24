@@ -1,6 +1,8 @@
 %% thesis.tex
 %% Distributed with umalayathesis v1.3 (16 September 2017)
-\documentclass[english]{umalayathesis}
+\documentclass[english,appendixhead]{umalayathesis}
+%% Documentclass options:
+%% appendixhead: Add ``APPENDICES'' before the Appendix A title
 
 \usepackage{lipsum}
 \usepackage[utf8]{inputenc}
@@ -31,8 +33,15 @@
 
 \author{Lim Lian Tze}
 \title{The umalayathesis \LaTeX{} Document Class}
+
+%% If \othertitle is given, then the second abstract will display it
+%% (i.e. if your thesis is ``english'' then this is printed on top of the Malay abstract
+%% and if your thesis is ``bahasam'' then this is printed on top of the English abstract)
+%% If no \othertitle is given then the second abstract will not have any translated thesis title
+\othertitle{Tajuk dalam Bahasa Lain untuk Abstrak Kedua}
+
 \faculty{Institute of Postgraduate Studies}
-\submissionyear{2017}
+\submissionyear{2018}
 \degree{Doctor of Philosophy}
 
 % load acronym definitions from separate file

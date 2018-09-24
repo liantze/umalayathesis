@@ -98,9 +98,11 @@
 
 \newif\if@apacitethesis\@apacitethesisfalse
 \newif\if@newapathesis\@newapathesisfalse
+\newif\if@umthesis@apphead\@umthesis@appheadfalse
 \DeclareOption{apacite}{\@apacitethesistrue\@newapathesisfalse}
 \DeclareOption{newapa}{\@apacitethesisfalse\@newapathesistrue}
 \DeclareOption{custombib}{\@apacitethesisfalse\@newapathesisfalse}
+\DeclareOption{appendixhead}{\@umthesis@appheadtrue}
 
 \ExecuteOptions{english,apacite}
 \ProcessOptions\relax
@@ -119,6 +121,7 @@
 
 \def\theauthor{\textbf{!INSERT AUTHOR!}}
 \def\thetitle{\textbf{!INSERT TITLE!}}
+\def\@othertitle{}
 \def\@mtfaculty{\textbf{!INSERT FACULTY!}}
 \def\@mtsubmissionyear{\textbf{!INSERT YEAR!}}
 \def\@mtdegree{\textbf{!INSERT DEGREE!}}
@@ -126,6 +129,7 @@
 \newcommand{\faculty}[1]{\def\@mtfaculty{#1}}
 \newcommand{\submissionyear}[1]{\def\@mtsubmissionyear{#1}}
 \newcommand{\degree}[1]{\def\@mtdegree{#1}}
+\newcommand{\othertitle}[1]{\def\@othertitle{#1}}
 
 \def\mastercoursework{1}
 \def\mastermixedmode{2}
@@ -421,7 +425,9 @@
   \if@englishthesis
     \renewcommand*\abstractname{\MakeUppercase{\thetitle}\par ABSTRACT}
   \else
-    \renewcommand*\abstractname{ABSTRACT}
+    \ifdefempty{\@othertitle}
+      {\renewcommand*\abstractname{\MakeUppercase{\@othertitle}\par ABSTRACT}}
+      {\renewcommand*\abstractname{ABSTRACT}}
   \fi
   \phantomsection\addcontentsline{toc}{chapter}{Abstract}
   \begin{abstract}\setlength{\parindent}{0pt}\noindent\input{#1}\end{abstract}
@@ -430,7 +436,9 @@
 \newcommand{\msabstractfromfile}[1]{%
   \clearpage%
   \if@englishthesis
-    \renewcommand*\abstractname{ABSTRAK}
+    \ifdefempty{\@othertitle}
+      {\renewcommand*\abstractname{\MakeUppercase{\@othertitle}\par ABSTRAK}}
+      {\renewcommand*\abstractname{ABSTRAK}}
   \else
     \renewcommand*\abstractname{\MakeUppercase{\thetitle}\par ABSTRAK}
   \fi
@@ -789,3 +797,21 @@
 %% April 30, 2016: Bold captions
 \captionnamefont{\bfseries\normalsize}
 \captiontitlefont{\bfseries\normalsize}
+
+
+%% If your faculty needs a heading before appendices
+\if@englishthesis
+  \newcommand{\appendicesname}{Appendices}
+\else
+  \newcommand{\appendicesname}{Lampiran}
+\fi
+\if@umthesis@apphead
+  \RequirePackage{afterpage}
+  \appto{\appendix}{%
+    \appto{\clearforchapter}{%
+      \ifnum\value{chapter}=0
+        {\centering\chapnamefont\MakeUppercase{\appendicesname}\par}%
+      \fi
+    }
+  }
+\fi
