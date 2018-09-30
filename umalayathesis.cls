@@ -91,18 +91,26 @@
 \WarningFilter{glossaries}{No language module}
 \WarningFilter{hyperref}{Token not allowed}
 
-\newif\if@englishthesis\@englishthesisfalse
-\DeclareOption{english}{\@englishthesistrue}
-\DeclareOption{malay}{\@englishthesisfalse}
-\DeclareOption{bahasam}{\@englishthesisfalse}
+\newif\if@englishthesis@\@englishthesis@false
+\DeclareOption{english}{\@englishthesis@true}
+\DeclareOption{malay}{\@englishthesis@false}
+\DeclareOption{bahasam}{\@englishthesis@false}
 
-\newif\if@apacitethesis\@apacitethesisfalse
-\newif\if@newapathesis\@newapathesisfalse
-\newif\if@umthesis@apphead\@umthesis@appheadfalse
-\DeclareOption{apacite}{\@apacitethesistrue\@newapathesisfalse}
-\DeclareOption{newapa}{\@apacitethesisfalse\@newapathesistrue}
-\DeclareOption{custombib}{\@apacitethesisfalse\@newapathesisfalse}
-\DeclareOption{appendixhead}{\@umthesis@appheadtrue}
+\newif\if@apacitethesis@\@apacitethesis@false
+\newif\if@newapathesis@\@newapathesis@false
+\newif\if@umthesis@apphead@\@umthesis@apphead@false
+\newif\if@umthesis@altcaption@\@umthesis@altcaption@false
+\newif\if@umthesis@listpageheader@\@umthesis@listpageheader@false
+\newif\if@umthesis@boldfrontmattertoc@\@umthesis@boldfrontmattertoc@false
+\newif\if@umthesis@boldbackmattertoc@\@umthesis@boldbackmattertoc@false
+\DeclareOption{apacite}{\@apacitethesis@true\@newapathesis@false}
+\DeclareOption{newapa}{\@apacitethesis@false\@newapathesis@true}
+\DeclareOption{custombib}{\@apacitethesis@false\@newapathesis@false}
+\DeclareOption{appendixhead}{\@umthesis@apphead@true}
+\DeclareOption{altcaption}{\@umthesis@altcaption@true}
+\DeclareOption{listpageheader}{\@umthesis@listpageheader@true}
+\DeclareOption{boldfrontmattertoc}{\@umthesis@boldfrontmattertoc@true}
+\DeclareOption{boldbackmattertoc}{\@umthesis@boldbackmattertoc@true}
 
 \ExecuteOptions{english,apacite}
 \ProcessOptions\relax
@@ -113,7 +121,7 @@
 \RequirePackage{calc}
 \RequirePackage{enumitem}
 \RequirePackage{quoting}
-\if@englishthesis
+\if@englishthesis@
   \RequirePackage[bahasam,main=english]{babel}
 \else
   \RequirePackage[main=bahasam,english]{babel}
@@ -299,7 +307,7 @@
 \newcommand{\declarationpage}{%
   % 1 Oct: declaration page no longer included in ToC
   % v1.3: Alternates between English/Malay
-  \if@englishthesis
+  \if@englishthesis@
     \english@declaration@page
   \else
     \malay@declaration@page
@@ -391,7 +399,7 @@
 %%%%%%%%%%%%
 % The Acknowledgements (typeset like chapter?)
 %%%%%%%%%%%%
-\if@englishthesis
+\if@englishthesis@
   \newcommand{\acknowlname}{Acknowledgements}
 \else
   \newcommand{\acknowlname}{Pengakuan}
@@ -422,7 +430,7 @@
 \setlength\absrightindent{0pt}
 \newcommand{\abstractfromfile}[1]{
   \clearpage%
-  \if@englishthesis
+  \if@englishthesis@
     \renewcommand*\abstractname{\MakeUppercase{\thetitle}\par ABSTRACT}
   \else
     \ifdefempty{\@othertitle}
@@ -435,7 +443,7 @@
 %% October 01, 2015: no longer need to capitalise in ToC
 \newcommand{\msabstractfromfile}[1]{%
   \clearpage%
-  \if@englishthesis
+  \if@englishthesis@
     \ifdefempty{\@othertitle}
       {\renewcommand*\abstractname{\MakeUppercase{\@othertitle}\par ABSTRAK}}
       {\renewcommand*\abstractname{ABSTRAK}}
@@ -474,7 +482,7 @@
 %%%%%%%%%%%%
 %% October 01, 2015: no need to capitalise front and back matter chapter titles
 % \renewcommand\appendixtocname{Appendices}
-\if@englishthesis
+\if@englishthesis@
   % \renewcommand*\appendixname{Appendix}
   % \renewcommand\appendixtocname{Appendices}
   \newcommand{\listappname}{List of Appendices}
@@ -544,7 +552,10 @@
   \ifheadnameref\M@gettitle{\f@rhdr}\else\M@gettitle{\f@rtoc}\fi}
 
 \newcommand*{\startapps}{%
-  \cftinserthook{toc}{PlainChapTocLines}
+  \if@umthesis@boldfrontmattertoc@
+  \else
+    % \cftinserthook{toc}{PlainChapTocLines}
+  \fi
   \cftinserthook{apx}{AppendixToCLines}
   \clearpage\appendix%\appendixpage%
   \phantomsection\addcontentsline{toc}{chapter}{\appendixtocname}
@@ -671,9 +682,12 @@
   \renewcommand*\cftchapterpagefont{\normalfont\mdseries\upshape}%
 }
 
-\apptocmd{\frontmatter}{%
-  \cftinserthook{toc}{PlainChapTocLines}%
-}{}{}
+\if@umthesis@boldfrontmattertoc@
+\else
+  \apptocmd{\frontmatter}{%
+    \cftinserthook{toc}{PlainChapTocLines}%
+  }{}{}
+\fi
 \apptocmd{\mainmatter}{
   \addtodef{\insertchapterspace}{}%
 {\addtocontents{toc}{\protect\vspace*{\baselineskip}}}%
@@ -708,7 +722,7 @@
 % - Double spacing between entries
 %%%%%%%%%%%%
 % v1.3: Refactor this to make it easier to switch bibliography styles
-\if@apacitethesis
+\if@apacitethesis@
   \RequirePackage[nosectionbib]{apacite}
   \bibliographystyle{apacite}
   %\renewcommand\bibliographytypesize{\footnotesize}
@@ -718,7 +732,7 @@
   \setlength\bibindent{-0.5in}
 \fi
 
-\if@newapathesis
+\if@newapathesis@
   \RequirePackage{natbib}
   \bibliographystyle{newapa}
 \fi
@@ -728,12 +742,15 @@
     \setlength\bibsep{2\onelineskip}
     \setlength\bibhang{0.5in}
   }{}
-  \pretocmd{\bibliography}{%
-  \addtocontents{toc}{%
-    \protect\renewcommand*\protect\cftchapterfont{\normalfont\mdseries\upshape}%
-    \protect\renewcommand*\protect\cftchapterpagefont{\normalfont\mdseries\upshape}%
-    }%
-  }{}{}
+  \if@umthesis@boldbackmattertoc@
+  \else
+    \pretocmd{\bibliography}{%
+    \addtocontents{toc}{%
+      \protect\renewcommand*\protect\cftchapterfont{\normalfont\mdseries\upshape}%
+      \protect\renewcommand*\protect\cftchapterpagefont{\normalfont\mdseries\upshape}%
+      }%
+    }{}{}
+  \fi
   %% October 01, 2015: Don't capitalise backmatter chapter titles
   \renewcommand*\bibname{References}
 }
@@ -743,16 +760,16 @@
 
 %% October 01: Added list of own publications
 \RequirePackage[resetlabels]{multibib}
-\if@englishthesis
+\if@englishthesis@
   \newcommand{\listpubname}{List of Publications and Papers Presented}
 \else
   \newcommand{\listpubname}{Senarai Terbitan dan Kertas Kerja Dibentang}
 \fi
 \newcites{own}{\listpubname}
-\if@apacitethesis
+\if@apacitethesis@
   \bibliographystyleown{apacite}
 \fi
-\if@newapathesis
+\if@newapathesis@
   \bibliographystyleown{newapa}
 \fi
 %\addtoiargdef{\bibliographyown}{}{\renewcommand*\refname{List of Publications and Papers Presented}}
@@ -794,18 +811,24 @@
   \renewcommand\appendixtocname{Lampiran}
 }
 
+% Sep 18: If your faculty requires captions to be 11pt, and only
+% the Figure X: and Table Y: to be bold:
+\if@umthesis@altcaption@
+  \captionnamefont{\small\bfseries}
+  \captiontitlefont{\small}
+\else
 %% April 30, 2016: Bold captions
-\captionnamefont{\bfseries\normalsize}
-\captiontitlefont{\bfseries\normalsize}
-
+  \captionnamefont{\bfseries\normalsize}
+  \captiontitlefont{\bfseries\normalsize}
+\fi
 
 %% If your faculty needs a heading before appendices
-\if@englishthesis
+\if@englishthesis@
   \newcommand{\appendicesname}{Appendices}
 \else
   \newcommand{\appendicesname}{Lampiran}
 \fi
-\if@umthesis@apphead
+\if@umthesis@apphead@
   \RequirePackage{afterpage}
   \appto{\appendix}{%
     \appto{\clearforchapter}{%
@@ -815,3 +838,13 @@
     }
   }
 \fi
+
+% If your faculty requires a ``header row'' at the top of the List of Figures/Tables:
+\def\lofpageheader{\figurename\hfill Description\hfill Page}
+\def\lotpageheader{\figurename\hfill Description\hfill Page}
+\AtBeginDocument{%
+  \if@umthesis@listpageheader@
+    \addtocontents{lof}{\noindent\lofpageheader\par}
+    \addtocontents{lot}{\noindent\lotpageheader\par}
+  \fi
+}

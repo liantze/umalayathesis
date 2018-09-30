@@ -1,8 +1,24 @@
 %% thesis.tex
 %% Distributed with umalayathesis v1.3 (16 September 2017)
-\documentclass[english,appendixhead]{umalayathesis}
+\documentclass[english]{umalayathesis}
 %% Documentclass options:
+%% english (default): English thesis
+%%
+%% bahasam : Malay thesis
+%%
 %% appendixhead: Add ``APPENDICES'' before the Appendix A title
+%%
+%% altcaption: Caption in smaller fonts; only Figure X, Table Y bold.
+%%
+%% listpageheader: If your faculty requires a ``header row'' at the top of
+%%    the List of Figures/Tables. You can re-define \lofpageheader and
+%%    \lotpageheader if necessary, e.g.
+%%           \renewcommand{\lofpageheader}{\hfill Page}
+%%
+%% boldfrontmattertoc: If your faculty wants front matter ``chapters'' to be
+%%    bold in the ToC
+%%
+%% boldbackmattertoc: If the backmatter ``chapters'' are to be bolded as well
 
 \usepackage{lipsum}
 \usepackage[utf8]{inputenc}
@@ -20,11 +36,6 @@
 % Useful for multi-page pages. Either longtable or supertabular is fine; choose any one that you're comfortable with
 \usepackage{longtable}
 \usepackage{supertabular}
-
-
-% If your faculty requires captions to be 11pt, and only the Figure X: and Table Y: to be bold:
-% \captionnamefont{\small\bfseries}
-% \captiontitlefont{\small}
 
 % If your faculty requires a ``header row'' at the top of the List of Figures/Tables:
 % \addtocontents{lof}{\noindent\figurename\hfill Description\hfill Page\par}
