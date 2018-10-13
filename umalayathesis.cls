@@ -103,6 +103,7 @@
 \newif\if@umthesis@listpageheader@\@umthesis@listpageheader@false
 \newif\if@umthesis@boldfrontmattertoc@\@umthesis@boldfrontmattertoc@false
 \newif\if@umthesis@boldbackmattertoc@\@umthesis@boldbackmattertoc@false
+\newif\if@umthesis@uppercasetoc@\@umthesis@uppercasetoc@false
 \DeclareOption{apacite}{\@apacitethesis@true\@newapathesis@false}
 \DeclareOption{newapa}{\@apacitethesis@false\@newapathesis@true}
 \DeclareOption{custombib}{\@apacitethesis@false\@newapathesis@false}
@@ -111,6 +112,7 @@
 \DeclareOption{listpageheader}{\@umthesis@listpageheader@true}
 \DeclareOption{boldfrontmattertoc}{\@umthesis@boldfrontmattertoc@true}
 \DeclareOption{boldbackmattertoc}{\@umthesis@boldbackmattertoc@true}
+\DeclareOption{uppercasetoc}{\@umthesis@uppercasetoc@true}
 
 \ExecuteOptions{english,apacite}
 \ProcessOptions\relax
@@ -179,7 +181,9 @@
 % \renewcommand\ttdefault{lmvtt}
 \RequirePackage{inconsolata}
 
-\RequirePackage[breaklinks,pdfborder={0 0 0},bookmarksdepth=3]{hyperref}
+\AtBeginDocument{%
+  \RequirePackage[breaklinks,pdfborder={0 0 0},bookmarksdepth=3]{hyperref}
+}
 
 %%%%%%%%%%%%
 % Line and paragraph spacing
@@ -224,11 +228,11 @@
     \centering%
     % \renewcommand\ttdefault{lmtt}%
     \fontfamily{qhvc}\fontseries{b}\fontsize{16\p@}{18\p@}\selectfont%
-    \MakeUppercase{\thetitle}\par%
+    \MakeTextUppercase{\thetitle}\par%
     \vfill%
-    \MakeUppercase{\theauthor}\par%
+    \MakeTextUppercase{\theauthor}\par%
     \vfill%
-    \MakeUppercase{\@mtfaculty}\\%
+    \MakeTextUppercase{\@mtfaculty}\\%
     UNIVERSITY OF MALAYA\\%
     KUALA LUMPUR\par%
     \bigskip%
@@ -239,9 +243,9 @@
     \centering\thispagestyle{empty}\setcounter{page}{1}%
     \fontsize{14\p@}{16\p@}\selectfont\bfseries%
     % \renewcommand\ttdefault{lmtt}%
-    \MakeUppercase{\thetitle}\par%
+    \MakeTextUppercase{\thetitle}\par%
     \vfill%
-    {\MakeUppercase{\theauthor}\par}%
+    {\MakeTextUppercase{\theauthor}\par}%
     \vfill%
     \ifcase\thesis@type
       \or % 1 -- mastercoursework
@@ -266,37 +270,37 @@
 }
 
 \newcommand\statement@mastercoursework{%
-  RESEARCH PROJECT SUBMITTED TO THE\\\MakeUppercase{\@mtfaculty}\\%
-  UNIVERSITY OF MALAYA, IN PARTIAL FULFILMENT OF THE REQUIREMENTS FOR THE DEGREE OF \MakeUppercase{\@mtdegree}%
+  RESEARCH PROJECT SUBMITTED TO THE\\\MakeTextUppercase{\@mtfaculty}\\%
+  UNIVERSITY OF MALAYA, IN PARTIAL FULFILMENT OF THE REQUIREMENTS FOR THE DEGREE OF \MakeTextUppercase{\@mtdegree}%
 }
 
 \newcommand\statement@mastermixedmode{%
-  DISSERTATION SUBMITTED IN PARTIAL FULFILMENT OF THE REQUIREMENTS FOR THE DEGREE OF \MakeUppercase{\@mtdegree}%
+  DISSERTATION SUBMITTED IN PARTIAL FULFILMENT OF THE REQUIREMENTS FOR THE DEGREE OF \MakeTextUppercase{\@mtdegree}%
   \vfill\faculty@block%
 }
 
 \newcommand\statement@masterresearch{%
-  DISSERTATION SUBMITTED IN FULFILMENT OF THE REQUIREMENTS FOR THE DEGREE OF \MakeUppercase{\@mtdegree}%
+  DISSERTATION SUBMITTED IN FULFILMENT OF THE REQUIREMENTS FOR THE DEGREE OF \MakeTextUppercase{\@mtdegree}%
   \vfill\faculty@block%
 }
 
 \newcommand\statement@doctoralresearch{%
-  THESIS SUBMITTED IN FULFILMENT OF THE REQUIREMENTS FOR THE DEGREE OF \MakeUppercase{\@mtdegree}%
+  THESIS SUBMITTED IN FULFILMENT OF THE REQUIREMENTS FOR THE DEGREE OF \MakeTextUppercase{\@mtdegree}%
   \vfill\faculty@block%
 }
 
 \newcommand\statement@doctoralmixedmode{%
-  THESIS SUBMITTED IN PARTIAL FULFILMENT OF THE REQUIREMENTS FOR THE DEGREE OF \MakeUppercase{\@mtdegree}%
+  THESIS SUBMITTED IN PARTIAL FULFILMENT OF THE REQUIREMENTS FOR THE DEGREE OF \MakeTextUppercase{\@mtdegree}%
   \vfill\faculty@block%
 }
 
 \newcommand\statement@doctoralcoursework{%
-  DISSERTATION SUBMITTED IN PARTIAL FULFILMENT OF THE REQUIREMENTS FOR THE DEGREE OF \MakeUppercase{\@mtdegree}%
+  DISSERTATION SUBMITTED IN PARTIAL FULFILMENT OF THE REQUIREMENTS FOR THE DEGREE OF \MakeTextUppercase{\@mtdegree}%
   \vfill\faculty@block%
 }
 
 \newcommand\faculty@block{%
-  \MakeUppercase{\@mtfaculty}\\
+  \MakeTextUppercase{\@mtfaculty}\\
   UNIVERSITY OF MALAYA\\
   KUALA LUMPUR%
 }
@@ -431,10 +435,10 @@
 \newcommand{\abstractfromfile}[1]{
   \clearpage%
   \if@englishthesis@
-    \renewcommand*\abstractname{\MakeUppercase{\thetitle}\par ABSTRACT}
+    \renewcommand*\abstractname{\MakeTextUppercase{\thetitle}\par ABSTRACT}
   \else
     \ifdefempty{\@othertitle}
-      {\renewcommand*\abstractname{\MakeUppercase{\@othertitle}\par ABSTRACT}}
+      {\renewcommand*\abstractname{\MakeTextUppercase{\@othertitle}\par ABSTRACT}}
       {\renewcommand*\abstractname{ABSTRACT}}
   \fi
   \phantomsection\addcontentsline{toc}{chapter}{Abstract}
@@ -445,10 +449,10 @@
   \clearpage%
   \if@englishthesis@
     \ifdefempty{\@othertitle}
-      {\renewcommand*\abstractname{\MakeUppercase{\@othertitle}\par ABSTRAK}}
+      {\renewcommand*\abstractname{\MakeTextUppercase{\@othertitle}\par ABSTRAK}}
       {\renewcommand*\abstractname{ABSTRAK}}
   \else
-    \renewcommand*\abstractname{\MakeUppercase{\thetitle}\par ABSTRAK}
+    \renewcommand*\abstractname{\MakeTextUppercase{\thetitle}\par ABSTRAK}
   \fi
   \phantomsection\addcontentsline{toc}{chapter}{Abstrak}
   \begin{abstract}\otherlanguage{bahasam}\setlength{\parindent}{0pt}\noindent\input{#1}\end{abstract}
@@ -473,8 +477,8 @@
 \renewcommand*\chapnumfont{\normalsize\bfseries\centering}
 \renewcommand*\chaptitlefont{\normalsize\bfseries\centering}
 \renewcommand*{\afterchapternum}{: }
-\renewcommand{\printchaptername}{{\chapnamefont\MakeUppercase{\chaptername}}}
-\renewcommand*{\printchaptertitle}[1]{{\chaptitlefont\MakeUppercase{#1}\par}}
+\renewcommand{\printchaptername}{{\chapnamefont\MakeTextUppercase{\chaptername}}}
+\renewcommand*{\printchaptertitle}[1]{{\chaptitlefont\MakeTextUppercase{#1}\par}}
 
 
 %%%%%%%%%%%%
@@ -566,7 +570,7 @@
 }
 \newcommand*{\finishapps}{%
 %% October 01, 2015: no need to capitalise back matter chapter titles
-%  \renewcommand\mychap[1]{\orichapter[\texorpdfstring{\MakeUppercase{##1}}{##1}]{##1}}
+%  \renewcommand\mychap[1]{\orichapter[\texorpdfstring{\MakeTextUppercase{##1}}{##1}]{##1}}
   \settocdepth{subsubsection}% sections back in ToC
 }
 \cftinsertcode{AppendixToCLines}{%
@@ -628,7 +632,7 @@
 \renewcommand{\cfttableleader}{\cftdotfill{\cftdotsep}}
 % \renewcommand{\cftapxleader}{\cftdotfill{\cftdotsep}}
 \setrmarg{3.55em plus 1fil}
-\renewcommand*{\cftchaptername}{\MakeUppercase{\chaptername}\space}
+\renewcommand*{\cftchaptername}{\MakeTextUppercase{\chaptername}\space}
 \renewcommand*{\cftchapteraftersnum}{:\space}
 %\renewcommand*{\cftchapterafterpnum}{\vspace*{4pt}}
 \renewcommand*{\cftappendixname}{\appendixname\space}
@@ -637,8 +641,8 @@
 %% October 01, 2015: delay until \mainmatter
 %\renewcommand\chapter{\@ifstar{\mystarchap}{\mychap}}
 \newcommand\mychap[2][]{\orichapter%
-[\ifstrempty{#1}{\texorpdfstring{\MakeUppercase{#2}}{#2}}%
-{\texorpdfstring{\MakeUppercase{#1}}{#1}}]%
+[\ifstrempty{#1}{\texorpdfstring{\MakeTextUppercase{#2}}{#2}}%
+{\texorpdfstring{\MakeTextUppercase{#1}}{#1}}]%
 {#2}}
 \newcommand\mystarchap[1]{\orichapter*{#1}}
 %\renewcommand*\cftsectionafterpnum{\vskip 3pt}
@@ -833,7 +837,7 @@
   \appto{\appendix}{%
     \appto{\clearforchapter}{%
       \ifnum\value{chapter}=0
-        {\centering\chapnamefont\MakeUppercase{\appendicesname}\par}%
+        {\centering\chapnamefont\MakeTextUppercase{\appendicesname}\par}%
       \fi
     }
   }
@@ -848,3 +852,38 @@
     \addtocontents{lot}{\noindent\lotpageheader\par}
   \fi
 }
+
+
+\if@umthesis@uppercasetoc@
+  \addto\captionsenglish{%
+    \renewcommand*\contentsname{TABLE OF CONTENTS}
+    \renewcommand*\listtablename{LIST OF TABLES}
+    \renewcommand*\listfigurename{LIST OF FIGURES}
+    \renewcommand*\appendixname{APPENDIX}
+    \renewcommand\appendixtocname{APPENDICES}
+    \renewcommand*\indexname{INDEX}
+    \renewcommand*{\listappname}{LIST OF APPENDICES}
+    \renewcommand*\acronymname{LIST OF SYMBOLS AND ABBREVIATIONS}
+    % \renewcommand{\bibname}{REFERENCES}
+    \renewcommand{\acknowlname}{ACKNOWLEDGEMENTS}
+    \renewcommand{\refnameown}{LIST OF PUBLICATIONS AND PAPERS PRESENTED}
+  }
+  \addto\captionsbahasam{%
+    \renewcommand*\contentsname{KANDUNGAN}
+    \renewcommand*\listtablename{SENARAI JADUAL}
+    \renewcommand*\listfigurename{SENARAI GAMBAR}
+    \renewcommand*\appendixname{LAMPIRAN}
+    \renewcommand\appendixtocname{LAMPIRAN}
+    \renewcommand*\indexname{INDEKS}
+    \renewcommand*{\listappname}{SENARAI LAMPIRAN}
+    \renewcommand*\acronymname{SENARAI SIMBOL DAN RINGKASAN}
+    \renewcommand{\bibname}{BIBLIOGRAFI}
+    \renewcommand{\acknowlname}{PENGAKUAN}
+    \renewcommand{\refnameown}{SENARAI TERBITAN DAN KERTAS KERJA DIBENTANG}
+  }
+  \patchcmd{\abstractfromfile}{Abstract}{ABSTRACT}{}{}
+  \patchcmd{\msabstractfromfile}{Abstrak}{ABSTRAK}{}{}
+  \if@englishthesis@ % I have no idea why it wouldn't work up there
+    \AtBeginDocument{\renewcommand{\bibname}{REFERENCES}}
+  \fi
+\fi
