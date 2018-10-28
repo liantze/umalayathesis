@@ -7,18 +7,18 @@ postgraduate research thesis.
 
     Files:
     umalayathesis.cls         LaTeX class file
-    umalayathesis-manual.pdf  A quick user guide
-    thesis.tex            Example 'main' thesis .tex file
-    thesis.pdf            Example PDF file of a UM thesis, can be
-                          generated from thesis.tex and friends
-                          generated from mmuthesis.tex and friends
-    sample-abstract.tex   Sample thesis abstract
-    myacronyms.tex        Sample glossary, including acronyms & symbols
-    sample-chap-*.tex     Sample main chapters
-    sample-appen-*.tex    Sample appendix chapters
-    myrefs.bib            Sample BibTeX bibliography database file
-    README                This file
-    COPYING               The LPPL (LaTeX Project Public Licence)
+    thesis.tex                  Example 'main' thesis .tex file
+    thesis.pdf                  Example PDF file of a UM thesis, can be
+                                generated from thesis.tex and friends
+                                generated from mmuthesis.tex and friends
+    sample-abstract.tex         Sample thesis abstract
+    myacronyms.tex              Sample glossary, including acronyms & symbols
+    umalayathesis-howtouse.tex  A how-to-use guide (part of the sample thesis)
+    sample-chap-*.tex           Sample main chapters
+    sample-appen-*.tex          Sample appendix chapters
+    myrefs.bib                  Sample BibTeX bibliography database file
+    README                      This file
+    COPYING                     The LPPL (LaTeX Project Public Licence)
 
     E-Mail:    liantze@gmail.com
     Website:   http://liantze.penguinattack.org/

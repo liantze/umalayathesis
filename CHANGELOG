@@ -1,6 +1,14 @@
 BRIEF CHANGELOG
 ===============
 
+v1.5 October 28 2018
+    - Added many documentclass options to deal with ad-hoc formatting
+      requirements: appendixhead, altcaption, singlespacedlisttitles,
+      listpageheader, boldfrontmattertoc, boldbackmattertoc, uppercasetoc
+    - Added splitpubs environments
+    - Merged umalayathesis-manual.pdf into umalayathesis-howtouse.tex, as
+      part of the sample thesis.
+
 v1.4 December 29 2017
     - Finally fixed matrix/matric typo (spotted by Hayyan Daoud)
     - ToC etc are now fully double-spaced for long titles (spotted

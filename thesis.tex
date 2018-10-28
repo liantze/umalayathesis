@@ -1,55 +1,73 @@
 %% thesis.tex
-%% Distributed with umalayathesis v1.3 (16 September 2017)
-\documentclass[english]{umalayathesis}
-%% Documentclass options:
+%% Distributed with umalayathesis v1.5 (28 October 2018)
+\documentclass[english,singlespacedlisttitles]{umalayathesis}
+%% Document class options
+%% -----------------------
 %% english (default): English thesis
 %%
 %% bahasam : Malay thesis
 %%
-%% appendixhead: Add ``APPENDICES'' before the Appendix A title
+%% apacite (default): Loads the apacite package, which implements the APA
+%%    citation and referencing styles strictly, including expansion of
+%%    of 3–5 authors on first citation.
+%%
+%% newapa: Loads the natbib and apalike package for a APA-like reference list
+%%    but *does not fully implement* all APA citation styles. In particular,
+%%    this option will not expand references with 3–5 authors on first citation.
+%%    NOT RECOMMENDED UNLESS EXPLICITLY REQUESTED BY EXAMINER.
+%%
+%% custombib: Does not pre-load any bibliography style; you will need to
+%%    specify \bibliographystyle, \bibliographystyleown etc yourself.
+%%
+%% appendixhead: Add "APPENDICES" before the Appendix A title
 %%
 %% altcaption: Caption in smaller fonts; only Figure X, Table Y bold.
 %%
-%% listpageheader: If your faculty requires a ``header row'' at the top of
+%% singlespacedlisttitles: Long titles in the ToC, LoT, LoF, LoA are single-spaced.
+%%
+%% listpageheader: If your faculty requires a "header row" at the top of
 %%    the List of Figures/Tables. You can re-define \lofpageheader and
 %%    \lotpageheader if necessary, e.g.
 %%           \renewcommand{\lofpageheader}{\hfill Page}
 %%
-%% boldfrontmattertoc: If your faculty wants front matter ``chapters'' to be
+%% boldfrontmattertoc: If your faculty wants front matter "chapters" to be
 %%    bold in the ToC
 %%
-%% boldbackmattertoc: If the backmatter ``chapters'' are to be bolded as well
+%% boldbackmattertoc: If the backmatter "chapters" are to be bolded as well
 %%
-%% uppercasetoc: If all ``chapter'' level headings must be upper-cased in the ToC
+%% uppercasetoc: If all "chapter" level headings must be upper-cased in the ToC
 
 \usepackage{lipsum}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{microtype}
 \usepackage{graphicx}
-\usepackage{xcolor}
+\usepackage[dvipsnames,x11names]{xcolor}
 
 % Useful for including code listings
 \usepackage{listings}
-\lstset{basicstyle=\ttfamily\SingleSpacing,
-        columns=fullflexible,
-        breaklines,breakatwhitespace}
+\lstset{language=[LaTeX]TeX,columns=fullflexible,
+        basicstyle=\ttfamily\SingleSpacing,
+        texcsstyle=*\bfseries\color{NavyBlue},
+        commentstyle=\itshape\color{PaleVioletRed4},
+        frame=single,framesep=6pt,
+        framexleftmargin=6pt,framexrightmargin=6pt,
+        xleftmargin=12pt,xrightmargin=12pt,
+        breaklines=true,breakatwhitespace=true,
+        aboveskip=-1.5\onelineskip
+}
 
 % Useful for multi-page pages. Either longtable or supertabular is fine; choose any one that you're comfortable with
 \usepackage{longtable}
-\usepackage{supertabular}
-
-% If your faculty requires a ``header row'' at the top of the List of Figures/Tables:
-% \addtocontents{lof}{\noindent\figurename\hfill Description\hfill Page\par}
-% \addtocontents{lot}{\noindent\tablename\hfill Description\hfill Page\par}
+% \usepackage{supertabular}
 
 
 \author{Lim Lian Tze}
 \title{The umalayathesis \LaTeX{} Document Class}
 
 %% If \othertitle is given, then the second abstract will display it
-%% (i.e. if your thesis is ``english'' then this is printed on top of the Malay abstract
-%% and if your thesis is ``bahasam'' then this is printed on top of the English abstract)
+%% (i.e. if your thesis is "english" then this is printed on top of the Malay abstract
+%% and if your thesis is "bahasam" then this is printed on top of the English abstract)
 %% If no \othertitle is given then the second abstract will not have any translated thesis title
 \othertitle{Tajuk dalam Bahasa Lain untuk Abstrak Kedua}
 
@@ -59,7 +77,7 @@
 
 % load acronym definitions from separate file
 \loadglsentries{myacronyms}
-%\setlength{\glsdescwidth}{.7\textwidth}
+
 \begin{document}
 \frontmatter
 
@@ -81,25 +99,44 @@
 \tableofcontents\clearpage
 \listoffigures\clearpage
 \listoftables\clearpage
+
+%% Uncomment the following and modify the width for the description,
+%% if necessary.
+%\setlength{\glsdescwidth}{.7\textwidth}
+
+%% Uncomment the following and modify separation between glossary entries,
+%% if necessary.
+% \renewcommand{\glsskip}{1.1}
+
 \listofacronyms\clearpage
 \listofappendices\clearpage}
 
 \mainmatter
 
+\input{umalayathesis-howtouse}
 \input{sample-chap-intro}
 \input{sample-chap-dummy}
 
 \bibliography{myrefs}
 
+%% Use these lines, if you need a single list of own publications
 % Make sure you have defined your own papers in the .bib file!
-\nociteown{Lim:2009}
+\nociteown{Lim:2009,Bond:etal:WordNetBahasa:2014}
 \bibliographyown{myrefs}
 
+%% Use these lines, if your list of own publications needs to be split
+%% into "Journal articles" and "Conference proceedings"
+% Make sure you have defined your own papers in the .bib file!
+% \begin{splitpubs}
+%   \nociteownjour{Bond:etal:WordNetBahasa:2014}
+%   \nociteownconf{Lim:2009}
+%   \bibliographyownjour{myrefs}
+%   \bibliographyownconf{myrefs}
+% \end{splitpubs}
+
 \begin{appendices}
-\startapps
 \input{sample-appen-manual}
 \input{sample-appen-try}
-\finishapps
 \end{appendices}
 
 %% Comment out this line if you do not have a separate glossary.

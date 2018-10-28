@@ -120,9 +120,9 @@ To use a different bullet:
   \item This is the second point
 \end{itemize}
 
-And even different numbering scheme:
+And even different numbering scheme (you may need to change the list's left margin):
 
-\begin{enumerate}[label=(\roman*)]
+\begin{enumerate}[label=(\roman*),leftmargin=3em]
   \item This is the first point and
   \item This is the second point
 \end{enumerate}
@@ -142,6 +142,7 @@ Other possible commands for changing the counter format are:
 \texttt{umalayathesis} uses the \texttt{apacite} package and bibliography style. Use \verb|\cite| for parenthetical citaions, such as this one \cite{audibert:2004}. \cite{budanitsky:hirst:2006}. To get text citations, use the \verb|\citeA| command and you'll get \cite{audibert:2004}.
 
 \subsection{\textcolor{red}{$\star\star$} A Note about the APA Citation Format \textcolor{red}{$\star\star$}}
+\label{sec:apanote}
 
 \texttt{umalayathesis} uses the \texttt{apacite} package and bibliography style, which fully implements the APA6 guidelines. The APA6 guidelines can be rather complex with lots of subtleties, so some questions about this style comes up every once in a while. Therefore this is important: \textbf{Please read this blog post first. \emph{Now.}}
 
@@ -165,15 +166,20 @@ The \texttt{apacite} package and bibliography style fully implements the APA6 ci
 This will also load the \texttt{natbib} package, so you should use \verb|\citep{...}| for parenthetical citations (Smith, 1990); and \verb|\citet{...}| for text citations i.e.~Smith (1990).
 
 \subsection{Using Another Bibliography Style}
+\label{sec:custombib}
 
 If your faculty allows/requires you to use an entirely different bibliography style, use the \texttt{custombib} document class option. You are then responsible for loading any packages (e.g.~\texttt{natbib}) and setting up the necessary \verb|\bibliographystyle|, etc.
 
 For example, if your faculty requires you to use the \texttt{IEEEtran} bibliography style, you can write
 
-\begin{lstlisting}[language={[LaTeX]TeX},emph={\bibliographystyleown},emphstyle=\bfseries]
-  \documentclass[custombib]{umalayathesis}
-  \bibliographystyle{IEEEtran}
-  \bibliographystyleown{IEEEtran}  %% Style for List of Publications
+\begin{lstlisting}[language={[LaTeX]TeX},
+emph={\bibliographystyleown,\bibliographystyleownjour,\bibliographystyleownconf},
+emphstyle=\bfseries]
+\documentclass[custombib]{umalayathesis}
+\bibliographystyle{IEEEtran}
+\bibliographystyleown{IEEEtran}  %% Style for List of Publications
+\bibliographystyleownjour{IEEEtran}
+\bibliographystyleownconf{IEEEtran}
 \end{lstlisting}
 
 

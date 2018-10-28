@@ -1,5 +1,5 @@
 %%
-%% umalayathesis.cls 2017/12/27 version V1.4
+%% umalayathesis.cls 2018/10/28 version V1.5
 %%
 %% This is the unofficial UM thesis LaTeX class for postgraduate research
 %% students of Universiti Malaya, Malaysia, formatted according to the
@@ -80,6 +80,14 @@
 % v1.4  December 29 2017
 %     - Fixed typo matrix -> matric
 %     - In ToC etc all long titles are now double-spaced
+%
+% v1.5 October 28 2018
+%     - Added many documentclass options to deal with ad-hoc formatting
+%       requirements: appendixhead, altcaption, singlespacedlisttitles,
+%       listpageheader, boldfrontmattertoc, boldbackmattertoc, uppercasetoc
+%     - Added splitpubs environments
+%     - Merged umalayathesis-manual.pdf into umalayathesis-howtouse.tex, as
+%       part of the sample thesis.
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{umalayathesis}
@@ -104,6 +112,7 @@
 \newif\if@umthesis@boldfrontmattertoc@\@umthesis@boldfrontmattertoc@false
 \newif\if@umthesis@boldbackmattertoc@\@umthesis@boldbackmattertoc@false
 \newif\if@umthesis@uppercasetoc@\@umthesis@uppercasetoc@false
+\newif\if@umthesis@singlespacedlists@\@umthesis@singlespacedlists@false
 \DeclareOption{apacite}{\@apacitethesis@true\@newapathesis@false}
 \DeclareOption{newapa}{\@apacitethesis@false\@newapathesis@true}
 \DeclareOption{custombib}{\@apacitethesis@false\@newapathesis@false}
@@ -113,6 +122,7 @@
 \DeclareOption{boldfrontmattertoc}{\@umthesis@boldfrontmattertoc@true}
 \DeclareOption{boldbackmattertoc}{\@umthesis@boldbackmattertoc@true}
 \DeclareOption{uppercasetoc}{\@umthesis@uppercasetoc@true}
+\DeclareOption{singlespacedlisttitles}{\@umthesis@singlespacedlists@true}
 
 \ExecuteOptions{english,apacite}
 \ProcessOptions\relax
@@ -182,7 +192,8 @@
 \RequirePackage{inconsolata}
 
 \AtBeginDocument{%
-  \RequirePackage[breaklinks,pdfborder={0 0 0},bookmarksdepth=3]{hyperref}
+  \RequirePackage[breaklinks,pdfborder={0 0 0},bookmarksdepth=3,hypertexnames=false]{hyperref}
+  \RequirePackage[depth=3]{bookmark}
 }
 
 %%%%%%%%%%%%
@@ -556,10 +567,10 @@
   \ifheadnameref\M@gettitle{\f@rhdr}\else\M@gettitle{\f@rtoc}\fi}
 
 \newcommand*{\startapps}{%
-  \if@umthesis@boldfrontmattertoc@
-  \else
-    % \cftinserthook{toc}{PlainChapTocLines}
-  \fi
+  % \if@umthesis@boldfrontmattertoc@
+  % \else
+  %   % \cftinserthook{toc}{PlainChapTocLines}
+  % \fi
   \cftinserthook{apx}{AppendixToCLines}
   \clearpage\appendix%\appendixpage%
   \phantomsection\addcontentsline{toc}{chapter}{\appendixtocname}
@@ -573,6 +584,9 @@
 %  \renewcommand\mychap[1]{\orichapter[\texorpdfstring{\MakeTextUppercase{##1}}{##1}]{##1}}
   \settocdepth{subsubsection}% sections back in ToC
 }
+% Oct 28, 2018: append/prepend the commands here
+\appto{\appendices}{\startapps\let\startapps\relax}
+\preto{\endappendices}{\finishapps\let\finishapps\relax}
 \cftinsertcode{AppendixToCLines}{%
   \renewcommand*\cftchapteraftersnum{:\space}%
   \setlength\cftchapternumwidth{2em}%
@@ -686,6 +700,7 @@
   \renewcommand*\cftchapterpagefont{\normalfont\mdseries\upshape}%
 }
 
+%% Sept 30 2018: If frontmatter chapters need to be bold
 \if@umthesis@boldfrontmattertoc@
 \else
   \apptocmd{\frontmatter}{%
@@ -698,6 +713,22 @@
   \cftinserthook{toc}{MainChapTocLines}%
   \renewcommand\chapter{\@ifstar{\mystarchap}{\mychap}}%
 }{}{}
+
+%% October 28 2018: For single-spaced long titles
+\if@umthesis@singlespacedlists@
+  \setlength\cftbeforechapterskip{\onelineskip}
+  \setlength\cftbeforesectionskip{\onelineskip}
+  \setlength\cftbeforesubsectionskip{\onelineskip}
+  \setlength\cftbeforesubsubsectionskip{\onelineskip}
+  \setlength\cftbeforetableskip{\onelineskip}
+  \setlength\cftbeforesubtableskip{\onelineskip}
+  \setlength\cftbeforefigureskip{\onelineskip}
+  \setlength\cftbeforesubfigureskip{\onelineskip}
+  \preto{\tocheadstart}{\SingleSpacing}
+  \preto{\lotheadstart}{\SingleSpacing}
+  \preto{\lofheadstart}{\SingleSpacing}
+  \preto{\apxheadstart}{\SingleSpacing}
+\fi
 
 %%%%%%%%%%%
 % Indexing
@@ -718,7 +749,7 @@
 % List Indent
 %%%%%%%%%%%
 \setlist{noitemsep}
-\setlist[1]{labelindent=1cm,leftmargin=*,labelwidth=*}
+\setlist[1]{leftmargin=2.5em,labelwidth=*}
 
 %%%%%%%%%%%%
 % Bibliograpy
@@ -763,29 +794,53 @@
 
 
 %% October 01: Added list of own publications
+%% October 26 2018: Added option for splitting into journals and conference proceedings
 \RequirePackage[resetlabels]{multibib}
 \if@englishthesis@
   \newcommand{\listpubname}{List of Publications and Papers Presented}
+  \newcommand{\listjourname}{Journal Articles}
+  \newcommand{\listconfname}{Conference Proceedings}
 \else
   \newcommand{\listpubname}{Senarai Terbitan dan Kertas Kerja Dibentang}
+  \newcommand{\listjourname}{Artikel Jurnal}
+  \newcommand{\listconfname}{Prosiding Persidangan}
 \fi
-\newcites{own}{\listpubname}
+\newcites{own,ownjour,ownconf}{\listpubname,\listjourname,\listconfname}
 \if@apacitethesis@
   \bibliographystyleown{apacite}
+  \bibliographystyleownjour{apacite}
+  \bibliographystyleownconf{apacite}
 \fi
 \if@newapathesis@
   \bibliographystyleown{newapa}
+  \bibliographystyleownjour{newapa}
+  \bibliographystyleownconf{newapa}
 \fi
-%\addtoiargdef{\bibliographyown}{}{\renewcommand*\refname{List of Publications and Papers Presented}}
+
+%% Oct 28, 2018: For split list of publications
+\newenvironment{splitpubs}{%
+  \chapter*{\listpubname}
+  \phantomsection\addcontentsline{toc}{chapter}{\listpubname}
+  \renewcommand{\bibsection}{\section*{\refname}}
+  \undef{\chapter}
+  \settocdepth{chapter}
+}{}
 
 \RequirePackage{relsize}
 %% Sept 08, 2015: added "acronym" option
 \RequirePackage[toc,nonumberlist,shortcuts,translate=false,style=long,acronym]{glossaries}
 \RequirePackage{glossaries-babel}
+\glsdisablehyper %% Added Oct 27, 2018 to avoid hyprref warnings
 %\renewcommand*{\acrnameformat}[2]{#2 (\acronymfont{#1})}
 \renewcommand*{\glsgroupskip}{}
-\setglossarypreamble[acronym]{\renewcommand*{\arraystretch}{1.2}\SingleSpacing}
-\setglossarypreamble{\renewcommand*{\arraystretch}{1.2}\SingleSpacing}
+%% Oct 19, 2018: make glossary spacing slightly customisable
+\newcommand\glsskip{1.2}
+\setglossarypreamble[acronym]{\renewcommand*{\arraystretch}{\glsskip}\SingleSpacing}
+\setglossarypreamble{\renewcommand*{\glsskip}{1.2}\SingleSpacing}
+%% Oct 19, 2018: Make the glossary list left-aligned
+\renewenvironment{theglossary}%
+  {\begin{longtable}[l]{@{}lp{\glsdescwidth}}}%
+  {\end{longtable}}
 \makeglossaries
 %\newcommand\listacrname{List of Symbols and Acronyms}
 \newcommand\listofacronyms{%
@@ -859,7 +914,7 @@
     \renewcommand*\contentsname{TABLE OF CONTENTS}
     \renewcommand*\listtablename{LIST OF TABLES}
     \renewcommand*\listfigurename{LIST OF FIGURES}
-    \renewcommand*\appendixname{APPENDIX}
+    % \renewcommand*\appendixname{APPENDIX}
     \renewcommand\appendixtocname{APPENDICES}
     \renewcommand*\indexname{INDEX}
     \renewcommand*{\listappname}{LIST OF APPENDICES}
@@ -872,7 +927,7 @@
     \renewcommand*\contentsname{KANDUNGAN}
     \renewcommand*\listtablename{SENARAI JADUAL}
     \renewcommand*\listfigurename{SENARAI GAMBAR}
-    \renewcommand*\appendixname{LAMPIRAN}
+    % \renewcommand*\appendixname{LAMPIRAN}
     \renewcommand\appendixtocname{LAMPIRAN}
     \renewcommand*\indexname{INDEKS}
     \renewcommand*{\listappname}{SENARAI LAMPIRAN}
