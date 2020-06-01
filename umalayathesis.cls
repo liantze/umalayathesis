@@ -1,5 +1,5 @@
 %%
-%% umalayathesis.cls 2018/10/28 version V1.5
+%% umalayathesis.cls 2020/06/01 version V1.5.1
 %%
 %% This is the unofficial UM thesis LaTeX class for postgraduate research
 %% students of Universiti Malaya, Malaysia, formatted according to the
@@ -13,7 +13,7 @@
 %% I'll always try.
 %%
 %%
-%% Copyright (c) 2011-2016 by Lim Lian Tze
+%% Copyright (c) 2011-2020 by Lim Lian Tze
 %%
 %% Current maintainer: Lim Lian Tze (liantze@gmail.com)
 %
@@ -88,9 +88,16 @@
 %     - Added splitpubs environments
 %     - Merged umalayathesis-manual.pdf into umalayathesis-howtouse.tex, as
 %       part of the sample thesis.
+%
+% v1.5.1 June 1 2020
+%     - Bug fix for \othertitle
+%     - Simpler approach to uppercasing chapter titles
+%     - Forces apacite to stop expanding author list in first citation, as
+%       according to APA7 guidelines (and what UM Grad Office prefers anyway?)
+%     - Now use natbib commands to be more generic
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{umalayathesis}
+\ProvidesClass{umalayathesis}[2020/06/01 umalayathesis.cls v1.5.1]
 
 %% May 16, 2016: Silence the warnings as they're getting on my nerves
 \RequirePackage{silence}
@@ -190,9 +197,10 @@
 %\RequirePackage{courier}
 % \renewcommand\ttdefault{lmvtt}
 \RequirePackage{inconsolata}
+\RequirePackage{bm}
 
 \AtBeginDocument{%
-  \RequirePackage[breaklinks,pdfborder={0 0 0},bookmarksdepth=3,hypertexnames=false]{hyperref}
+  \RequirePackage[breaklinks,pdfborder={0 0 0},bookmarksdepth=3,hypertexnames=false,pdfpagelabels=false]{hyperref}
   \RequirePackage[depth=3]{bookmark}
 }
 
@@ -449,8 +457,8 @@
     \renewcommand*\abstractname{\MakeTextUppercase{\thetitle}\par ABSTRACT}
   \else
     \ifdefempty{\@othertitle}
-      {\renewcommand*\abstractname{\MakeTextUppercase{\@othertitle}\par ABSTRACT}}
       {\renewcommand*\abstractname{ABSTRACT}}
+      {\renewcommand*\abstractname{\MakeTextUppercase{\@othertitle}\par ABSTRACT}}
   \fi
   \phantomsection\addcontentsline{toc}{chapter}{Abstract}
   \begin{abstract}\setlength{\parindent}{0pt}\noindent\input{#1}\end{abstract}
@@ -460,8 +468,8 @@
   \clearpage%
   \if@englishthesis@
     \ifdefempty{\@othertitle}
-      {\renewcommand*\abstractname{\MakeTextUppercase{\@othertitle}\par ABSTRAK}}
       {\renewcommand*\abstractname{ABSTRAK}}
+      {\renewcommand*\abstractname{\MakeTextUppercase{\@othertitle}\par ABSTRAK}}
   \else
     \renewcommand*\abstractname{\MakeTextUppercase{\thetitle}\par ABSTRAK}
   \fi
@@ -486,7 +494,7 @@
 \setlength\afterchapskip{\onelineskip}
 \renewcommand*\chapnamefont{\normalsize\bfseries}
 \renewcommand*\chapnumfont{\normalsize\bfseries\centering}
-\renewcommand*\chaptitlefont{\normalsize\bfseries\centering}
+\renewcommand*\chaptitlefont{\normalsize\bfseries\boldmath\centering}
 \renewcommand*{\afterchapternum}{: }
 \renewcommand{\printchaptername}{{\chapnamefont\MakeTextUppercase{\chaptername}}}
 \renewcommand*{\printchaptertitle}[1]{{\chaptitlefont\MakeTextUppercase{#1}\par}}
@@ -575,7 +583,7 @@
   \clearpage\appendix%\appendixpage%
   \phantomsection\addcontentsline{toc}{chapter}{\appendixtocname}
   \let\@chapter\app@chapter % use \app@chapter instead of \@chapter
-  \renewcommand\mychap[1]{\orichapter{##1}}
+  % \renewcommand\mychap[1]{\orichapter{##1}}
   \settocdepth{chapter}% stop sections being in the ToC
   \renewcommand{\insertchapterspace}{\oldinsertchapterspace}
 }
@@ -651,14 +659,15 @@
 %\renewcommand*{\cftchapterafterpnum}{\vspace*{4pt}}
 \renewcommand*{\cftappendixname}{\appendixname\space}
 \setlength\cftsectionindent{0pt}
-\let\orichapter\chapter
-%% October 01, 2015: delay until \mainmatter
-%\renewcommand\chapter{\@ifstar{\mystarchap}{\mychap}}
-\newcommand\mychap[2][]{\orichapter%
-[\ifstrempty{#1}{\texorpdfstring{\MakeTextUppercase{#2}}{#2}}%
-{\texorpdfstring{\MakeTextUppercase{#1}}{#1}}]%
-{#2}}
-\newcommand\mystarchap[1]{\orichapter*{#1}}
+
+%% v1.5.1: simpler approach to uppercasing chapter titles.
+%% Hope nothing's broken though.
+\patchcmd{\l@chapapp}%
+    {\cftchapterfont {#1}}%
+    {\cftchapterfont \texorpdfstring{%
+      \uppercase{#1}}{{#1}} }%
+    {}{}%
+
 %\renewcommand*\cftsectionafterpnum{\vskip 3pt}
 \setlength{\cftbeforechapterskip}{0pt}
 \setlength\cftsubsectionindent{\cftsectionnumwidth}
@@ -691,14 +700,36 @@
 \cftsetindents{subtable}{\tmplength}{1.5em}
 
 \let\oldinsertchapterspace\insertchapterspace
+\let\olduppercase\uppercase
 \cftinsertcode{MainChapTocLines}{%
-  \renewcommand*\cftchapterfont{\normalfont\bfseries\upshape}%
+  \renewcommand*\cftchapterfont{\normalfont\bfseries\boldmath\upshape}%
   \renewcommand*\cftchapterpagefont{\normalfont\bfseries\upshape}%
 }
 \cftinsertcode{PlainChapTocLines}{%
   \renewcommand*\cftchapterfont{\normalfont\mdseries\upshape}%
   \renewcommand*\cftchapterpagefont{\normalfont\mdseries\upshape}%
 }
+\cftinsertcode{disableuppercase}{%
+  \let\uppercase\relax
+}
+\cftinsertcode{enableuppercase}{%
+  \let\uppercase\olduppercase
+}
+
+\if@umthesis@uppercasetoc@
+\else
+  \appto{\frontmatter}{%
+    \cftinserthook{toc}{disableuppercase}%
+  }
+  \appto{\mainmatter}{%
+    \cftinserthook{toc}{enableuppercase}%
+  }
+  \pretocmd{\bibliography}{
+    \cftinserthook{toc}{disableuppercase}%
+  }{}{}
+\fi
+
+\cftinserthook{apx}{disableuppercase}
 
 %% Sept 30 2018: If frontmatter chapters need to be bold
 \if@umthesis@boldfrontmattertoc@
@@ -711,8 +742,9 @@
   \addtodef{\insertchapterspace}{}%
 {\addtocontents{toc}{\protect\vspace*{\baselineskip}}}%
   \cftinserthook{toc}{MainChapTocLines}%
-  \renewcommand\chapter{\@ifstar{\mystarchap}{\mychap}}%
+  % \renewcommand\chapter{\@ifstar{\mystarchap}{\mychap}}%
 }{}{}
+
 
 %% October 28 2018: For single-spaced long titles
 \if@umthesis@singlespacedlists@
@@ -758,8 +790,12 @@
 %%%%%%%%%%%%
 % v1.3: Refactor this to make it easier to switch bibliography styles
 \if@apacitethesis@
-  \RequirePackage[nosectionbib]{apacite}
+  \RequirePackage[nosectionbib,natbibapa]{apacite}
+  % v1.5.1: per APA7 stop expanding long authors on 1st citation
+  \NAT@longnamesfalse
   \bibliographystyle{apacite}
+  \let\cite\citep
+  \let\citeA\citet
   %\renewcommand\bibliographytypesize{\footnotesize}
   \setlength\bibitemsep{2\onelineskip}
   % May 16, 2016: explicitly set to 0.5in hang
@@ -768,6 +804,9 @@
 \fi
 
 \if@newapathesis@
+  \ClassWarning{umalayathesis}{The newapa option is now obsolete
+    and will be removed in the next version. newapa.bst is no longer
+    distributed with TeX Live.}
   \RequirePackage{natbib}
   \bibliographystyle{newapa}
 \fi
@@ -780,10 +819,11 @@
   \if@umthesis@boldbackmattertoc@
   \else
     \pretocmd{\bibliography}{%
-    \addtocontents{toc}{%
-      \protect\renewcommand*\protect\cftchapterfont{\normalfont\mdseries\upshape}%
-      \protect\renewcommand*\protect\cftchapterpagefont{\normalfont\mdseries\upshape}%
-      }%
+      \cftinserthook{toc}{PlainChapTocLines}
+    % \addtocontents{toc}{%
+    %   \protect\renewcommand*\protect\cftchapterfont{\normalfont\mdseries\upshape}%
+    %   \protect\renewcommand*\protect\cftchapterpagefont{\normalfont\mdseries\upshape}%
+      % }%
     }{}{}
   \fi
   %% October 01, 2015: Don't capitalise backmatter chapter titles
@@ -900,7 +940,7 @@
 
 % If your faculty requires a ``header row'' at the top of the List of Figures/Tables:
 \def\lofpageheader{\figurename\hfill Description\hfill Page}
-\def\lotpageheader{\figurename\hfill Description\hfill Page}
+\def\lotpageheader{\tablename\hfill Description\hfill Page}
 \AtBeginDocument{%
   \if@umthesis@listpageheader@
     \addtocontents{lof}{\noindent\lofpageheader\par}
@@ -909,36 +949,36 @@
 }
 
 
-\if@umthesis@uppercasetoc@
-  \addto\captionsenglish{%
-    \renewcommand*\contentsname{TABLE OF CONTENTS}
-    \renewcommand*\listtablename{LIST OF TABLES}
-    \renewcommand*\listfigurename{LIST OF FIGURES}
-    % \renewcommand*\appendixname{APPENDIX}
-    \renewcommand\appendixtocname{APPENDICES}
-    \renewcommand*\indexname{INDEX}
-    \renewcommand*{\listappname}{LIST OF APPENDICES}
-    \renewcommand*\acronymname{LIST OF SYMBOLS AND ABBREVIATIONS}
-    % \renewcommand{\bibname}{REFERENCES}
-    \renewcommand{\acknowlname}{ACKNOWLEDGEMENTS}
-    \renewcommand{\refnameown}{LIST OF PUBLICATIONS AND PAPERS PRESENTED}
-  }
-  \addto\captionsbahasam{%
-    \renewcommand*\contentsname{KANDUNGAN}
-    \renewcommand*\listtablename{SENARAI JADUAL}
-    \renewcommand*\listfigurename{SENARAI GAMBAR}
-    % \renewcommand*\appendixname{LAMPIRAN}
-    \renewcommand\appendixtocname{LAMPIRAN}
-    \renewcommand*\indexname{INDEKS}
-    \renewcommand*{\listappname}{SENARAI LAMPIRAN}
-    \renewcommand*\acronymname{SENARAI SIMBOL DAN RINGKASAN}
-    \renewcommand{\bibname}{BIBLIOGRAFI}
-    \renewcommand{\acknowlname}{PENGAKUAN}
-    \renewcommand{\refnameown}{SENARAI TERBITAN DAN KERTAS KERJA DIBENTANG}
-  }
-  \patchcmd{\abstractfromfile}{Abstract}{ABSTRACT}{}{}
-  \patchcmd{\msabstractfromfile}{Abstrak}{ABSTRAK}{}{}
-  \if@englishthesis@ % I have no idea why it wouldn't work up there
-    \AtBeginDocument{\renewcommand{\bibname}{REFERENCES}}
-  \fi
-\fi
+% \if@umthesis@uppercasetoc@
+%   \addto\captionsenglish{%
+%     \renewcommand*\contentsname{TABLE OF CONTENTS}
+%     \renewcommand*\listtablename{LIST OF TABLES}
+%     \renewcommand*\listfigurename{LIST OF FIGURES}
+%     % \renewcommand*\appendixname{APPENDIX}
+%     \renewcommand\appendixtocname{APPENDICES}
+%     \renewcommand*\indexname{INDEX}
+%     \renewcommand*{\listappname}{LIST OF APPENDICES}
+%     \renewcommand*\acronymname{LIST OF SYMBOLS AND ABBREVIATIONS}
+%     % \renewcommand{\bibname}{REFERENCES}
+%     \renewcommand{\acknowlname}{ACKNOWLEDGEMENTS}
+%     \renewcommand{\refnameown}{LIST OF PUBLICATIONS AND PAPERS PRESENTED}
+%   }
+%   \addto\captionsbahasam{%
+%     \renewcommand*\contentsname{KANDUNGAN}
+%     \renewcommand*\listtablename{SENARAI JADUAL}
+%     \renewcommand*\listfigurename{SENARAI GAMBAR}
+%     % \renewcommand*\appendixname{LAMPIRAN}
+%     \renewcommand\appendixtocname{LAMPIRAN}
+%     \renewcommand*\indexname{INDEKS}
+%     \renewcommand*{\listappname}{SENARAI LAMPIRAN}
+%     \renewcommand*\acronymname{SENARAI SIMBOL DAN RINGKASAN}
+%     \renewcommand{\bibname}{BIBLIOGRAFI}
+%     \renewcommand{\acknowlname}{PENGAKUAN}
+%     \renewcommand{\refnameown}{SENARAI TERBITAN DAN KERTAS KERJA DIBENTANG}
+%   }
+%   \patchcmd{\abstractfromfile}{Abstract}{ABSTRACT}{}{}
+%   \patchcmd{\msabstractfromfile}{Abstrak}{ABSTRAK}{}{}
+%   \if@englishthesis@ % I have no idea why it wouldn't work up there
+%     \AtBeginDocument{\renewcommand{\bibname}{REFERENCES}}
+%   \fi
+% \fi

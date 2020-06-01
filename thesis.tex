@@ -1,5 +1,5 @@
 %% thesis.tex
-%% Distributed with umalayathesis v1.5 (28 October 2018)
+%% Distributed with umalayathesis v1.5.1 (1 June 2020)
 \documentclass[english,singlespacedlisttitles]{umalayathesis}
 %% Document class options
 %% -----------------------
@@ -8,13 +8,8 @@
 %% bahasam : Malay thesis
 %%
 %% apacite (default): Loads the apacite package, which implements the APA
-%%    citation and referencing styles strictly, including expansion of
-%%    of 3–5 authors on first citation.
-%%
-%% newapa: Loads the natbib and apalike package for a APA-like reference list
-%%    but *does not fully implement* all APA citation styles. In particular,
-%%    this option will not expand references with 3–5 authors on first citation.
-%%    NOT RECOMMENDED UNLESS EXPLICITLY REQUESTED BY EXAMINER.
+%%    citation and referencing styles strictly. Now caters for APA7 so will
+%%    not expand full author list for items with 3–5 authors (rejoice!)
 %%
 %% custombib: Does not pre-load any bibliography style; you will need to
 %%    specify \bibliographystyle, \bibliographystyleown etc yourself.
@@ -42,7 +37,8 @@
 \usepackage[T1]{fontenc}
 \usepackage{microtype}
 \usepackage{graphicx}
-\usepackage[dvipsnames,x11names]{xcolor}
+\usepackage[dvipsnames,x11names,RGB]{xcolor}
+
 
 % Useful for including code listings
 \usepackage{listings}
@@ -54,12 +50,12 @@
         framexleftmargin=6pt,framexrightmargin=6pt,
         xleftmargin=12pt,xrightmargin=12pt,
         breaklines=true,breakatwhitespace=true,
-        aboveskip=-1.5\onelineskip
+%        aboveskip=-1.5\onelineskip
 }
 
 % Useful for multi-page pages. Either longtable or supertabular is fine; choose any one that you're comfortable with
 \usepackage{longtable}
-% \usepackage{supertabular}
+\usepackage{supertabular}
 
 
 \author{Lim Lian Tze}

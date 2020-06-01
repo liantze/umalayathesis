@@ -139,31 +139,9 @@ Other possible commands for changing the counter format are:
 
 \section{Citations}
 
-\texttt{umalayathesis} uses the \texttt{apacite} package and bibliography style. Use \verb|\cite| for parenthetical citaions, such as this one \cite{audibert:2004}. \cite{budanitsky:hirst:2006}. To get text citations, use the \verb|\citeA| command and you'll get \cite{audibert:2004}.
+\texttt{umalayathesis} uses the \texttt{apacite} package (with \texttt{natbibapa} option) and bibliography style. Use \verb|\citep| for parenthetical citations, such as this one \citep{audibert:2004}. To get text citations, use the \verb|\citet| command and you'll get \citet{audibert:2004}.
 
-\subsection{\textcolor{red}{$\star\star$} A Note about the APA Citation Format \textcolor{red}{$\star\star$}}
-\label{sec:apanote}
-
-\texttt{umalayathesis} uses the \texttt{apacite} package and bibliography style, which fully implements the APA6 guidelines. The APA6 guidelines can be rather complex with lots of subtleties, so some questions about this style comes up every once in a while. Therefore this is important: \textbf{Please read this blog post first. \emph{Now.}}
-
-\url{http://tex.my/why-is-latex-doing-all-the-apa-citations-wrong/}
-
-Back? Have you really read it? Not really? Please go read it first. \texttt{:-)}
-
-Now this is the first citation of a source with $3 \leq \text{authors} \leq 5$; per APA6 requirements, all authors will be listed. \cite{azarova:etal:2002}. Great! Let's cite it again, and this time per APA6 requirements, only the first author folowed by et al.~will be displayed: \cite{azarova:etal:2002}
-
-So now -- bearing in mind the actual APA guidelines -- if you're absolutely still being forced by your supervisor or Graduate Office staff to \emph{always} abbreviate citations with $3 \leq \text{authors} \leq 5$, always use the \verb|\shortcite| command for such citations while using \texttt{umalayathesis}.
-
-\subsection{Alternative APA Bibliography Style File}
-
-\textcolor{red}{\textbf{Note: Not recommended; only use this if you absolutely have no other choice e.g.~mandatory requirement by your faculty.}}
-
-The \texttt{apacite} package and bibliography style fully implements the APA6 citation and referencing style, including the author expansion of first citations. If you have been forced to disable these arrangements, you can either always remember to use \verb|\shortcite|, or you may want to use an alternative bibliography style, \texttt{newapa}. It's \emph{not} new at all -- it's quite old (only new when it was first created!), doesn't fully implement APA's guidelines (e.g.~it doesn't expand authors in citations at all). But it might make things a bit more convenient for you. You can activate this by using the \texttt{newapa} document class option:
-\begin{verbatim}
-  \documentclass[newapa]{umalayathesis}
-\end{verbatim}
-
-This will also load the \texttt{natbib} package, so you should use \verb|\citep{...}| for parenthetical citations (Smith, 1990); and \verb|\citet{...}| for text citations i.e.~Smith (1990).
+Starting with umalayathesis v1.5.1, the APA7 guidelines is out, where first citations with many authors now \emph{do not need to be expanded}. Therefore citations with $3 \leq \text{authors} \leq 5$ are always abbreviated now; e.g. \cite{azarova:etal:2002}.
 
 \subsection{Using Another Bibliography Style}
 \label{sec:custombib}

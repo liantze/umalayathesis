@@ -277,20 +277,20 @@ And in \texttt{thesis.tex}:
 
 
 \subsection{Citations and Bibliography}\label{sec:bibliography}
-\textsf{umalayathesis} uses the \textsf{apacite} package to format citations and bibliography in the APA style.
-Here are some useful variants of the \verb|\cite| command; see the \textsf{apacite} manual for full list. \textbf{See \ref{sec:apanote} for some important notes about the APA citation and referencing style in \texttt{umalayathesis.}}
+\textsf{umalayathesis} uses the \textsf{apacite} package with the \texttt{natbibapa} option to format citations and bibliography in the APA style.
+Here are some useful variants of the \verb|\cite| command; see the \textsf{apacite} manual for full list.
 
 
 \bigskip
 
 {\lstset{moretexcs={citeA,citeNP,citeauthor,citeyear}}
 \begin{tabular}{>{\textbullet\hspace{6pt}}l @{\hspace{6pt}$\rightarrow$\hspace{6pt}} l}
-\verb|\cite{Lim:2009}| & (Lim, 2009)\\
-\verb|\citeA{Lim:2009}| & Lim (2009)\\
-\verb|\citeNP{Lim:2009}| & Lim, 2009 (no parenthesis)\\
-\verb|\cite<see>[p.~7]{Lim:2009}| & (see Lim, 2009, p.~7)\\
+\verb|\citep{Lim:2009}| & (Lim, 2009)\\
+\verb|\citet{Lim:2009}| & Lim (2009)\\
+\verb|\citealp{Lim:2009}| & Lim, 2009 (no parenthesis)\\
+\verb|\citep[see][p.~7]{Lim:2009}| & (see Lim, 2009, p.~7)\\
 \verb|\citeauthor{Lim:2009}| & Lim\\
-\verb|\citeyear{Lim:2009}| & (2009)\\
+\verb|\citeyearpar{Lim:2009}| & (2009)\\
 \end{tabular}
 }
 

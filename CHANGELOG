@@ -1,6 +1,13 @@
 BRIEF CHANGELOG
 ===============
 
+ v1.5.1 June 1 2020
+    - Bug fix for \othertitle
+    - Simpler approach to uppercasing chapter titles
+    - Forces apacite to stop expanding author list in first citation, as
+      according to APA7 guidelines (and what UM Grad Office prefers anyway?)
+    - Now use natbib commands to be more generic
+
 v1.5 October 28 2018
     - Added many documentclass options to deal with ad-hoc formatting
       requirements: appendixhead, altcaption, singlespacedlisttitles,
