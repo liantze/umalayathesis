@@ -1,5 +1,5 @@
 %%
-%% umalayathesis.cls 2020/06/01 version V1.5.1
+%% umalayathesis.cls 2022/07/05 version V1.5.2
 %%
 %% This is the unofficial UM thesis LaTeX class for postgraduate research
 %% students of Universiti Malaya, Malaysia, formatted according to the
@@ -8,14 +8,12 @@
 %%
 %% The latest version and documentation of umalayathesis can be obtained at
 %% http://liantze.penguinattack.org/latextypesetting.html#umalayathesis.
-%% Contact liantze AT gmail DOT com if you have any questions or
-%% assistance or feedback.  Apologies if I can't respond immediately, but
-%% I'll always try.
 %%
 %%
-%% Copyright (c) 2011-2020 by Lim Lian Tze
+%% Copyright (c) 2011-2022 by Lim Lian Tze
 %%
 %% Current maintainer: Lim Lian Tze (liantze@gmail.com)
+%% No guarantees of timely response, sorry! Best efforts only.
 %
 %  BRIEF CHANGELOG
 %  ===============
@@ -95,9 +93,11 @@
 %     - Forces apacite to stop expanding author list in first citation, as
 %       according to APA7 guidelines (and what UM Grad Office prefers anyway?)
 %     - Now use natbib commands to be more generic
-
+%
+% v1.5.2 July 5 2022
+%     - Compatibilty with updated hyperref
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{umalayathesis}[2020/06/01 umalayathesis.cls v1.5.1]
+\ProvidesClass{umalayathesis}[2022/07/05 umalayathesis.cls v1.5.2]
 
 %% May 16, 2016: Silence the warnings as they're getting on my nerves
 \RequirePackage{silence}
@@ -199,7 +199,7 @@
 \RequirePackage{inconsolata}
 \RequirePackage{bm}
 
-\AtBeginDocument{%
+\AddToHook{begindocument/before}{%
   \RequirePackage[breaklinks,pdfborder={0 0 0},bookmarksdepth=3,hypertexnames=false,pdfpagelabels=false]{hyperref}
   \RequirePackage[depth=3]{bookmark}
 }

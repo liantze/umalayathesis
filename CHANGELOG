@@ -1,6 +1,9 @@
 BRIEF CHANGELOG
 ===============
 
+v1.5.2 July 5 2022
+    - Compatibilty with updated hyperref
+
  v1.5.1 June 1 2020
     - Bug fix for \othertitle
     - Simpler approach to uppercasing chapter titles
