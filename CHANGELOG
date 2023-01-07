@@ -1,6 +1,11 @@
 BRIEF CHANGELOG
 ===============
 
+v1.5.3 January 7 2023
+    - Update university name on cover/title
+    - Add noindenttocchap option to make long chapter titles in ToC
+      not indented, as required by some faculties
+
 v1.5.2 July 5 2022
     - Compatibilty with updated hyperref
 

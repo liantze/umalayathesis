@@ -1,5 +1,5 @@
 %%
-%% umalayathesis.cls 2022/07/05 version V1.5.2
+%% umalayathesis.cls 2023/01/07 version V1.5.3
 %%
 %% This is the unofficial UM thesis LaTeX class for postgraduate research
 %% students of Universiti Malaya, Malaysia, formatted according to the
@@ -10,7 +10,7 @@
 %% http://liantze.penguinattack.org/latextypesetting.html#umalayathesis.
 %%
 %%
-%% Copyright (c) 2011-2022 by Lim Lian Tze
+%% Copyright (c) 2011-2023 by Lim Lian Tze
 %%
 %% Current maintainer: Lim Lian Tze (liantze@gmail.com)
 %% No guarantees of timely response, sorry! Best efforts only.
@@ -96,8 +96,13 @@
 %
 % v1.5.2 July 5 2022
 %     - Compatibilty with updated hyperref
+%
+% v1.5.3 January 7 2023
+%     - Update university name on cover/title
+%     - Add noindenttocchap option to make long chapter titles in ToC
+%       not indented, as required by some faculties
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{umalayathesis}[2022/07/05 umalayathesis.cls v1.5.2]
+\ProvidesClass{umalayathesis}[2023/01/07 umalayathesis.cls v1.5.3]
 
 %% May 16, 2016: Silence the warnings as they're getting on my nerves
 \RequirePackage{silence}
@@ -120,6 +125,7 @@
 \newif\if@umthesis@boldbackmattertoc@\@umthesis@boldbackmattertoc@false
 \newif\if@umthesis@uppercasetoc@\@umthesis@uppercasetoc@false
 \newif\if@umthesis@singlespacedlists@\@umthesis@singlespacedlists@false
+\newif\if@umthesis@noindenttocchap@\@umthesis@noindenttocchap@false
 \DeclareOption{apacite}{\@apacitethesis@true\@newapathesis@false}
 \DeclareOption{newapa}{\@apacitethesis@false\@newapathesis@true}
 \DeclareOption{custombib}{\@apacitethesis@false\@newapathesis@false}
@@ -130,6 +136,7 @@
 \DeclareOption{boldbackmattertoc}{\@umthesis@boldbackmattertoc@true}
 \DeclareOption{uppercasetoc}{\@umthesis@uppercasetoc@true}
 \DeclareOption{singlespacedlisttitles}{\@umthesis@singlespacedlists@true}
+\DeclareOption{noindenttocchap}{\@umthesis@noindenttocchap@true}
 
 \ExecuteOptions{english,apacite}
 \ProcessOptions\relax
@@ -150,9 +157,17 @@
 \def\thetitle{\textbf{!INSERT TITLE!}}
 \def\@othertitle{}
 \def\@mtfaculty{\textbf{!INSERT FACULTY!}}
+\def\@mtunien{Universiti Malaya}
+\def\@mtunims{Universiti Malaya}
 \def\@mtsubmissionyear{\textbf{!INSERT YEAR!}}
 \def\@mtdegree{\textbf{!INSERT DEGREE!}}
 
+% v1.5.3 "Univerity of Malaya" should be "Universiti Malaya"
+% on the cover now. Make this customisable, just in case.
+\newcommand{\university}[2][]{%
+  \ifstrempty{#1}{\def\@mtunims{#2}}{\def\@mtunims{#1}}
+  \def\@mtunien{#2}%
+}
 \newcommand{\faculty}[1]{\def\@mtfaculty{#1}}
 \newcommand{\submissionyear}[1]{\def\@mtsubmissionyear{#1}}
 \newcommand{\degree}[1]{\def\@mtdegree{#1}}
@@ -252,7 +267,7 @@
     \MakeTextUppercase{\theauthor}\par%
     \vfill%
     \MakeTextUppercase{\@mtfaculty}\\%
-    UNIVERSITY OF MALAYA\\%
+    \MakeTextUppercase{\@mtunien}\\%
     KUALA LUMPUR\par%
     \bigskip%
     \@mtsubmissionyear\par%
@@ -290,7 +305,7 @@
 
 \newcommand\statement@mastercoursework{%
   RESEARCH PROJECT SUBMITTED TO THE\\\MakeTextUppercase{\@mtfaculty}\\%
-  UNIVERSITY OF MALAYA, IN PARTIAL FULFILMENT OF THE REQUIREMENTS FOR THE DEGREE OF \MakeTextUppercase{\@mtdegree}%
+  \MakeTextUppercase{\@mtunien}, IN PARTIAL FULFILMENT OF THE REQUIREMENTS FOR THE DEGREE OF \MakeTextUppercase{\@mtdegree}%
 }
 
 \newcommand\statement@mastermixedmode{%
@@ -320,7 +335,7 @@
 
 \newcommand\faculty@block{%
   \MakeTextUppercase{\@mtfaculty}\\
-  UNIVERSITY OF MALAYA\\
+  \MakeTextUppercase{\@mtunien}\\
   KUALA LUMPUR%
 }
 
@@ -338,7 +353,7 @@
 }
 
 \newcommand{\english@declaration@page}{%
-  \chapter*{Universiti Malaya\vskip1em Original Literary Work Declaration}
+  \chapter*{\@mtunien\vskip1em Original Literary Work Declaration}
   %\chapter[Original Literary Work Declaration]{{\large Universiti Malaya}\vskip1em Original Literary Work Declaration}
   {%\large%
     \noindent Name of Candidate: \hfill (I.C./Passport No.:\hspace{10em})\par
@@ -356,8 +371,7 @@
     \item This work is original;
     \item Any use of any work in which copyright exists was done by way of fair dealing and for permitted purposes and any excerpt or extract from, or reference to or reproduction of any copyright work has been disclosed expressly and sufficiently and the title of the Work and its authorship have been acknowledged in this Work;
     \item I do not have any actual knowledge nor do I ought reasonably to know that the making of this work constitutes an infringement of any copyright work;
-    \item I hereby assign all and every rights in the copyright to this Work to the University of
-    Malaya (``UM''), who henceforth shall be owner of the copyright in this Work and that any
+    \item I hereby assign all and every rights in the copyright to this Work to \@mtunien\ (``UM''), who henceforth shall be owner of the copyright in this Work and that any
     reproduction or use in any form or by any means whatsoever is prohibited without the
     written consent of UM having been first had and obtained;
     \item I am fully aware that if in the course of making this Work I have infringed any copyright
@@ -383,7 +397,7 @@
 
 
 \newcommand{\malay@declaration@page}{%
-  \chapter*{Universiti Malaya\vskip1em Perakuan Keaslian Penulisan}
+  \chapter*{\@mtunims\vskip1em Perakuan Keaslian Penulisan}
   %\chapter[Original Literary Work Declaration]{{\large Universiti Malaya}\vskip1em Original Literary Work Declaration}
   {%\large%
     \otherlanguage{bahasam}
@@ -402,8 +416,8 @@
     \item Hasil Kerja ini adalah asli;
     \item Apa-apa penggunaan mana-mana hasil kerja yang mengandungi hakcipta telah dilakukan secara urusan yang wajar dan bagi maksud yang dibenarkan dan apa-apa petikan, ekstrak, rujukan atau pengeluaran semula daripada atau kepada mana-mana hasil kerja yang mengandungi hakcipta telah dinyatakan dengan sejelasnya dan secukupnya dan satu pengiktirafan tajuk hasil kerja tersebut dan pengarang/penulisnya telah dilakukan di dalam Hasil Kerja ini;
     \item Saya tidak mempunyai apa-apa pengetahuan sebenar atau patut semunasabahnya tahu bahawa penghasilan Hasil Kerja ini melanggar suatu hakcipta hasil kerja yang lain;
-    \item Saya dengan ini menyerahkan kesemua dan tiap-tiap hak yang terkandung di dalam hakcipta Hasil Kerja ini kepada Universiti Malaya (``UM'') yang seterusnya mula dari sekarang adalah tuan punya kepada hakcipta di dalam Hasil Kerja ini dan apa-apa pengeluaran semula atau penggunaan dalam apa jua bentuk atau dengan apa juga cara sekalipun adalah dilarang tanpa terlebih dahulu mendapat kebenaran bertulis dari UM;
-    \item Saya dengan ini menyerahkan kesemua dan tiap-tiap hak yang terkandung di dalam hakcipta Hasil Kerja ini kepada Universiti Malaya (``UM'') yang seterusnya mula dari sekarang adalah tuan punya kepada hakcipta di dalam Hasil Kerja ini dan apa-apa pengeluaran semula atau penggunaan dalam apa jua bentuk atau dengan apa juga cara sekalipun adalah dilarang tanpa terlebih dahulu mendapat kebenaran bertulis dari UM.
+    \item Saya dengan ini menyerahkan kesemua dan tiap-tiap hak yang terkandung di dalam hakcipta Hasil Kerja ini kepada \@mtunims\ (``UM'') yang seterusnya mula dari sekarang adalah tuan punya kepada hakcipta di dalam Hasil Kerja ini dan apa-apa pengeluaran semula atau penggunaan dalam apa jua bentuk atau dengan apa juga cara sekalipun adalah dilarang tanpa terlebih dahulu mendapat kebenaran bertulis dari UM;
+    \item Saya dengan ini menyerahkan kesemua dan tiap-tiap hak yang terkandung di dalam hakcipta Hasil Kerja ini kepada \@mtunims\ (``UM'') yang seterusnya mula dari sekarang adalah tuan punya kepada hakcipta di dalam Hasil Kerja ini dan apa-apa pengeluaran semula atau penggunaan dalam apa jua bentuk atau dengan apa juga cara sekalipun adalah dilarang tanpa terlebih dahulu mendapat kebenaran bertulis dari UM.
     \end{enumerate}
     }
 
@@ -667,6 +681,12 @@
     {\cftchapterfont \texorpdfstring{%
       \uppercase{#1}}{{#1}} }%
     {}{}%
+
+%% v1.5.3: Faculty of Science requires long chapter titles to be left-aligned
+%% in ToC; use document class option "noindenttocchap" to enable this
+\if@umthesis@noindenttocchap@
+\patchcmd{\l@chapapp}{\advance\memRTLleftskip\@tempdima}{}{}{}
+\fi
 
 %\renewcommand*\cftsectionafterpnum{\vskip 3pt}
 \setlength{\cftbeforechapterskip}{0pt}
